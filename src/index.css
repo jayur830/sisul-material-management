@@ -1,0 +1,71 @@
+@font-face {
+    font-family: 'NanumSquare_acB';
+    src: url('./assets/font/NanumSquare_acB.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquare_acEB';
+    src: url('./assets/font/NanumSquare_acEB.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquare_acL';
+    src: url('./assets/font/NanumSquare_acL.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquare_acR';
+    src: url('./assets/font/NanumSquare_acR.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquareB';
+    src: url('./assets/font/NanumSquareB.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquareEB';
+    src: url('./assets/font/NanumSquareEB.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquare_acB';
+    src: url('./assets/font/NanumSquare_acB.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquareL';
+    src: url('./assets/font/NanumSquareL.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquareR';
+    src: url('./assets/font/NanumSquareR.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquareRoundB';
+    src: url('./assets/font/NanumSquareRoundB.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquareRoundEB';
+    src: url('./assets/font/NanumSquareRoundEB.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquareRoundL';
+    src: url('./assets/font/NanumSquareRoundL.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquareRoundR';
+    src: url('./assets/font/NanumSquareRoundR.ttf') format('truetype');
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    /*overflow: hidden;*/
+    font-family: 'NanumSquare_acR', serif;
+}
