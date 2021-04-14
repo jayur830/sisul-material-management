@@ -1,6 +1,6 @@
 <template>
     <div id="app-root">
-<!--        <input type="file" accept="image/*;capture=camera" capture="camera" />-->
+        <!--        <input type="file" accept="image/*;capture=camera" capture="camera" />-->
         <app-header />
         <div>
             <app-side-menu />
