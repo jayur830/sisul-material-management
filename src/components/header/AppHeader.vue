@@ -9,7 +9,7 @@
 <style>
     #app-header {
         background-color: #404040;
-        padding: 10px;
+        padding: 10px 15px;
         display: flex;
     }
 
@@ -17,7 +17,7 @@
         font-family: 'NanumSquare_acEB', serif;
         color: #e7e6e6;
         font-size: 22pt;
-        padding: 10px 15px 10px 30px;
+        padding: 5px 15px 5px 30px;
         letter-spacing: 0.05em;
     }
 

@@ -34,6 +34,6 @@
     }
 
     #app-root > div:nth-child(2) {
-        height: calc(100% - 72px);
+        height: calc(100% - 62px);
     }
 </style>

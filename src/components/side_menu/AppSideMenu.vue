@@ -2,13 +2,13 @@
     <div id="app-side-menu">
         <ul>
             <li>
-                <a>입/출고 조회</a>
+                <router-link to="/dashboard">입/출고 조회</router-link>
             </li>
             <li>
-                <a>입/출고 입력</a>
+                <router-link to="/submit">입/출고 입력</router-link>
             </li>
             <li>
-                <a>항목 추가</a>
+                <router-link to="/management">항목 추가</router-link>
             </li>
         </ul>
     </div>
@@ -36,6 +36,9 @@
     }
 
     #app-side-menu ul li a {
+        color: #e7e6e6;
+        text-decoration: none;
+        outline: none;
         cursor: pointer;
         transition: color 0.2s;
     }

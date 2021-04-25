@@ -69,3 +69,20 @@ html, body {
     /*overflow: hidden;*/
     font-family: 'NanumSquare_acR', serif;
 }
+
+.btn {
+    border: none;
+    border-radius: 8px;
+    color: #e7e6e6;
+    background-color: #a6a6a6;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn:hover {
+    background-color: #4a93d9;
+}
+
+.btn:active {
+    background-color: #0070c0;
+}
