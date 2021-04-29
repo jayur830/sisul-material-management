@@ -1,0 +1,31 @@
+server:
+  port: 9100
+spring:
+  application:
+    name: SISUL
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/stock_management?serverTimezone=UTC
+    username: sisul
+    password: sisul20@!
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        show_sql: true
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
+  devtools:
+    restart:
+      log-condition-evaluation-delta: false
+  web:
+    resources:
+      static-locations: classpath:/static/
+logging:
+  level:
+    org.sisul.material_management: info
