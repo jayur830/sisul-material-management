@@ -7,6 +7,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        dashboard: {
+            log: null,
+            stock: null
+        },
         submit: {
             properties: null,
             data: {
@@ -37,13 +41,20 @@ export default new Vuex.Store({
         /**
          * Dashboard
          * */
-
+        INIT_DASHBOARD_LOG_LIST: (state, data) => {
+            console.log(data);
+            state.dashboard.log = Object.freeze(data);
+        },
+        INIT_DASHBOARD_STOCK_LIST: (state, data) => {
+            console.log(data);
+            state.dashboard.stock = Object.freeze(data);
+        },
 
         /**
          * Submit
          * */
         INIT_SUBMIT_PROPERTIES: (state, properties) => {
-            state.submit.properties = properties;
+            state.submit.properties = Object.freeze(properties);
             state.submit.data.workClass = properties.workClasses[0];
             state.submit.data.category = properties.categories[0];
             state.submit.data.item = properties.items[0];
@@ -70,19 +81,20 @@ export default new Vuex.Store({
         SET_MANAGEMENT_INPUTTED_CATEGORY: (state, category) => state.management.inputtedCategory = category,
         ADD_MANAGEMENT_ITEM: (state, item) => {
             if (state.management.items.findIndex(_item => _item === item) === -1)
-                state.management.items = state.management.items.concat(item);
+                state.management.items = Object.freeze(state.management.items.concat(item));
         },
         REMOVE_MANAGEMENT_ITEM: (state, item) => {
             const items = state.management.items.concat();
             items.splice(items.findIndex(_item => _item === item), 1);
-            state.management.items = items;
+            state.management.items = Object.freeze(items);
         }
     },
     actions: {
         /**
          * Dashboard
          * */
-
+        INIT_DASHBOARD_LOG_LIST: async context => context.commit("INIT_DASHBOARD_LOG_LIST", await axios.get("/api/dashboard/log/list").then(response => response.data)),
+        INIT_DASHBOARD_STOCK_LIST: async context => context.commit("INIT_DASHBOARD_STOCK_LIST", await axios.get("/api/dashboard/stock/list").then(response => response.data)),
 
         /**
          * Submit

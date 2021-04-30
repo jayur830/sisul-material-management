@@ -1,7 +1,5 @@
 package org.sisul.material_management.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sisul.material_management.entity.Item;
@@ -11,18 +9,16 @@ import org.sisul.material_management.repository.ItemRepository;
 import org.sisul.material_management.repository.LogRepository;
 import org.sisul.material_management.repository.StockRepository;
 import org.sisul.material_management.vo.RequestInsertLogVO;
-import org.sisul.material_management.vo.ResponseDashboardDataVO;
 import org.sisul.material_management.vo.ResponseSubmitItemsVO;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-import java.nio.file.Paths;
-import java.text.DateFormat;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,36 +30,16 @@ public class AppService {
     private final StockRepository stockRepository;
     private final ItemRepository itemRepository;
 
-    private final ObjectMapper jacksonObjectMapper;
-
-    public List<ResponseDashboardDataVO> dashboardList() {
-        return this.logRepository.findAll()
-                .stream()
-                .map(log -> ResponseDashboardDataVO.builder()
-                        .logTime(log.getLogTime())
-                        .inOut(log.getInOut())
-                        .category(log.getStock().getCategory())
-                        .item(log.getStock().getItem())
-                        .count(log.getCount())
-                        .unit(log.getUnit())
-                        .workClass(log.getWorkClass())
-                        .workerName(log.getWorkerName())
-                        .build())
-                .collect(Collectors.toList());
+    public List<Log> dashboardLog() {
+        return this.logRepository.findAll();
     }
 
-    public ResponseDashboardDataVO dashboardView(final int stockId) {
-        Log log = this.logRepository.findByStock(this.stockRepository.findByStockId(stockId));
-        return ResponseDashboardDataVO.builder()
-                .logTime(log.getLogTime())
-                .inOut(log.getInOut())
-                .category(log.getStock().getCategory())
-                .item(log.getStock().getItem())
-                .count(log.getCount())
-                .unit(log.getUnit())
-                .workClass(log.getWorkClass())
-                .workerName(log.getWorkerName())
-                .build();
+    public Log dashboardLogView(final int stockId) {
+        return this.logRepository.findByStock(this.stockRepository.findByStockId(stockId));
+    }
+
+    public List<Stock> dashboardStockList() {
+        return this.stockRepository.findAll();
     }
 
     public ResponseSubmitItemsVO getSubmitItems() {
@@ -95,32 +71,37 @@ public class AppService {
     }
 
     @Transactional
-    public void submit(final RequestInsertLogVO request) throws ParseException {
-        try {
-            log.info("{}", this.jacksonObjectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    public void submit(final RequestInsertLogVO request, MultipartFile ...imgs) throws ParseException {
+        uploadImage(imgs);
 
-        uploadImage(request.getImg1(), request.getImg2(), request.getImg3());
-
-        final DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         Stock stock = this.stockRepository.findByCategoryAndItem(
                 request.getCategory(),
                 request.getItem());
+        if (stock == null)
+            stock = Stock.builder()
+                .category(request.getCategory())
+                .item(request.getItem())
+
+                    /**
+                     * TODO Initialize a value of count
+                     * */
+                .count(100)
+                .unit(request.getUnit())
+                .build();
+        stock.setCount(stock.getCount() + request.getCount() * (request.getInOut() == 0 ? 1 : -1));
+        this.stockRepository.save(stock);
         this.logRepository.save(Log.builder()
-                .logTime(dateFormat.parse(request.getLogTime()))
+                .logTime(request.getLogTime())
                 .stock(stock)
                 .inOut(request.getInOut())
                 .count(request.getCount())
                 .unit(request.getUnit())
                 .workClass(request.getWorkClass())
                 .workerName(request.getWorkerName())
-                .img1(request.getImg1().getOriginalFilename())
-                .img2(request.getImg2().getOriginalFilename())
-                .img3(request.getImg3().getOriginalFilename())
+                .img1(imgs[0] == null ? null : imgs[0].getOriginalFilename())
+                .img2(imgs[1] == null ? null : imgs[1].getOriginalFilename())
+                .img3(imgs[2] == null ? null : imgs[2].getOriginalFilename())
                 .build());
-        this.stockRepository.save(stock.withCount(stock.getCount() + request.getCount() * (request.getInOut() == 0 ? 1 : -1)));
     }
 
     @Transactional
@@ -141,7 +122,8 @@ public class AppService {
             try {
                 byte[] bytes = img.getBytes();
 
-                OutputStream outputStream = new FileOutputStream(new File(Paths.get(new ClassPathResource("/img").getURI()).toString() + "/" + img.getOriginalFilename()));
+                final String path = "src/main/resources/img/" + img.getOriginalFilename();
+                OutputStream outputStream = new FileOutputStream(new File(path));
                 outputStream.write(bytes);
                 outputStream.flush();
             } catch (IOException e) {

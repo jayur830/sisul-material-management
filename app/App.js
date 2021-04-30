@@ -6,14 +6,16 @@
  * @flow strict-local
  */
 
-import React, { Component, useEffect } from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import React, { Component } from 'react';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Button } from 'react-native-elements';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ImageFileModal from './components/Modal';
-import SplashScreen from 'react-native-splash-screen';
+import moment from 'moment';
+import xlsx from 'xlsx';
+import RNFS from 'react-native-fs';
 
 export default class App extends Component {
     styles = StyleSheet.create({
@@ -161,26 +163,67 @@ export default class App extends Component {
                         text: 'YES',
                         async onPress() {
                             const formData = new FormData();
+                            formData.append('logTime', moment().format('YYYYMMDDhhmmss'));
                             formData.append('workClass', $this.state.formData.workClass);
                             formData.append('workerName', $this.state.formData.workerName);
                             formData.append('category', $this.state.formData.category);
                             formData.append('item', $this.state.formData.item);
                             formData.append('inOut', $this.state.formData.inOut);
-                            formData.append('count', $this.state.formData.count);
+                            formData.append('count', parseInt($this.state.formData.count));
                             formData.append('unit', $this.state.formData.unit);
-                            formData.append('img1', $this.state.formData.imgFiles[0]);
-                            formData.append('img2', $this.state.formData.imgFiles[1]);
-                            formData.append('img3', $this.state.formData.imgFiles[2]);
+
+                            $this.state.formData.imgFiles.forEach((file, i) => {
+                                if (file)
+                                    formData.append('img' + (i + 1), {
+                                        name: file.fileName,
+                                        type: file.type,
+                                        uri: Platform.OS === 'android' ? file.uri : file.uri.replace('file://', '')
+                                    });
+                            });
 
                             await fetch("http://192.168.219.100:9100/api/submit/submit", {
                                 method: 'POST',
-                                cache: 'no-cache',
-                                // headers: {
-                                //     'Content-Type': 'multipart/form-data'
-                                // },
                                 body: formData
                             });
                             await Alert.alert('제출', '담당자에게 성공적으로 전송되었습니다.');
+
+                            // const book = xlsx.utils.book_new();
+                            // xlsx.utils.book_append_sheet(
+                            //     book,
+                            //     xlsx.utils.json_to_sheet([
+                            //         {
+                            //             '근무반': $this.state.formData.workClass,
+                            //             '작업자명': $this.state.formData.workerName,
+                            //             '자재 종류': $this.state.formData.category,
+                            //             '자재 제품명': $this.state.formData.item,
+                            //             '입/출고': $this.state.formData.inOut === 0 ? '입고' : '출고',
+                            //             '수량': $this.state.formData.count + '개',
+                            //             '단위': $this.state.formData.unit
+                            //         }
+                            //     ]),
+                            //     `자재${$this.state.formData.inOut === 0 ? '입' : '출'}고정보`);
+                            // const path = RNFS.DocumentDirectoryPath + `/자재${$this.state.formData.inOut === 0 ? '입' : '출'}고정보_${$this.state.formData.workClass}_${$this.state.formData.workerName}_` + moment().format('YYYYMMDDhhmmss') + '.xlsx';
+                            // console.log(path);
+                            // await RNFS.writeFile(
+                            //     path,
+                            //     xlsx.write(book, {
+                            //         type: 'binary',
+                            //         bookType: 'xlsx'
+                            //     }),
+                            //     'ascii');
+
+                            await $this.setState({
+                                formData: {
+                                    workClass: null,
+                                    workerName: null,
+                                    category: null,
+                                    item: null,
+                                    inOut: null,
+                                    count: null,
+                                    unit: null,
+                                    imgFiles: [null, null, null]
+                                }
+                            });
                         },
                     },
                     { text: 'NO' },
@@ -216,6 +259,7 @@ export default class App extends Component {
                         <View style={this.styles.td1}>
                             <TextInput
                                 style={this.styles.textInput}
+                                value={this.state.formData.workerName}
                                 onChangeText={workerName => this.setState({ formData: { ...this.state.formData, workerName } })} />
                         </View>
                     </View>
@@ -282,10 +326,10 @@ export default class App extends Component {
                             <TextInput
                                 keyboardType="numeric"
                                 style={this.styles.textInput}
-                                value={Number(this.state.formData.count)}
+                                value={this.state.formData.count}
                                 onChangeText={count => {
-                                    count = parseInt(count)
-                                    if (!isNaN(count)) this.setState({ formData: { ...this.state.formData, count } });
+                                    if (!isNaN(parseInt(count)))
+                                        this.setState({ formData: { ...this.state.formData, count } });
                                 }} />
                         </View>
                     </View>

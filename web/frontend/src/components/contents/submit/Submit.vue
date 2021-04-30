@@ -100,7 +100,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="2">
-                                <input type="button" class="btn" value="담당자 전송" />
+                                <input type="button" class="btn" value="저장" />
                             </td>
                         </tr>
                     </tfoot>

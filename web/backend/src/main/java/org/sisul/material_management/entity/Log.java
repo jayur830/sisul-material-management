@@ -14,8 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Log {
     @Id
-    @Temporal(TemporalType.DATE)
-    private Date logTime;
+    private String logTime;
 
     @OneToOne
     @JoinColumn(name = "stock_id")
