@@ -5,6 +5,8 @@ import "./index.css";
 import router from "./router";
 import store from "./store";
 
+import "animate.css";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 

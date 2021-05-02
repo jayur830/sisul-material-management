@@ -3,10 +3,10 @@
         <div>
             <div>
                 <div>
-                    <div>
+                    <div class="animate__animated animate__bounceIn">
                         <div>{{ title }}</div>
                         <div>
-                            <input type="button" :value="okButtonText" @click="ok" />
+                            <input type="button" :value="okButtonText" @click="onOk" />
                             <input type="button" :value="cancelButtonText" @click="setInvisible" />
                         </div>
                     </div>
@@ -24,16 +24,17 @@
         props: {
             title: String,
             okButtonText: String,
-            cancelButtonText: String
+            cancelButtonText: String,
+            ok: Function
         },
         methods: {
             ...mapActions({
                 setInvisible: "SET_CONFIRM_INVISIBLE"
             }),
 
-            async ok() {
-                await this.setInvisible();
+            async onOk() {
                 await this.$emit("ok");
+                await this.setInvisible();
             }
         }
     }

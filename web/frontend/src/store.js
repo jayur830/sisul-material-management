@@ -20,7 +20,6 @@ export default new Vuex.Store({
                 okButtonText: "",
                 cancelButtonText: "",
                 onOk: () => null,
-                onCancel: () => null
             }
         },
         dashboard: {
@@ -64,8 +63,10 @@ export default new Vuex.Store({
         /**
          * Common
          * */
-        SET_ALERT_INVISIBLE: state => state.common.alert = Object.freeze({ show: false, title: "", okButtonText: "", onOk: null }),
-        SET_CONFIRM_INVISIBLE: state => state.common.confirm = Object.freeze({ show: false, title: "", okButtonText: "", cancelButtonText: "", onOk: null, onCancel: null }),
+        SET_ALERT_INVISIBLE: state => state.common.alert = { show: false, title: "", okButtonText: "", onOk: () => null },
+        SET_ALERT_VISIBLE: (state, alert) => state.common.alert = alert,
+        SET_CONFIRM_INVISIBLE: state => state.common.confirm = { show: false, title: "", okButtonText: "", cancelButtonText: "", onOk: () => null },
+        SET_CONFIRM_VISIBLE: (state, confirm) => state.common.confirm = confirm,
 
         /**
          * Dashboard
@@ -143,6 +144,9 @@ export default new Vuex.Store({
          * Common
          * */
         SET_ALERT_INVISIBLE: context => context.commit("SET_ALERT_INVISIBLE"),
+        SET_ALERT_VISIBLE: (context, alert) => context.commit("SET_ALERT_VISIBLE", alert),
+        SET_CONFIRM_INVISIBLE: context => context.commit("SET_CONFIRM_INVISIBLE"),
+        SET_CONFIRM_VISIBLE: (context, confirm) => context.commit("SET_CONFIRM_VISIBLE", confirm),
 
         /**
          * Dashboard

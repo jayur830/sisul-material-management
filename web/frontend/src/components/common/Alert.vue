@@ -3,10 +3,10 @@
         <div>
             <div>
                 <div>
-                    <div>
+                    <div class="animate__animated animate__bounceIn">
                         <div>{{ title }}</div>
                         <div>
-                            <input type="button" :value="okButtonText" @click="setInvisible" />
+                            <input type="button" :value="okButtonText" @click="onOk" />
                         </div>
                     </div>
                 </div>
@@ -22,12 +22,18 @@
         name: "Alert",
         props: {
             title: String,
-            okButtonText: String
+            okButtonText: String,
+            ok: Function
         },
         methods: {
             ...mapActions({
                 setInvisible: "SET_ALERT_INVISIBLE"
-            })
+            }),
+
+            onOk() {
+                this.$emit("ok");
+                this.setInvisible();
+            }
         }
     }
 </script>

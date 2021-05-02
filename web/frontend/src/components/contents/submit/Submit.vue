@@ -1,5 +1,5 @@
 <template>
-    <div id="submit">
+    <div id="submit" class="animate__animated animate__fadeInRight">
         <div>
             <div>
                 <table v-if="properties">

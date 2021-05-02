@@ -1,6 +1,6 @@
 <template>
     <div id="dashboard">
-        <div class="content">
+        <div class="content animate__animated animate__fadeInDown">
             <div>
                 <h2>전체 입/출고 내역</h2>
                 <div><font-awesome-icon size="lg" :icon="['fa', 'redo-alt']" @click="initLog" /></div>
@@ -67,7 +67,7 @@
             </table>
         </div>
         <div>
-            <div class="content">
+            <div class="content animate__animated animate__fadeInDown" style="animation-delay: 0.3s;">
                 <div>
                     <h2>재고</h2>
                     <div><font-awesome-icon size="lg" :icon="['fa', 'redo-alt']" @click="initStock" /></div>
@@ -110,7 +110,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="content" v-show="selectedStock">
+            <div class="content animate__animated animate__fadeInDown" v-show="selectedStock">
                 <div>
                     <h2>자재별 입/출고 내역</h2>
                     <div><font-awesome-icon size="lg" :icon="['fa', 'redo-alt']" @click="setStockView(selectedStockId)" /></div>

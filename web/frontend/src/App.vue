@@ -5,16 +5,15 @@
             <app-side-menu />
             <app-contents />
         </div>
-<!--        <alert v-show="alert.show"-->
-<!--               :title="alert.title"-->
-<!--               :ok-button-text="alert.okButtonText"-->
-<!--               @ok="alert.onOk" />-->
-<!--        <confirm v-show="confirm.show"-->
-<!--                 :title="confirm.title"-->
-<!--                 :ok-button-text="confirm.okButtonText"-->
-<!--                 :cancel-button-text="confirm.cancelButtonText"-->
-<!--                 @ok="confirm.onOk"-->
-<!--                 @cancel="confirm.onCancel" />-->
+        <alert v-show="alert.show"
+               :title="alert.title"
+               :ok-button-text="alert.okButtonText"
+               @ok="alert.onOk" />
+        <confirm v-show="confirm.show"
+                 :title="confirm.title"
+                 :ok-button-text="confirm.okButtonText"
+                 :cancel-button-text="confirm.cancelButtonText"
+                 @ok="confirm.onOk" />
     </div>
 </template>
 
@@ -24,8 +23,8 @@
     import AppHeader from "./components/header/AppHeader";
     import AppSideMenu from "./components/side_menu/AppSideMenu";
     import AppContents from "./components/contents/AppContents";
-    // import Alert from "./components/common/Alert";
-    // import Confirm from "./components/common/Confirm";
+    import Alert from "./components/common/Alert";
+    import Confirm from "./components/common/Confirm";
 
     export default {
         name: "App",
@@ -39,8 +38,8 @@
             AppHeader,
             AppSideMenu,
             AppContents,
-            // Alert,
-            // Confirm
+            Alert,
+            Confirm
         }
     }
 </script>

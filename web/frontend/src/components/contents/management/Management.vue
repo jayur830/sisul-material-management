@@ -1,7 +1,7 @@
 <template>
     <div id="management">
         <div>
-            <div>
+            <div class="animate__animated animate__fadeInDown">
                 <span>추가 항목</span>
                 <label>
                     <select :value="selectedCategory" @change="setSelectedCategory($event.target.value)">
@@ -14,7 +14,7 @@
                 <label><input type="text" :value="inputtedCategory" @change="setInputtedCategory($event.target.value)" @keyup="onEnter" /></label>
                 <label><input type="button" class="btn" value="추가" @click="addItem(selectedCategory + ':' + inputtedCategory)" /></label>
             </div>
-            <div class="scroll">
+            <div class="scroll animate__animated animate__fadeInDown">
                 <div :key="i" v-for="(item, i) in items" @click="removeItem(item)">{{ item }}<span>&times;</span></div>
             </div>
             <div>
@@ -28,6 +28,7 @@
 
 <script>
     import { mapState, mapActions } from "vuex";
+    import { alert, confirm } from "../../../common";
 
     export default {
         name: "Management",
@@ -53,11 +54,12 @@
                 if (e.key === "Enter") this.addItem(this.selectedCategory + ':' + this.inputtedCategory);
             },
 
-            async submit() {
-                if (window.confirm("적용하시겠습니까?")) {
-                    await this.commitItems(this.items);
-                    window.alert("적용되었습니다.");
-                }
+            submit() {
+                confirm("적용하시겠습니까?", () => {
+                    console.log("aaa");
+                    this.commitItems(this.items);
+                    alert("적용되었습니다.");
+                })
             },
 
             equalsArray(a, b) {
