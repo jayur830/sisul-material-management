@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 export default new VueRouter({
+    mode: "history",
     routes: [
         {
             path: "/",
@@ -15,7 +16,7 @@ export default new VueRouter({
         },
         {
             path: "/dashboard/view",
-            component: () => import("./components/contents/dashboard/DashboardView")
+            component: () => import("./components/contents/dashboard/view/DashboardView")
         },
         {
             path: "/submit",

@@ -1,0 +1,99 @@
+#mobile-dashboard-view {
+    height: calc(100% - 30px);
+    padding: 15px;
+}
+
+#mobile-dashboard-view h3 {
+    display: inline-block;
+    margin: 0;
+    font-size: 12pt;
+    cursor: pointer;
+    transition: color 0.1s;
+}
+
+#mobile-dashboard-view h3:hover {
+    color: #0070c0;
+}
+
+#mobile-dashboard-view h3 span {
+    margin: 0 10px;
+}
+
+#mobile-dashboard-view > div {
+    width: 110px;
+    height: 48px;
+    padding-left: 50px;
+    padding-top: 40px;
+    padding-bottom: 50px;
+}
+
+#mobile-dashboard-view > div > div {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font: 16pt 'NanumSquareEB';
+    display: table;
+}
+
+#mobile-dashboard-view > div > div > div {
+    display: table-cell;
+    vertical-align: middle;
+    border: none;
+    border-radius: 7px;
+}
+
+#mobile-dashboard-view > table {
+    width: 100%;
+    height: calc(100% - 300px);
+    font: 14pt 'NanumSquare_acB';
+    letter-spacing: 0.001em;
+    border-collapse: collapse;
+}
+
+#mobile-dashboard-view > table td {
+    padding: 20px 6px;
+}
+
+#mobile-dashboard-view > table td:first-child {
+    text-align: right;
+}
+
+#mobile-dashboard-view > table td:nth-child(2) {
+    padding-left: 30px;
+}
+
+#mobile-dashboard-view > table td .log-img {
+    height: 100%;
+    display: flex;
+}
+
+#mobile-dashboard-view > table td .log-img > div {
+    text-align: center;
+    height: 100%;
+}
+
+#mobile-dashboard-view > table td .log-img > div:first-child,
+#mobile-dashboard-view > table td .log-img > div:last-child {
+    width: 5%;
+    display: table;
+}
+
+#mobile-dashboard-view > table td .log-img > div:first-child > div,
+#mobile-dashboard-view > table td .log-img > div:last-child > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#mobile-dashboard-view > table td .log-img > div svg {
+    cursor: pointer;
+    transition: color 0.1s;
+}
+
+#mobile-dashboard-view > table td .log-img > div svg:hover {
+    color: #0070c0;
+}
+
+#mobile-dashboard-view > table td .log-img > div:nth-child(2) {
+    width: 90%;
+    padding: 10px 50px;
+}

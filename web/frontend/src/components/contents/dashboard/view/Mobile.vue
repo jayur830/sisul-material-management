@@ -1,5 +1,5 @@
 <template>
-    <div id="dashboard-view" v-if="logData">
+    <div id="mobile-dashboard-view" v-if="logData" class="scroll">
         <h3 @click="$router.back()">
             <font-awesome-icon size="1x" :icon="['fa', 'arrow-left']" />
             <span>이전으로 돌아가기</span>
@@ -14,34 +14,17 @@
         </div>
         <table>
             <colgroup>
-                <col style="width: 15%" />
-                <col style="width: 35%" />
-                <col style="width: 50%" />
+                <col style="width: 130px;" />
+                <col style="width: calc(100% - 130px);" />
             </colgroup>
             <tbody>
                 <tr>
                     <td class="animate__animated animate__fadeInLeft">{{ logData.inOut === 0 ? '입' : '출' }}고 시간</td>
                     <td class="animate__animated animate__fadeInLeft">{{ toLogTime(logData.logTime, 'YYYYMMDDhhmmss') }}</td>
-                    <td class="animate__animated animate__fadeInDown" style="animation-delay: 0.6s;">첨부 이미지</td>
                 </tr>
                 <tr>
                     <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">근무반</td>
                     <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">{{ logData.workClass }}</td>
-                    <td rowspan="5" class="animate__animated animate__fadeInRight" style="animation-delay: 0.7s;">
-                        <div class="log-img">
-                            <div>
-                                <div>
-                                    <font-awesome-icon size="1x" :icon="['fa', 'chevron-left']" @click="setImgIndex(-1)" />
-                                </div>
-                            </div>
-                            <div><img :src="'/api/dashboard/img?fileName=' + logData.imgs[selectedImgIndex]" alt="" style="width: 320px;" /></div>
-                            <div>
-                                <div>
-                                    <font-awesome-icon size="1x" :icon="['fa', 'chevron-right']" @click="setImgIndex(1)" />
-                                </div>
-                            </div>
-                        </div>
-                    </td>
                 </tr>
                 <tr>
                     <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">작업자명</td>
@@ -59,6 +42,27 @@
                     <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.5s;">{{ logData.inOut === 0 ? '입' : '출' }}고수량</td>
                     <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.5s;">{{ logData.count }}{{ logData.unit }}</td>
                 </tr>
+                <tr>
+                    <td class="animate__animated animate__fadeInDown" style="animation-delay: 0.6s;">첨부 이미지</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="animate__animated animate__fadeInRight" style="animation-delay: 0.7s;">
+                        <div class="log-img">
+                            <div>
+                                <div>
+                                    <font-awesome-icon size="1x" :icon="['fa', 'chevron-left']" @click="setImgIndex(-1)" />
+                                </div>
+                            </div>
+                            <div><img :src="'/api/dashboard/img?fileName=' + logData.imgs[selectedImgIndex]" alt="" style="width: 220px;" /></div>
+                            <div>
+                                <div>
+                                    <font-awesome-icon size="1x" :icon="['fa', 'chevron-right']" @click="setImgIndex(1)" />
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -69,7 +73,7 @@
     import moment from "moment";
 
     export default {
-        name: "DashBoardView",
+        name: "MobileDashBoardView",
         computed: {
             ...mapState({
                 logData: state => state.dashboard.logView.data,
@@ -102,5 +106,5 @@
 </script>
 
 <style>
-    @import "./DashboardView.css";
+    @import "./Mobile.css";
 </style>
