@@ -110,3 +110,9 @@
 #management > div > div:nth-child(3) input[type=button].btn:active {
     background-color: #282626;
 }
+
+#management > div > div:nth-child(3) input[type=button].btn.disabled,
+#management > div > div:nth-child(3) input[type=button].btn.disabled:hover {
+    background-color: #747171;
+    cursor: default;
+}

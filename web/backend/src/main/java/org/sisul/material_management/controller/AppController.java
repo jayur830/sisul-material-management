@@ -66,14 +66,9 @@ public class AppController {
         return this.appService.getItems();
     }
 
-    @PostMapping("/management/setItems")
-    public void setItems(@RequestBody final List<String> items) {
-        this.appService.setItems(items);
-    }
-
-    @DeleteMapping("/management/removeItem")
-    public void removeItem(@RequestParam("itemId") final int itemId) {
-        this.appService.removeItem(itemId);
+    @PostMapping("/management/commit")
+    public void commitItems(@RequestBody final List<String> items) {
+        this.appService.commitItems(items);
     }
 
     @GetMapping("/dashboard/img")

@@ -17,8 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletOutputStream;
 import java.io.*;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Service
@@ -111,15 +113,21 @@ public class AppService {
     }
 
     @Transactional
-    public void setItems(final List<String> items) {
+    public void commitItems(final List<String> items) {
         this.itemRepository.deleteAll();
-        this.itemRepository.saveAll(items.stream()
-                .map(_item -> _item.split(":"))
-                .map(item -> Item.builder()
-                        .itemCategory(item[0])
-                        .itemName(item[1])
-                        .build())
-                .collect(Collectors.toList()));
+
+        List<Item> list = new ArrayList<>();
+        IntStream.range(0, items.size()).forEach(i -> {
+            final String[] splittedStr = items.get(i).split(":");
+            final String category = splittedStr[0];
+            final String item = splittedStr[1];
+            list.add(Item.builder()
+                    .id(i + 1)
+                    .itemCategory(category)
+                    .itemName(item)
+                    .build());
+        });
+        this.itemRepository.saveAll(list);
     }
 
     @Transactional
