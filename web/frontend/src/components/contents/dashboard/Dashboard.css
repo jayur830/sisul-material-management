@@ -1,0 +1,135 @@
+#dashboard {
+    height: calc(100% - 60px);
+    padding: 30px;
+}
+
+#dashboard .content > div:first-child {
+    display: flex;
+}
+
+#dashboard .content > div:first-child h2 {
+    margin: 0;
+    font-family: 'NanumSquareEB', serif;
+}
+
+#dashboard .content > div:first-child > div {
+    width: 100%;
+    text-align: right;
+}
+
+#dashboard .content > div:first-child svg {
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#dashboard .content > div:first-child svg:hover {
+    color: #0070c0;
+}
+
+#dashboard .content > div:first-child svg:active {
+    color: #003050;
+}
+
+#dashboard .content > table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    font-size: 10pt;
+}
+
+#dashboard .content > table th,
+#dashboard .content > table td {
+    border: none;
+    text-align: center;
+    border-bottom: 1px solid #828282;
+}
+
+#dashboard .content table tbody td {
+    border-bottom: none;
+}
+
+#dashboard .content table tbody td div table tbody td {
+    border-bottom: 1px solid #828282;
+}
+
+#dashboard .content > table th {
+    background-color: #262626;
+    color: #e7e6e6;
+    font-weight: normal;
+    padding: 8px;
+}
+
+#dashboard .content > table tbody div {
+    width: calc(100% + 13px);
+    height: 269px;
+    overflow-x: hidden;
+}
+
+#dashboard .content > table tbody div table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#dashboard .content > table tbody div table td {
+    padding: 8px;
+    transition: background-color 0.1s;
+}
+
+#dashboard .content > table tbody div table tbody tr:nth-child(odd) td {
+    background-color: #e7e6e6;
+}
+
+#dashboard .content > table tbody div table tbody tr:nth-child(even) td {
+    background-color: #d0d0d0;
+}
+
+#dashboard .content > table tbody div table tbody tr {
+    cursor: pointer;
+}
+
+#dashboard .content > table tbody div table tbody tr:hover td {
+    background-color: #bdbdbd;
+}
+
+#dashboard > div {
+    height: 50%;
+}
+
+#dashboard > div:first-child {
+    height: calc(50% - 15px);
+}
+
+#dashboard > div:first-child > div:first-child div {
+    width: calc(100% - 180px);
+}
+
+#dashboard > div:last-child {
+    display: flex;
+    padding-top: 15px;
+}
+
+#dashboard > div:last-child .content {
+    width: calc(50% - 15px);
+}
+
+#dashboard > div:last-child .content:first-child {
+    padding-right: 15px;
+}
+
+#dashboard > div:last-child .content:first-child > div:first-child div {
+    width: calc(100% - 45px);
+}
+
+#dashboard > div:last-child .content:last-child {
+    padding-left: 15px;
+}
+
+#dashboard > div:last-child .content:last-child > div:first-child div {
+    width: calc(100% - 200px);
+}
+
+#dashboard > div:last-child .content:last-child table div table tr {
+    cursor: default;
+}

@@ -14,6 +14,10 @@ export default new VueRouter({
             component: () => import("./components/contents/dashboard/Dashboard")
         },
         {
+            path: "/dashboard/view",
+            component: () => import("./components/contents/dashboard/DashboardView")
+        },
+        {
             path: "/submit",
             component: () => import("./components/contents/submit/Submit")
         },

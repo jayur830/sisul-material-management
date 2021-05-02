@@ -2,6 +2,7 @@ package org.sisul.material_management.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.sisul.material_management.entity.Item;
 import org.sisul.material_management.entity.Log;
 import org.sisul.material_management.entity.Stock;
 import org.sisul.material_management.service.AppService;
@@ -11,6 +12,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -27,13 +30,21 @@ public class AppController {
     }
 
     @GetMapping("/dashboard/log/view")
-    public Log dashboardLogView(@RequestParam("stockId") final int stockId) {
-        return this.appService.dashboardLogView(stockId);
+    public Log dashboardLogView(
+            @RequestParam("logTime") final String logTime,
+            @RequestParam("workClass") final String workClass,
+            @RequestParam("workerName") final String workerName) {
+        return this.appService.dashboardLogView(logTime, workClass, workerName);
     }
 
     @GetMapping("/dashboard/stock/list")
     public List<Stock> dashboardStockList() {
         return this.appService.dashboardStockList();
+    }
+
+    @GetMapping("/dashboard/stock/view")
+    public List<Log> dashboardStockView(@RequestParam("stockId") final int stockId) {
+        return this.appService.dashboardStockView(stockId);
     }
 
     @GetMapping("/submit/items")
@@ -50,8 +61,25 @@ public class AppController {
         this.appService.submit(request, img1, img2, img3);
     }
 
-    @PostMapping("/management/setItem")
-    public void setItem(@RequestBody final List<String> items) {
-        this.appService.setItem(items);
+    @GetMapping("/management/getItems")
+    public List<Item> getItems() {
+        return this.appService.getItems();
+    }
+
+    @PostMapping("/management/setItems")
+    public void setItems(@RequestBody final List<String> items) {
+        this.appService.setItems(items);
+    }
+
+    @DeleteMapping("/management/removeItem")
+    public void removeItem(@RequestParam("itemId") final int itemId) {
+        this.appService.removeItem(itemId);
+    }
+
+    @GetMapping("/dashboard/img")
+    public void getImage(
+            @RequestParam("fileName") final String fileName,
+            HttpServletResponse response) throws IOException {
+        this.appService.getImage(fileName, response.getOutputStream());
     }
 }

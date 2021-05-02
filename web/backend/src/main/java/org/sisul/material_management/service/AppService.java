@@ -14,10 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import javax.servlet.ServletOutputStream;
+import java.io.*;
 import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,15 +29,19 @@ public class AppService {
     private final ItemRepository itemRepository;
 
     public List<Log> dashboardLog() {
-        return this.logRepository.findAll();
+        return this.logRepository.findAllByOrderByLogTimeDesc();
     }
 
-    public Log dashboardLogView(final int stockId) {
-        return this.logRepository.findByStock(this.stockRepository.findByStockId(stockId));
+    public Log dashboardLogView(final String logTime, final String workClass, final String workerName) {
+        return this.logRepository.findByLogTimeAndWorkClassAndWorkerName(logTime, workClass, workerName);
     }
 
     public List<Stock> dashboardStockList() {
         return this.stockRepository.findAll();
+    }
+
+    public List<Log> dashboardStockView(final int stockId) {
+        return this.logRepository.findAllByStockStockIdOrderByLogTimeDesc(stockId);
     }
 
     public ResponseSubmitItemsVO getSubmitItems() {
@@ -104,8 +106,12 @@ public class AppService {
                 .build());
     }
 
+    public List<Item> getItems() {
+        return this.itemRepository.findAll();
+    }
+
     @Transactional
-    public void setItem(final List<String> items) {
+    public void setItems(final List<String> items) {
         this.itemRepository.deleteAll();
         this.itemRepository.saveAll(items.stream()
                 .map(_item -> _item.split(":"))
@@ -114,6 +120,46 @@ public class AppService {
                         .itemName(item[1])
                         .build())
                 .collect(Collectors.toList()));
+    }
+
+    @Transactional
+    public void removeItem(int itemId) {
+        this.itemRepository.deleteById(itemId);
+    }
+
+    public void getImage(final String fileName, ServletOutputStream outputStream) throws IOException {
+        File imgFile = new File("src/main/resources/img/" + fileName);
+
+        if (!imgFile.isFile()) imgFile = new File("src/main/resources/img/not_found.png");
+
+        byte[] buf = new byte[1024];
+        int readByte;
+        int length;
+        byte[] imgBuf;
+
+        FileInputStream fileInputStream = null;
+        ByteArrayOutputStream byteArrayOutputStream = null;
+
+        try {
+            fileInputStream = new FileInputStream(imgFile);
+            byteArrayOutputStream = new ByteArrayOutputStream();
+
+            while ((readByte = fileInputStream.read(buf)) != -1)
+                byteArrayOutputStream.write(buf, 0, readByte);
+
+            imgBuf = byteArrayOutputStream.toByteArray();
+            length = imgBuf.length;
+            outputStream.write(imgBuf, 0, length);
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fileInputStream != null && byteArrayOutputStream != null && outputStream != null) {
+                fileInputStream.close();
+                byteArrayOutputStream.close();
+                outputStream.close();
+            }
+        }
     }
 
     private void uploadImage(MultipartFile ...imgs) {

@@ -1,0 +1,95 @@
+#dashboard-view {
+    height: calc(100% - 60px);
+    padding: 30px;
+}
+
+#dashboard-view h3 {
+    display: inline-block;
+    margin: 0;
+    cursor: pointer;
+    transition: color 0.1s;
+}
+
+#dashboard-view h3:hover {
+    color: #0070c0;
+}
+
+#dashboard-view h3 span {
+    margin: 0 10px;
+}
+
+#dashboard-view > div {
+    width: 170px;
+    height: 70px;
+    padding: 50px calc(100% - 280px) 80px 110px;
+}
+
+#dashboard-view > div > div {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font: 28pt 'NanumSquareEB';
+    display: table;
+}
+
+#dashboard-view > div > div > div {
+    display: table-cell;
+    vertical-align: middle;
+    border: none;
+    border-radius: 10px;
+}
+
+#dashboard-view > table {
+    margin-left: 50px;
+    width: calc(100% - 50px);
+    height: calc(100% - 300px);
+    font: 18pt 'NanumSquare_acB';
+    letter-spacing: 0.001em;
+    border-collapse: collapse;
+}
+
+#dashboard-view > table td {
+    padding: 10px;
+}
+
+#dashboard-view > table td:first-child {
+    text-align: right;
+}
+
+#dashboard-view > table td .log-img {
+    border: 2px solid black;
+    border-radius: 20px;
+    height: 100%;
+    display: flex;
+}
+
+#dashboard-view > table td .log-img > div {
+    text-align: center;
+    height: 100%;
+}
+
+#dashboard-view > table td .log-img > div:first-child,
+#dashboard-view > table td .log-img > div:last-child {
+    width: 5%;
+    display: table;
+}
+
+#dashboard-view > table td .log-img > div:first-child > div,
+#dashboard-view > table td .log-img > div:last-child > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#dashboard-view > table td .log-img > div svg {
+    cursor: pointer;
+    transition: color 0.1s;
+}
+
+#dashboard-view > table td .log-img > div svg:hover {
+    color: #0070c0;
+}
+
+#dashboard-view > table td .log-img > div:nth-child(2) {
+    width: 90%;
+    padding: 10px 50px;
+}

@@ -7,9 +7,31 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        common: {
+            alert: {
+                show: false,
+                title: "",
+                okButtonText: "",
+                onOk: null
+            },
+            confirm: {
+                show: false,
+                title: "",
+                okButtonText: "",
+                cancelButtonText: "",
+                onOk: null,
+                onCancel: null
+            }
+        },
         dashboard: {
             log: null,
-            stock: null
+            logView: {
+                data: null,
+                selectedImgIndex: 0
+            },
+            stock: null,
+            selectedStockId: null,
+            selectedStock: null
         },
         submit: {
             properties: null,
@@ -39,15 +61,36 @@ export default new Vuex.Store({
     },
     mutations: {
         /**
+         * Common
+         * */
+        SET_ALERT_INVISIBLE: state => state.common.alert = Object.freeze({ show: false, title: "", okButtonText: "", onOk: null }),
+        SET_CONFIRM_INVISIBLE: state => state.common.confirm = Object.freeze({ show: false, title: "", okButtonText: "", cancelButtonText: "", onOk: null, onCancel: null }),
+
+        /**
          * Dashboard
          * */
-        INIT_DASHBOARD_LOG_LIST: (state, data) => {
-            console.log(data);
-            state.dashboard.log = Object.freeze(data);
+        INIT_DASHBOARD_LOG_LIST: (state, data) => state.dashboard.log = Object.freeze(data),
+        SET_DASHBOARD_LOG_VIEW: (state, data) => {
+            data["imgs"] = [];
+            if (data.img1) data.imgs.push(data.img1);
+            if (data.img2) data.imgs.push(data.img2);
+            if (data.img3) data.imgs.push(data.img3);
+            delete data.img1;
+            delete data.img2;
+            delete data.img3;
+            state.dashboard.logView.data = Object.freeze(data);
         },
-        INIT_DASHBOARD_STOCK_LIST: (state, data) => {
-            console.log(data);
-            state.dashboard.stock = Object.freeze(data);
+        SET_DASHBOARD_LOG_VIEW_IMG_INDEX: (state, value) => {
+            if (value === -1 && state.dashboard.logView.selectedImgIndex - 1 >= 0)
+                --state.dashboard.logView.selectedImgIndex;
+            else if (value === 1 && state.dashboard.logView.selectedImgIndex + 1 < state.dashboard.logView.data.imgs.length)
+                ++state.dashboard.logView.selectedImgIndex;
+        },
+        CLEAR_DASHBOARD_LOG_VIEW: state => [state.dashboard.logView.data, state.dashboard.logView.selectedImgIndex] = [null, 0],
+        INIT_DASHBOARD_STOCK_LIST: (state, data) => state.dashboard.stock = Object.freeze(data),
+        SET_DASHBOARD_STOCK_VIEW: (state, { data, stockId }) => {
+            state.dashboard.selectedStock = Object.freeze(data);
+            state.dashboard.selectedStockId = stockId;
         },
 
         /**
@@ -77,24 +120,34 @@ export default new Vuex.Store({
         /**
          * Management
          * */
+        INIT_MANAGEMENT_ITEMS: (state, items) => state.management.items = items,
         SET_MANAGEMENT_SELECTED_CATEGORY: (state, category) => state.management.selectedCategory = category,
         SET_MANAGEMENT_INPUTTED_CATEGORY: (state, category) => state.management.inputtedCategory = category,
         ADD_MANAGEMENT_ITEM: (state, item) => {
             if (state.management.items.findIndex(_item => _item === item) === -1)
                 state.management.items = Object.freeze(state.management.items.concat(item));
         },
-        REMOVE_MANAGEMENT_ITEM: (state, item) => {
+        REMOVE_MANAGEMENT_ITEM: (state, itemId) => {
             const items = state.management.items.concat();
-            items.splice(items.findIndex(_item => _item === item), 1);
+            items.splice(items.findIndex(_item => _item.id === itemId), 1);
             state.management.items = Object.freeze(items);
         }
     },
     actions: {
         /**
+         * Common
+         * */
+        SET_ALERT_INVISIBLE: context => context.commit("SET_ALERT_INVISIBLE"),
+
+        /**
          * Dashboard
          * */
         INIT_DASHBOARD_LOG_LIST: async context => context.commit("INIT_DASHBOARD_LOG_LIST", await axios.get("/api/dashboard/log/list").then(response => response.data)),
+        SET_DASHBOARD_LOG_VIEW: async (context, { logTime, workClass, workerName }) => context.commit("SET_DASHBOARD_LOG_VIEW", await axios.get("/api/dashboard/log/view", { params: { logTime, workClass, workerName } }).then(response => response.data)),
+        SET_DASHBOARD_LOG_VIEW_IMG_INDEX: (context, value) => context.commit("SET_DASHBOARD_LOG_VIEW_IMG_INDEX",  value),
+        CLEAR_DASHBOARD_LOG_VIEW: context => context.commit("CLEAR_DASHBOARD_LOG_VIEW"),
         INIT_DASHBOARD_STOCK_LIST: async context => context.commit("INIT_DASHBOARD_STOCK_LIST", await axios.get("/api/dashboard/stock/list").then(response => response.data)),
+        SET_DASHBOARD_STOCK_VIEW: async (context, stockId) => context.commit("SET_DASHBOARD_STOCK_VIEW", { data: await axios.get("/api/dashboard/stock/view", { params: { stockId } }).then(response => response.data), stockId }),
 
         /**
          * Submit
@@ -117,9 +170,16 @@ export default new Vuex.Store({
         /**
          * Management
          * */
+        INIT_MANAGEMENT_ITEMS: async context => context.commit("INIT_MANAGEMENT_ITEMS", await axios.get("/api/management/getItems").then(response => response.data)),
         SET_MANAGEMENT_SELECTED_CATEGORY: (context, category) => context.commit("SET_MANAGEMENT_SELECTED_CATEGORY", category),
         SET_MANAGEMENT_INPUTTED_CATEGORY: (context, category) => context.commit("SET_MANAGEMENT_INPUTTED_CATEGORY", category),
-        ADD_MANAGEMENT_ITEM: (context, item) => context.commit("ADD_MANAGEMENT_ITEM", item),
-        REMOVE_MANAGEMENT_ITEM: (context, item) => context.commit("REMOVE_MANAGEMENT_ITEM", item)
+        ADD_MANAGEMENT_ITEM: (context, item) => {
+
+            context.commit("ADD_MANAGEMENT_ITEM", item);
+        },
+        REMOVE_MANAGEMENT_ITEM: async (context, itemId) => {
+            await axios.delete("/api/management/removeItem", { params: { itemId } });
+            context.commit("REMOVE_MANAGEMENT_ITEM", itemId);
+        }
     }
 });

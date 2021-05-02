@@ -25,7 +25,8 @@
     outline: none;
 }
 
-#submit input[type=text] {
+#submit input[type=text],
+#submit input[type=number] {
     width: calc(100% - 44px);
     height: 25px;
     padding: 0 20px;
