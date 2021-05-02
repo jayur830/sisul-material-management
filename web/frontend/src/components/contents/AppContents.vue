@@ -11,4 +11,12 @@
         padding-left: 181.72px;
         background-color: #f2f2f2;
     }
+
+    @media (max-width: 1000px) {
+        #app-contents {
+            height: calc(100% - 29px);
+            padding-left: 0;
+            padding-top: 38px;
+        }
+    }
 </style>

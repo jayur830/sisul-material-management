@@ -1,0 +1,35 @@
+#mobile-side-menu {
+    position: absolute;
+    width: 100%;
+    background-color: #3b3838;
+    z-index: 9999;
+}
+
+#mobile-side-menu ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    color: #e7e6e6;
+    font-size: 16pt;
+    font-family: 'NanumSquareB', sans-serif;
+}
+
+#mobile-side-menu ul li {
+    margin: 0 auto;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 12pt;
+}
+
+#mobile-side-menu ul li a {
+    color: #e7e6e6;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#mobile-side-menu ul li a:hover {
+    color: #0070c0;
+}

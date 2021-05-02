@@ -2,7 +2,7 @@
     background-color: #404040;
     padding: 10px 15px;
     display: flex;
-    z-index: 9999;
+    z-index: 99999;
     cursor: pointer;
 }
 

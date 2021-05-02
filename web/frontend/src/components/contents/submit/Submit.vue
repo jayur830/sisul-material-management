@@ -115,6 +115,8 @@
     import moment from "moment";
     import axios from "axios";
 
+    import { alert } from "../../../common";
+
     export default {
         name: "Submit",
         data:  () => ({

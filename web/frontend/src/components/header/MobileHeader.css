@@ -1,0 +1,26 @@
+#mobile-header {
+    background-color: #404040;
+    padding: 5px 8px;
+    display: flex;
+    z-index: 99999;
+    cursor: pointer;
+}
+
+#mobile-header > img {
+    margin: 5px;
+}
+
+#mobile-header > div > div:nth-child(1) {
+    font-family: 'NanumSquare_acEB', serif;
+    color: #e7e6e6;
+    font-size: 14pt;
+    padding: 5px 15px 5px 10px;
+    letter-spacing: 0.05em;
+}
+
+#mobile-header > div > div:nth-child(2) {
+    font-family: 'NanumSquare_acR', serif;
+    color: #e7e6e6;
+    font-size: 4pt;
+    padding-left: 10px;
+}

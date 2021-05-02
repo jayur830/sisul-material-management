@@ -5,7 +5,7 @@
             <span>이전으로 돌아가기</span>
         </h3>
         <div>
-            <div>
+            <div class="animate__animated animate__fadeInDown">
                 <div :style="{
                     backgroundColor: logData.inOut === 0 ? '#009a46' : '#c55a11',
                     color: logData.inOut === 0 ? '#bdffdb' : '#f8cbad'
@@ -20,14 +20,14 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <td>{{ logData.inOut === 0 ? '입' : '출' }}고 시간</td>
-                    <td>{{ toLogTime(logData.logTime, 'YYYYMMDDhhmmss') }}</td>
-                    <td>첨부 이미지</td>
+                    <td class="animate__animated animate__fadeInLeft">{{ logData.inOut === 0 ? '입' : '출' }}고 시간</td>
+                    <td class="animate__animated animate__fadeInLeft">{{ toLogTime(logData.logTime, 'YYYYMMDDhhmmss') }}</td>
+                    <td class="animate__animated animate__fadeInDown" style="animation-delay: 0.6s;">첨부 이미지</td>
                 </tr>
                 <tr>
-                    <td>근무반</td>
-                    <td>{{ logData.workClass }}</td>
-                    <td rowspan="5">
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">근무반</td>
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">{{ logData.workClass }}</td>
+                    <td rowspan="5" class="animate__animated animate__fadeInRight" style="animation-delay: 0.7s;">
                         <div class="log-img">
                             <div>
                                 <div>
@@ -44,20 +44,20 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>작업자명</td>
-                    <td>{{ logData.workerName }}</td>
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">작업자명</td>
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">{{ logData.workerName }}</td>
                 </tr>
                 <tr>
-                    <td>자재 종류</td>
-                    <td>{{ logData.stock.category }}</td>
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;">자재 종류</td>
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;">{{ logData.stock.category }}</td>
                 </tr>
                 <tr>
-                    <td>자재 제품명</td>
-                    <td>{{ logData.stock.item }}</td>
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.4s;">자재 제품명</td>
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.4s;">{{ logData.stock.item }}</td>
                 </tr>
                 <tr>
-                    <td>{{ logData.inOut === 0 ? '입' : '출' }}고수량</td>
-                    <td>{{ logData.count }}{{ logData.unit }}</td>
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.5s;">{{ logData.inOut === 0 ? '입' : '출' }}고수량</td>
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.5s;">{{ logData.count }}{{ logData.unit }}</td>
                 </tr>
             </tbody>
         </table>

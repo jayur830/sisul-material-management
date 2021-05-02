@@ -1,0 +1,127 @@
+#mobile-management {
+    height: calc(100% - 30px);
+    padding: 15px;
+}
+
+#mobile-management > div {
+    width: 100%;
+    height: 100%;
+}
+
+#mobile-management > div > div:nth-child(1) {
+    font: 16pt 'NanumSquareB';
+}
+
+#mobile-management > div > div:nth-child(1) > label {
+    display: block;
+}
+
+#mobile-management > div > div:nth-child(1) select,
+#mobile-management > div > div:nth-child(1) input[type=text] {
+    width: 100%;
+    margin: 10px 0;
+    border: 0.1em solid black;
+    border-radius: 5px;
+    font: 12pt 'NanumSquare_acB', serif;
+    outline: none;
+}
+
+#mobile-management > div > div:nth-child(1) input[type=text] {
+    width: calc(100% - 43px) !important;
+}
+
+#mobile-management > div > div:nth-child(1) select {
+    padding: 3px 20px;
+}
+
+#mobile-management > div > div:nth-child(1) input[type=text] {
+    width: 250px;
+    padding: 4px 20px;
+}
+
+#mobile-management > div > div:nth-child(1) input[type=button].btn {
+    width: 100%;
+    margin-top: 5px;
+    padding: 7px 30px;
+    font: 14pt 'NanumSquare_acB';
+    border-radius: 5px;
+    background-color: #0070c0;
+    transition: background-color 0.2s;
+}
+
+#mobile-management > div > div:nth-child(1) input[type=button].btn:hover {
+    background-color: #3e9bd0;
+}
+
+#mobile-management > div > div:nth-child(1) input[type=button].btn:active {
+    background-color: #0064aa;
+}
+
+#mobile-management > div > div:nth-child(2) {
+    height: calc(100% - 235px);
+    margin-top: 30px;
+}
+
+#mobile-management > div > div:nth-child(2) > div {
+    display: block;
+    height: 100%;
+}
+
+#mobile-management > div > div:nth-child(2) > div > div {
+    display: inline-block;
+    border: 2px solid #0070c0;
+    border-radius: 8px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    font: 10pt 'NanumSquareB';
+    color: #0070c0;
+    background-color: #e1f2ff;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+
+#mobile-management > div > div:nth-child(2) > div > div:hover {
+    border-color: #3e9bd0;
+    background-color: #ebf3fd;
+    color: #3e9bd0;
+}
+
+#mobile-management > div > div:nth-child(2) > div > div:active {
+    border-color: #0064aa;
+    background-color: #cfebff;
+    color: #0064aa;
+}
+
+#mobile-management > div > div:nth-child(2) > div > div > span {
+    position: relative;
+    top: 2px;
+    margin-left: 15px;
+    font-size: 14pt;
+}
+
+#mobile-management > div > div:nth-child(3) {
+    text-align: center;
+}
+
+#mobile-management > div > div:nth-child(3) input[type=button].btn {
+    width: 100%;
+    font: 16pt 'NanumSquareEB';
+    padding: 10px 0;
+    background-color: #3b3838;
+    transition: background-color 0.2s;
+}
+
+#mobile-management > div > div:nth-child(3) input[type=button].btn:hover {
+    background-color: #615f5f;
+}
+
+#mobile-management > div > div:nth-child(3) input[type=button].btn:active {
+    background-color: #282626;
+}
+
+#mobile-management > div > div:nth-child(3) input[type=button].btn.disabled,
+#mobile-management > div > div:nth-child(3) input[type=button].btn.disabled:hover {
+    background-color: #747171;
+    cursor: default;
+}
