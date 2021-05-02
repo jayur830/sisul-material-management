@@ -6,8 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface LogRepository extends JpaRepository<Log, Date> {
-    Log findByStock(final Stock stock);
+    List<Log> findAllByOrderByLogTimeDesc();
+    Log findByLogTimeAndWorkClassAndWorkerName(final String logTime, final String workClass, final String workerName);
+    List<Log> findAllByStockStockIdOrderByLogTimeDesc(final int stockId);
 }

@@ -24,7 +24,7 @@
                             <td>성명</td>
                             <td>
                                 <label>
-                                    <input type="text" :value="workerName" @change="setWorkerName($event.target.value)" />
+                                    <input type="text" :value="workerName" @keyup="setWorkerName($event.target.value)" />
                                 </label>
                             </td>
                         </tr>
@@ -63,7 +63,7 @@
                             <td>수량</td>
                             <td>
                                 <label>
-                                    <input type="text" :value="count" @change="setCount($event.target.value)" />
+                                    <input type="number" :value="count" @keyup="setCount($event.target.value)" />
                                 </label>
                             </td>
                         </tr>
@@ -83,15 +83,15 @@
                             <td>사진 첨부</td>
                             <td>
                                 <div class="file-field">
-                                    <label for="file-1" v-text="files[0] !== '' ? files[0].name : '사진 업로드'"></label>
-                                    <input type="file" id="file-1" capture="camera" @click="e => onLoadFile(e, 0)" />
+                                    <label for="file-1" v-text="imgFiles[0] !== '' ? (imgFiles[0].name.length > 30 ? imgFiles[0].name.substring(0, 27) + '...' : imgFiles[0].name) : '사진 업로드'"></label>
+                                    <input type="file" id="file-1" capture="camera" @change="e => onLoadFile(e, 0)" />
                                 </div>
                                 <div class="file-field">
-                                    <label for="file-2" v-text="files[1] !== '' ? files[1].name : '사진 업로드'"></label>
+                                    <label for="file-2" v-text="imgFiles[1] !== '' ? (imgFiles[1].name.length > 30 ? imgFiles[1].name.substring(0, 27) + '...' : imgFiles[1].name) : '사진 업로드'"></label>
                                     <input type="file" id="file-2" capture="camera" @change="e => onLoadFile(e, 1)" />
                                 </div>
                                 <div class="file-field">
-                                    <label for="file-3" v-text="files[2] !== '' ? files[2].name : '사진 업로드'"></label>
+                                    <label for="file-3" v-text="imgFiles[2] !== '' ? (imgFiles[2].name.length > 30 ? imgFiles[2].name.substring(0, 27) + '...' : imgFiles[2].name) : '사진 업로드'"></label>
                                     <input type="file" id="file-3" capture="camera" @change="e => onLoadFile(e, 2)" />
                                 </div>
                             </td>
@@ -100,7 +100,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="2">
-                                <input type="button" class="btn" value="담당자 전송" />
+                                <input type="button" class="btn" value="저장" @click="submit" />
                             </td>
                         </tr>
                     </tfoot>
@@ -112,9 +112,14 @@
 
 <script>
     import { mapState, mapActions } from "vuex";
+    import moment from "moment";
+    import axios from "axios";
 
     export default {
         name: "Submit",
+        data:  () => ({
+            imgFiles: ["", "", ""]
+        }),
         computed: {
             ...mapState({
                 properties: state => state.submit.properties,
@@ -125,7 +130,11 @@
                 inOut: state => state.submit.data.inOut,
                 count: state => state.submit.data.count,
                 unit: state => state.submit.data.unit,
-                files: state => state.submit.data.files
+                files: state => state.submit.data.files,
+                manualWorkClass: state => state.submit.data.manualWorkClass,
+                manualCategory: state => state.submit.data.manualCategory,
+                manualItem: state => state.submit.data.manualItem,
+                manualUnit: state => state.submit.data.manualUnit
             })
         },
         methods: {
@@ -145,12 +154,54 @@
                 setManualUnit: "SET_SUBMIT_MANUAL_UNIT"
             }),
 
-            onLoadFile(e, index) {
+            async onLoadFile(e, index) {
                 console.log(e.target.files);
-                this.setImgFile({
+                await this.setImgFile({
                     index,
                     file: e.target.files[0]
                 });
+                const imgFiles = this.imgFiles.concat();
+                imgFiles[index] = e.target.files[0];
+                this.imgFiles = imgFiles;
+            },
+
+            async submit() {
+                if (this.workClass === "*" && this.manualWorkClass === "")
+                    alert("근무반(수기입력)을 입력하세요.");
+                else if (this.workerName === "")
+                    alert("작업자 성명을 입력하세요.");
+                else if (this.category === "*" && this.manualCategory === "")
+                    alert("자재 종류(수기입력)를 입력하세요.");
+                else if (this.item === "*" && this.manualItem === "")
+                    alert("자재 제품명(수기입력)을 입력하세요.");
+                else if (this.inOut == null)
+                    alert("입/출고를 선택하세요.");
+                else if (this.count == null)
+                    alert("자재 수량을 입력하세요.");
+                else if (this.count === 0)
+                    alert("1개 이상의 자재 수량을 입력하세요.");
+                else if (this.unit === "*" && this.manualUnit === "")
+                    alert("단위(수기입력)를 입력하세요.");
+                else if (!this.imgFiles[0] && !this.imgFiles[1] && !this.imgFiles[2])
+                    alert("한 장 이상의 현장 사진을 첨부하세요.");
+                else if (confirm("저장하시겠습니까?")) {
+                    const formData = new FormData();
+                    formData.append('logTime', moment().format('YYYYMMDDhhmmss'));
+                    formData.append('workClass', this.workClass);
+                    formData.append('workerName', this.workerName);
+                    formData.append('category', this.category);
+                    formData.append('item', this.item);
+                    formData.append('inOut', this.inOut);
+                    formData.append('count', parseInt(this.count));
+                    formData.append('unit', this.unit);
+
+                    this.files.forEach((file, i) => {
+                        if (file) formData.append(`img${i + 1}`, file, file.name);
+                    });
+
+                    await axios.post("/api/submit/submit", formData, { headers: { "Content-Type": "multipart/form-data" } });
+                    alert("저장되었습니다.");
+                }
             }
         },
         mounted() {

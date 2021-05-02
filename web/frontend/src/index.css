@@ -86,3 +86,35 @@ html, body {
 .btn:active {
     background-color: #0070c0;
 }
+
+.scroll {
+    overflow: scroll;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 13px;
+    height: 13px;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.scroll::-webkit-scrollbar-corner {
+    display: none;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background-color: #bdbdbd;
+    background-clip: padding-box;
+    border: 4px solid transparent;
+    cursor: pointer;
+    -webkit-transition: background-color 0.5s;
+}
+
+.text-no-drag {
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}

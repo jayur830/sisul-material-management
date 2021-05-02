@@ -6,14 +6,16 @@
  * @flow strict-local
  */
 
-import React, { Component, useEffect } from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import React, { Component } from 'react';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Button } from 'react-native-elements';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ImageFileModal from './components/Modal';
-import SplashScreen from 'react-native-splash-screen';
+import moment from 'moment';
+import xlsx from 'xlsx';
+import RNFS from 'react-native-fs';
 
 export default class App extends Component {
     styles = StyleSheet.create({
@@ -97,7 +99,11 @@ export default class App extends Component {
                 inOut: null,
                 count: null,
                 unit: null,
-                imgFiles: [null, null, null]
+                imgFiles: [null, null, null],
+                manualWorkClass: "",
+                manualCategory: "",
+                manualItem: "",
+                manualUnit: "",
             }
         };
     }
@@ -141,57 +147,106 @@ export default class App extends Component {
         });
     }
 
-    onSubmit = () => {
-        if (!this.state.formData.workerName || this.state.formData.workerName === '')
+    onSubmit = async () => {
+        if (this.state.formData.workClass === '*' && this.state.formData.manualWorkClass === '')
+            Alert.alert('근무반', '근무반(수기입력)을 입력하세요.');
+        else if (!this.state.formData.workerName || this.state.formData.workerName === '')
             Alert.alert('성명', '작업자 성명을 입력하세요.');
+        else if (this.state.formData.category === '*' && this.state.formData.manualCategory === '')
+            Alert.alert('자재 종류', '자재 종류(수기입력)를 입력하세요.');
+        else if (this.state.formData.item === '*' && this.state.formData.manualItem === '')
+            Alert.alert('자재 제품명', '자재 제품명(수기입력)을 입력하세요.');
         else if (this.state.formData.inOut == null)
             Alert.alert('입/출고', '입/출고를 선택하세요.');
         else if (this.state.formData.count == null)
             Alert.alert('수량', '자재 수량을 입력하세요.');
         else if (this.state.formData.count === 0)
             Alert.alert('수량', '1개 이상의 자재 수량을 입력하세요.');
+        else if (this.state.formData.unit === '*' && this.state.formData.manualUnit === '')
+            Alert.alert('단위', '단위(수기입력)를 입력하세요.');
         else if (!this.state.formData.imgFiles[0] && !this.state.formData.imgFiles[1] && !this.state.formData.imgFiles[2])
             Alert.alert('사진 첨부', '한 장 이상의 현장 사진을 첨부하세요.');
         else {
-            const $this = this;
-            Alert.alert(
+            await new Promise(resolve => Alert.alert(
                 '제출',
                 '담당자에게 전송하시겠습니까?', [
                     {
                         text: 'YES',
-                        async onPress() {
-                            const formData = new FormData();
-                            formData.append('workClass', $this.state.formData.workClass);
-                            formData.append('workerName', $this.state.formData.workerName);
-                            formData.append('category', $this.state.formData.category);
-                            formData.append('item', $this.state.formData.item);
-                            formData.append('inOut', $this.state.formData.inOut);
-                            formData.append('count', $this.state.formData.count);
-                            formData.append('unit', $this.state.formData.unit);
-                            formData.append('img1', $this.state.formData.imgFiles[0]);
-                            formData.append('img2', $this.state.formData.imgFiles[1]);
-                            formData.append('img3', $this.state.formData.imgFiles[2]);
-
-                            await fetch("http://192.168.219.100:9100/api/submit/submit", {
-                                method: 'POST',
-                                cache: 'no-cache',
-                                // headers: {
-                                //     'Content-Type': 'multipart/form-data'
-                                // },
-                                body: formData
-                            });
-                            await Alert.alert('제출', '담당자에게 성공적으로 전송되었습니다.');
-                        },
+                        onPress: resolve,
                     },
-                    { text: 'NO' },
-                ]);
+                    { text: 'NO' }
+                ]));
+
+            const data = this.state.formData;
+            const formData = new FormData();
+            formData.append('logTime', moment().format('YYYYMMDDhhmmss'));
+            formData.append('workClass', data.workClass === '*' ? data.manualWorkClass : data.workClass);
+            formData.append('workerName', data.workerName);
+            formData.append('category', data.category === '*' ? data.manualCategory : data.category);
+            formData.append('item', data.item === '*' ? data.manualItem : data.item);
+            formData.append('inOut', data.inOut);
+            formData.append('count', parseInt(data.count));
+            formData.append('unit', data.unit === '*' ? data.manualUnit : data.unit);
+
+            data.imgFiles.forEach((file, i) => {
+                if (file)
+                    formData.append('img' + (i + 1), {
+                        name: file.fileName,
+                        type: file.type,
+                        uri: Platform.OS === 'android' ? file.uri : file.uri.replace('file://', '')
+                    });
+            });
+
+            await fetch('http://192.168.219.100:9100/api/submit/submit', {
+                method: 'POST',
+                body: formData
+            });
+            await Alert.alert('제출', '담당자에게 성공적으로 전송되었습니다.');
+
+            // const book = xlsx.utils.book_new();
+            // xlsx.utils.book_append_sheet(
+            //     book,
+            //     xlsx.utils.json_to_sheet([
+            //         {
+            //             '근무반': $this.state.formData.workClass,
+            //             '작업자명': $this.state.formData.workerName,
+            //             '자재 종류': $this.state.formData.category,
+            //             '자재 제품명': $this.state.formData.item,
+            //             '입/출고': $this.state.formData.inOut === 0 ? '입고' : '출고',
+            //             '수량': $this.state.formData.count + '개',
+            //             '단위': $this.state.formData.unit
+            //         }
+            //     ]),
+            //     `자재${$this.state.formData.inOut === 0 ? '입' : '출'}고정보`);
+            // const path = RNFS.DocumentDirectoryPath + `/자재${$this.state.formData.inOut === 0 ? '입' : '출'}고정보_${$this.state.formData.workClass}_${$this.state.formData.workerName}_` + moment().format('YYYYMMDDhhmmss') + '.xlsx';
+            // console.log(path);
+            // await RNFS.writeFile(
+            //     path,
+            //     xlsx.write(book, {
+            //         type: 'binary',
+            //         bookType: 'xlsx'
+            //     }),
+            //     'ascii');
+
+            await this.setState({
+                formData: {
+                    workClass: null,
+                    workerName: null,
+                    category: null,
+                    item: null,
+                    inOut: null,
+                    count: null,
+                    unit: null,
+                    imgFiles: [null, null, null]
+                }
+            });
         }
     }
 
     render() {
         return (
             <SafeAreaView style={this.styles.body}>
-                <View>
+                <ScrollView>
                     <View style={this.styles.tr}>
                         <View style={this.styles.td0}>
                             <Text style={this.styles.td0Text}>근무반</Text>
@@ -207,6 +262,12 @@ export default class App extends Component {
                                             .concat(<Picker.Item key={this.state.workClasses.length} label="기타(수기입력)" value="*" />) : null}
                                 </Picker>
                             </View>
+                            <View style={{ display: this.state.formData.workClass === '*' ? 'flex' : 'none' }}>
+                                <TextInput
+                                    style={this.styles.textInput}
+                                    value={this.state.formData.manualWorkClass}
+                                    onChangeText={workClass => this.setState({ formData: { ...this.state.formData, manualWorkClass: workClass } })} />
+                            </View>
                         </View>
                     </View>
                     <View style={this.styles.tr}>
@@ -216,6 +277,7 @@ export default class App extends Component {
                         <View style={this.styles.td1}>
                             <TextInput
                                 style={this.styles.textInput}
+                                value={this.state.formData.workerName}
                                 onChangeText={workerName => this.setState({ formData: { ...this.state.formData, workerName } })} />
                         </View>
                     </View>
@@ -234,6 +296,12 @@ export default class App extends Component {
                                             .concat(<Picker.Item key={this.state.categories.length} label="기타(수기입력)" value="*" />) : null}
                                 </Picker>
                             </View>
+                            <View style={{ display: this.state.formData.category === '*' ? 'flex' : 'none' }}>
+                                <TextInput
+                                    style={this.styles.textInput}
+                                    value={this.state.formData.manualCategory}
+                                    onChangeText={category => this.setState({ formData: { ...this.state.formData, manualCategory: category } })} />
+                            </View>
                         </View>
                     </View>
                     <View style={this.styles.tr}>
@@ -250,6 +318,12 @@ export default class App extends Component {
                                             .map((item, i) => <Picker.Item key={i} label={item} value={item} />)
                                             .concat(<Picker.Item key={this.state.items.length} label="기타(수기입력)" value="*" />) : null}
                                 </Picker>
+                            </View>
+                            <View style={{ display: this.state.formData.item === '*' ? 'flex' : 'none' }}>
+                                <TextInput
+                                    style={this.styles.textInput}
+                                    value={this.state.formData.manualItem}
+                                    onChangeText={item => this.setState({ formData: { ...this.state.formData, manualItem: item } })} />
                             </View>
                         </View>
                     </View>
@@ -282,10 +356,10 @@ export default class App extends Component {
                             <TextInput
                                 keyboardType="numeric"
                                 style={this.styles.textInput}
-                                value={Number(this.state.formData.count)}
+                                value={this.state.formData.count}
                                 onChangeText={count => {
-                                    count = parseInt(count)
-                                    if (!isNaN(count)) this.setState({ formData: { ...this.state.formData, count } });
+                                    if (!isNaN(parseInt(count)))
+                                        this.setState({ formData: { ...this.state.formData, count } });
                                 }} />
                         </View>
                     </View>
@@ -303,6 +377,12 @@ export default class App extends Component {
                                             .map((unit, i) => <Picker.Item key={i} label={unit} value={unit} />)
                                             .concat(<Picker.Item key={this.state.units.length} label="기타(수기입력)" value="*" />) : null}
                                 </Picker>
+                            </View>
+                            <View style={{ display: this.state.formData.unit === '*' ? 'flex' : 'none' }}>
+                                <TextInput
+                                    style={this.styles.textInput}
+                                    value={this.state.formData.manualUnit}
+                                    onChangeText={unit => this.setState({ formData: { ...this.state.formData, manualUnit: unit } })} />
                             </View>
                         </View>
                     </View>
@@ -330,7 +410,7 @@ export default class App extends Component {
                             <Text style={{ color: 'white', fontSize: 24 }}>담당자 전송</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </ScrollView>
                 <ImageFileModal
                     index={this.state.imgFileIndex}
                     modalVisible={this.state.modalVisible}
