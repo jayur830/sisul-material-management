@@ -1,0 +1,125 @@
+#desktop-submit {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+#desktop-submit > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#desktop-submit > div > div {
+    width: 500px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+#desktop-submit select {
+    width: 100%;
+    height: 30px;
+    padding: 0 20px;
+    font: 12pt 'NanumSquare_acB', serif;
+    outline: none;
+}
+
+#desktop-submit input[type=text],
+#desktop-submit input[type=number] {
+    width: calc(100% - 44px);
+    height: 25px;
+    padding: 0 20px;
+    font: 12pt 'NanumSquare_acB', serif;
+    outline: none;
+}
+
+#desktop-submit input[type=button].btn {
+    width: calc(50% - 5px);
+    font: 13pt 'NanumSquare_acB';
+    padding: 5px 0;
+    transition: background-color 0.2s;
+}
+
+#desktop-submit table tbody input[type=button].btn.in {
+    margin-right: 5px;
+}
+
+#desktop-submit table tbody input[type=button].btn.out {
+    margin-left: 5px;
+}
+
+#desktop-submit table tbody input[type=button].btn.on {
+    background-color: #0070c0;
+}
+
+#desktop-submit table {
+    width: 100%;
+}
+
+#desktop-submit table tbody td {
+    padding: 8px 10px;
+}
+
+#desktop-submit table tbody td:first-child {
+    vertical-align: top;
+    text-align: right;
+    font: 16pt 'NanumSquareB';
+}
+
+#desktop-submit table tbody td div.file-field {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+#desktop-submit table tbody td div.file-field > label {
+    position: absolute;
+    width: calc(100% - 2px);
+    padding: 5px 0;
+    border-radius: 5px;
+    text-align: center;
+    font: 14pt 'NanumSquare_acB';
+    color: #e7e6e6;
+    background-color: #262626;
+    z-index: 9;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#desktop-submit table tbody td div.file-field > label:hover {
+    background-color: #3b3b3b;
+}
+
+#desktop-submit table tbody td div.file-field > label:active {
+    background-color: #1d1d1d;
+}
+
+#desktop-submit table tbody td div.file-field input[type=file] {
+    position: relative;
+    top: 2px;
+    left: 40px;
+    outline: none;
+}
+
+#desktop-submit table tfoot td {
+    text-align: center;
+    padding: 15px 0;
+}
+
+#desktop-submit table tfoot input[type=button].btn {
+    width: 180px;
+    padding: 10px 0;
+    border-radius: 10px;
+    background-color: #0070c0;
+    color: white;
+    font: 16pt 'NanumSquare_acB';
+    transition: background-color 0.2s;
+}
+
+#desktop-submit table tfoot input[type=button]:hover {
+    background-color: #3e9bd0;
+}
+
+#desktop-submit table tfoot input[type=button]:active {
+    background-color: #0064aa;
+}
