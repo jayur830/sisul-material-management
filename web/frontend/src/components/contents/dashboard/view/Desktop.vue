@@ -65,28 +65,11 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from "vuex";
-    import moment from "moment";
+    import DashboardViewMixin from "./DashboardViewMixin";
 
     export default {
         name: "DesktopDashBoardView",
-        computed: {
-            ...mapState({
-                logData: state => state.dashboard.logView.data,
-                selectedImgIndex: state => state.dashboard.logView.selectedImgIndex
-            })
-        },
-        methods: {
-            ...mapActions({
-                setData: "SET_DASHBOARD_LOG_VIEW",
-                setImgIndex: "SET_DASHBOARD_LOG_VIEW_IMG_INDEX",
-                clearData: "CLEAR_DASHBOARD_LOG_VIEW"
-            }),
-
-            toLogTime(d, f) {
-                return moment(d, f).format("YYYY.MM.DD hh:mm:ss");
-            }
-        },
+        mixins: [DashboardViewMixin],
         mounted() {
             console.log(this.$route.query);
             this.setData({
