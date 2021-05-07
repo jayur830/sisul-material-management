@@ -25,7 +25,6 @@
             title: String,
             okButtonText: String,
             cancelButtonText: String,
-            ok: Function
         },
         methods: {
             ...mapActions({

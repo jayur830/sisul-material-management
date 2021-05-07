@@ -23,7 +23,6 @@
         props: {
             title: String,
             okButtonText: String,
-            ok: Function
         },
         methods: {
             ...mapActions({

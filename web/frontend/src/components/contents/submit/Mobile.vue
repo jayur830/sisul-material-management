@@ -83,16 +83,16 @@
                             <td class="animate__animated animate__fadeInLeft">사진 첨부</td>
                             <td>
                                 <div class="file-field animate__animated animate__fadeInRight">
-                                    <label for="file-1" v-text="imgFiles[0] !== '' ? (imgFiles[0].name.length > 30 ? imgFiles[0].name.substring(0, 27) + '...' : imgFiles[0].name) : '사진 업로드'"></label>
-                                    <input type="file" id="file-1" capture="camera" @change="e => onLoadFile(e, 0)" />
+                                    <label for="file-1" v-text="files[0] ? (files[0].name.length > 20 ? files[0].name.substring(0, 17) + '...' : files[0].name) : '사진 업로드'"></label>
+                                    <input type="file" id="file-1" accept="image/jpeg" @change="e => onLoadFile(e, 0)" />
                                 </div>
                                 <div class="file-field animate__animated animate__fadeInRight" style="animation-delay: 0.1s;">
-                                    <label for="file-2" v-text="imgFiles[1] !== '' ? (imgFiles[1].name.length > 30 ? imgFiles[1].name.substring(0, 27) + '...' : imgFiles[1].name) : '사진 업로드'"></label>
-                                    <input type="file" id="file-2" capture="camera" @change="e => onLoadFile(e, 1)" />
+                                    <label for="file-2" v-text="files[1] ? (files[1].name.length > 20 ? files[1].name.substring(0, 17) + '...' : files[1].name) : '사진 업로드'"></label>
+                                    <input type="file" id="file-2" accept="image/jpeg" @change="e => onLoadFile(e, 1)" />
                                 </div>
                                 <div class="file-field animate__animated animate__fadeInRight" style="animation-delay: 0.2s;">
-                                    <label for="file-3" v-text="imgFiles[2] !== '' ? (imgFiles[2].name.length > 30 ? imgFiles[2].name.substring(0, 27) + '...' : imgFiles[2].name) : '사진 업로드'"></label>
-                                    <input type="file" id="file-3" capture="camera" @change="e => onLoadFile(e, 2)" />
+                                    <label for="file-3" v-text="files[2] ? (files[2].name.length > 20 ? files[2].name.substring(0, 17) + '...' : files[2].name) : '사진 업로드'"></label>
+                                    <input type="file" id="file-3" accept="image/jpeg" @change="e => onLoadFile(e, 2)" />
                                 </div>
                             </td>
                         </tr>
@@ -115,7 +115,7 @@
     import moment from "moment";
     import axios from "axios";
 
-    import { alert } from "../../../common";
+    import { confirm, alert } from "../../../common";
 
     export default {
         name: "MobileSubmit",
@@ -153,7 +153,8 @@
                 setManualWorkClass: "SET_SUBMIT_MANUAL_WORK_CLASS",
                 setManualCategory: "SET_SUBMIT_MANUAL_CATEGORY",
                 setManualItem: "SET_SUBMIT_MANUAL_ITEM",
-                setManualUnit: "SET_SUBMIT_MANUAL_UNIT"
+                setManualUnit: "SET_SUBMIT_MANUAL_UNIT",
+                clearFormData: "CLEAR_SUBMIT_FORM_DATA"
             }),
 
             async onLoadFile(e, index) {
@@ -162,12 +163,9 @@
                     index,
                     file: e.target.files[0]
                 });
-                const imgFiles = this.imgFiles.concat();
-                imgFiles[index] = e.target.files[0];
-                this.imgFiles = imgFiles;
             },
 
-            async submit() {
+            submit() {
                 if (this.workClass === "*" && this.manualWorkClass === "")
                     alert("근무반(수기입력)을 입력하세요.");
                 else if (this.workerName === "")
@@ -184,30 +182,33 @@
                     alert("1개 이상의 자재 수량을 입력하세요.");
                 else if (this.unit === "*" && this.manualUnit === "")
                     alert("단위(수기입력)를 입력하세요.");
-                else if (!this.imgFiles[0] && !this.imgFiles[1] && !this.imgFiles[2])
+                else if (!this.files[0] && !this.files[1] && !this.files[2])
                     alert("한 장 이상의 현장 사진을 첨부하세요.");
-                else if (confirm("저장하시겠습니까?")) {
+                else confirm("저장하시겠습니까?", async () => {
                     const formData = new FormData();
                     formData.append('logTime', moment().format('YYYYMMDDhhmmss'));
-                    formData.append('workClass', this.workClass);
+                    formData.append('workClass', this.workClass === "*" ? this.manualWorkClass : this.workClass);
                     formData.append('workerName', this.workerName);
-                    formData.append('category', this.category);
-                    formData.append('item', this.item);
+                    formData.append('category', this.category === "*" ? this.manualCategory : this.category);
+                    formData.append('item', this.item === "*" ? this.manualItem : this.item);
                     formData.append('inOut', this.inOut);
                     formData.append('count', parseInt(this.count));
-                    formData.append('unit', this.unit);
+                    formData.append('unit', this.unit === "*" ? this.manualUnit : this.unit);
 
                     this.files.forEach((file, i) => {
                         if (file) formData.append(`img${i + 1}`, file, file.name);
                     });
 
                     await axios.post("/api/submit/submit", formData, { headers: { "Content-Type": "multipart/form-data" } });
-                    alert("저장되었습니다.");
-                }
+                    await alert("저장되었습니다.");
+                });
             }
         },
         mounted() {
             this.initProperties();
+        },
+        destroyed() {
+            this.clearFormData();
         }
     }
 </script>

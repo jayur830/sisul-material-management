@@ -1,6 +1,7 @@
 #mobile-dashboard-view {
     height: calc(100% - 30px);
     padding: 15px;
+    overflow-x: hidden;
 }
 
 #mobile-dashboard-view h3 {

@@ -26,13 +26,34 @@ export default new Vuex.Store({
         },
         dashboard: {
             log: null,
+            logOrder: {
+                logTime: false,
+                inOut: true,
+                category: true,
+                item: true,
+                count: true,
+                workClass: true,
+                workerName: true
+            },
             logView: {
                 data: null,
                 selectedImgIndex: 0
             },
             stock: null,
+            stockOrder: {
+                category: true,
+                item: true,
+                count: true
+            },
             selectedStockId: null,
-            selectedStock: null
+            selectedStock: null,
+            selectedStockOrder: {
+                logTime: false,
+                inOut: true,
+                count: true,
+                workClass: true,
+                workerName: true
+            }
         },
         submit: {
             properties: null,
@@ -48,7 +69,7 @@ export default new Vuex.Store({
                 manualWorkClass: "",
                 manualCategory: "",
                 manualItem: "",
-                manualUnit: "",
+                manualUnit: ""
             }
         },
         management: {
@@ -75,6 +96,12 @@ export default new Vuex.Store({
          * Dashboard
          * */
         INIT_DASHBOARD_LOG_LIST: (state, data) => state.dashboard.log = Object.freeze(data),
+        ORDER_DASHBOARD_LOG_LIST: (state, { property, order }) => {
+            const log = state.dashboard.log.concat();
+            log.sort((a, b) => (order ? a[property] < b[property] : a[property] > b[property]) ? 1 : -1);
+            state.dashboard.log = Object.freeze(log);
+            state.dashboard.logOrder = Object.freeze({ ...state.dashboard.logOrder, [property]: order });
+        },
         SET_DASHBOARD_LOG_VIEW: (state, data) => {
             data["imgs"] = [];
             if (data.img1) data.imgs.push(data.img1);
@@ -93,9 +120,21 @@ export default new Vuex.Store({
         },
         CLEAR_DASHBOARD_LOG_VIEW: state => [state.dashboard.logView.data, state.dashboard.logView.selectedImgIndex] = [null, 0],
         INIT_DASHBOARD_STOCK_LIST: (state, data) => state.dashboard.stock = Object.freeze(data),
+        ORDER_DASHBOARD_STOCK_LIST: (state, { property, order }) => {
+            const stock = state.dashboard.stock.concat();
+            stock.sort((a, b) => (order ? a[property] < b[property] : a[property] > b[property]) ? 1 : -1);
+            state.dashboard.stock = Object.freeze(stock);
+            state.dashboard.stockOrder = Object.freeze({ ...state.dashboard.stockOrder, [property]: order });
+        },
         SET_DASHBOARD_STOCK_VIEW: (state, { data, stockId }) => {
             state.dashboard.selectedStock = Object.freeze(data);
             state.dashboard.selectedStockId = stockId;
+        },
+        ORDER_DASHBOARD_STOCK_VIEW: (state, { property, order }) => {
+            const selectedStock = state.dashboard.selectedStock.concat();
+            selectedStock.sort((a, b) => (order ? a[property] < b[property] : a[property] > b[property]) ? 1 : -1);
+            state.dashboard.selectedStock = Object.freeze(selectedStock);
+            state.dashboard.selectedStockOrder = Object.freeze({ ...state.dashboard.selectedStockOrder, [property]: order });
         },
 
         /**
@@ -116,11 +155,13 @@ export default new Vuex.Store({
         SET_SUBMIT_SELECTED_IN_OUT: (state, inOut) => state.submit.data.inOut = inOut,
         SET_SUBMIT_COUNT: (state, count) => state.submit.data.count = count,
         SET_SUBMIT_UNIT: (state, unit) => [state.submit.data.unit, state.submit.data.manualUnit] = [unit, ""],
-        SET_SUBMIT_IMG_FILE: (state, { index, file }) => state.submit.data.files[index] = file,
+        SET_SUBMIT_IMG_FILE: (state, { index, file }) => state.submit.data.files = state.submit.data.files.map((_file, i) => i === index ? file : _file),
         SET_SUBMIT_MANUAL_WORK_CLASS: (state, workClass) => state.submit.data.manualWorkClass = workClass,
         SET_SUBMIT_MANUAL_CATEGORY: (state, category) => state.submit.data.manualCategory = category,
         SET_SUBMIT_MANUAL_ITEM: (state, item) => state.submit.data.manualItem = item,
         SET_SUBMIT_MANUAL_UNIT: (state, unit) => state.submit.data.manualUnit = unit,
+
+        CLEAR_SUBMIT_FORM_DATA: state => state.submit.data = { workClass: "", workerName: "", category: "", item: "", inOut: null, count: null, unit: "", files: ["", "", ""], manualWorkClass: "", manualCategory: "", manualItem: "", manualUnit: "" },
 
         /**
          * Management
@@ -130,7 +171,10 @@ export default new Vuex.Store({
             [state.management.items, state.management.srcItems] = [items, items];
         },
         SET_MANAGEMENT_SELECTED_CATEGORY: (state, category) => state.management.selectedCategory = category,
-        SET_MANAGEMENT_INPUTTED_CATEGORY: (state, category) => state.management.inputtedCategory = category,
+        SET_MANAGEMENT_INPUTTED_CATEGORY: (state, category) => {
+            console.log(category);
+            state.management.inputtedCategory = category;
+        },
         ADD_MANAGEMENT_ITEM: (state, item) => {
             if (state.management.items.findIndex(_item => _item === item) === -1)
                 state.management.items = Object.freeze(state.management.items.concat(item));
@@ -156,11 +200,14 @@ export default new Vuex.Store({
          * Dashboard
          * */
         INIT_DASHBOARD_LOG_LIST: async context => context.commit("INIT_DASHBOARD_LOG_LIST", await axios.get("/api/dashboard/log/list").then(response => response.data)),
+        ORDER_DASHBOARD_LOG_LIST: (context, { property, order }) => context.commit("ORDER_DASHBOARD_LOG_LIST", { property, order }),
         SET_DASHBOARD_LOG_VIEW: async (context, { logTime, workClass, workerName }) => context.commit("SET_DASHBOARD_LOG_VIEW", await axios.get("/api/dashboard/log/view", { params: { logTime, workClass, workerName } }).then(response => response.data)),
         SET_DASHBOARD_LOG_VIEW_IMG_INDEX: (context, value) => context.commit("SET_DASHBOARD_LOG_VIEW_IMG_INDEX",  value),
         CLEAR_DASHBOARD_LOG_VIEW: context => context.commit("CLEAR_DASHBOARD_LOG_VIEW"),
         INIT_DASHBOARD_STOCK_LIST: async context => context.commit("INIT_DASHBOARD_STOCK_LIST", await axios.get("/api/dashboard/stock/list").then(response => response.data)),
+        ORDER_DASHBOARD_STOCK_LIST: (context, { property, order }) => context.commit("ORDER_DASHBOARD_STOCK_LIST", { property, order }),
         SET_DASHBOARD_STOCK_VIEW: async (context, stockId) => context.commit("SET_DASHBOARD_STOCK_VIEW", { data: await axios.get("/api/dashboard/stock/view", { params: { stockId } }).then(response => response.data), stockId }),
+        ORDER_DASHBOARD_STOCK_VIEW: (context, { property, order }) => context.commit("ORDER_DASHBOARD_STOCK_VIEW", { property, order }),
 
         /**
          * Submit

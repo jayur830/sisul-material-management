@@ -1,0 +1,130 @@
+#mobile-dashboard {
+    height: calc(100% - 30px);
+    padding: 15px;
+}
+
+#mobile-dashboard .content {
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+#mobile-dashboard .content > div:first-child {
+    display: flex;
+}
+
+#mobile-dashboard .content > div:first-child h2 {
+    margin: 0;
+    font: 14pt 'NanumSquareEB', serif;
+}
+
+#mobile-dashboard .content > div:first-child > div {
+    width: 100%;
+    text-align: right;
+}
+
+#mobile-dashboard .content > div:first-child svg {
+    position: relative;
+    top: 2px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#mobile-dashboard .content > div:first-child svg:hover {
+    color: #0070c0;
+}
+
+#mobile-dashboard .content > div:first-child svg:active {
+    color: #003050;
+}
+
+#mobile-dashboard .content > table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    font-size: 7pt;
+}
+
+#mobile-dashboard .content > table th,
+#mobile-dashboard .content > table td {
+    border: none;
+    text-align: center;
+    border-bottom: 1px solid #828282;
+}
+
+#mobile-dashboard .content table tbody td {
+    border-bottom: none;
+}
+
+#mobile-dashboard .content table tbody td div table tbody td {
+    border-bottom: 1px solid #828282;
+}
+
+#mobile-dashboard .content > table th {
+    background-color: #262626;
+    color: #e7e6e6;
+    font-weight: normal;
+    padding: 8px;
+}
+
+#mobile-dashboard .content > table th svg {
+    margin-left: 2px;
+    cursor: pointer;
+    transition: color 0.1s;
+}
+
+#mobile-dashboard .content > table th svg:active {
+    color: #0070c0;
+}
+
+#mobile-dashboard .content > table tbody div {
+    width: calc(100% + 13px);
+    height: 269px;
+    overflow-x: hidden;
+}
+
+#mobile-dashboard .content > table tbody div table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#mobile-dashboard .content > table tbody div table td {
+    padding: 8px;
+    transition: background-color 0.1s;
+}
+
+#mobile-dashboard .content > table tbody div table tbody tr:nth-child(odd) td {
+    background-color: #e7e6e6;
+}
+
+#mobile-dashboard .content > table tbody div table tbody tr:nth-child(even) td {
+    background-color: #d0d0d0;
+}
+
+#mobile-dashboard .content > table tbody div table tbody tr {
+    cursor: pointer;
+}
+
+#mobile-dashboard .content > table tbody div table tbody tr:hover td {
+    background-color: #bdbdbd;
+}
+
+#mobile-dashboard .content:nth-child(1) {
+    height: 300px;
+}
+
+#mobile-dashboard .content:nth-child(1) > div:first-child div {
+    width: calc(100% - 138px);
+}
+
+#mobile-dashboard .content:nth-child(2) > div:first-child div {
+    width: calc(100% - 34px);
+}
+
+#mobile-dashboard .content:nth-child(3) > div:first-child div {
+    width: calc(100% - 155px);
+}
+
+#mobile-dashboard .content:nth-child(3) table div table tr {
+    cursor: default;
+}

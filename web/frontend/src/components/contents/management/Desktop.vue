@@ -12,7 +12,7 @@
                     </select>
                 </label>
                 <label><input type="text" :value="inputtedCategory" @change="setInputtedCategory($event.target.value)" @keyup="onEnter" /></label>
-                <label><input type="button" class="btn" value="추가" @click="addItem(selectedCategory + ':' + inputtedCategory)" /></label>
+                <label><input type="button" class="btn" value="추가" @click="onAdd" /></label>
             </div>
             <div class="scroll animate__animated animate__fadeInDown">
                 <div>
@@ -53,7 +53,13 @@
             }),
 
             onEnter(e) {
-                if (e.key === "Enter") this.addItem(this.selectedCategory + ':' + this.inputtedCategory);
+                if (e.key === "Enter") this.onAdd();
+            },
+
+            onAdd() {
+                if (this.inputtedCategory === "")
+                    alert("추가할 항목을 입력하세요.");
+                else this.addItem(this.selectedCategory + ':' + this.inputtedCategory);
             },
 
             submit() {
@@ -61,7 +67,7 @@
                     console.log("aaa");
                     this.commitItems(this.items);
                     alert("적용되었습니다.");
-                })
+                });
             },
 
             equalsArray(a, b) {

@@ -1,0 +1,146 @@
+#desktop-dashboard {
+    height: calc(100% - 60px);
+    padding: 30px;
+}
+
+#desktop-dashboard .content > div:first-child {
+    display: flex;
+}
+
+#desktop-dashboard .content > div:first-child h2 {
+    margin: 0;
+    font-family: 'NanumSquareEB', serif;
+}
+
+#desktop-dashboard .content > div:first-child > div {
+    width: 100%;
+    text-align: right;
+}
+
+#desktop-dashboard .content > div:first-child svg {
+    position: relative;
+    top: 2px;
+    margin-left: 20px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#desktop-dashboard .content > div:first-child svg:hover {
+    color: #0070c0;
+}
+
+#desktop-dashboard .content > div:first-child svg:active {
+    color: #003050;
+}
+
+#desktop-dashboard .content > table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    font-size: 10pt;
+}
+
+#desktop-dashboard .content > table th,
+#desktop-dashboard .content > table td {
+    border: none;
+    text-align: center;
+    border-bottom: 1px solid #828282;
+}
+
+#desktop-dashboard .content table tbody td {
+    border-bottom: none;
+}
+
+#desktop-dashboard .content table tbody td div table tbody td {
+    border-bottom: 1px solid #828282;
+}
+
+#desktop-dashboard .content > table th {
+    background-color: #262626;
+    color: #e7e6e6;
+    font-weight: normal;
+    padding: 8px;
+}
+
+#desktop-dashboard .content > table th svg {
+    margin-left: 7px;
+    cursor: pointer;
+    transition: color 0.1s;
+}
+
+#desktop-dashboard .content > table th svg:hover {
+    color: #0070c0;
+}
+
+#desktop-dashboard .content > table tbody div {
+    width: calc(100% + 13px);
+    height: 269px;
+    overflow-x: hidden;
+}
+
+#desktop-dashboard .content > table tbody div table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#desktop-dashboard .content > table tbody div table td {
+    padding: 8px;
+    transition: background-color 0.1s;
+}
+
+#desktop-dashboard .content > table tbody div table tbody tr:nth-child(odd) td {
+    background-color: #e7e6e6;
+}
+
+#desktop-dashboard .content > table tbody div table tbody tr:nth-child(even) td {
+    background-color: #d0d0d0;
+}
+
+#desktop-dashboard .content > table tbody div table tbody tr {
+    cursor: pointer;
+}
+
+#desktop-dashboard .content > table tbody div table tbody tr:hover td {
+    background-color: #bdbdbd;
+}
+
+#desktop-dashboard > div {
+    height: 50%;
+}
+
+#desktop-dashboard > div:first-child {
+    height: calc(50% - 15px);
+}
+
+#desktop-dashboard > div:first-child > div:first-child div {
+    width: calc(100% - 180px);
+}
+
+#desktop-dashboard > div:last-child {
+    display: flex;
+    padding-top: 15px;
+}
+
+#desktop-dashboard > div:last-child .content {
+    width: calc(50% - 15px);
+}
+
+#desktop-dashboard > div:last-child .content:first-child {
+    padding-right: 15px;
+}
+
+#desktop-dashboard > div:last-child .content:first-child > div:first-child div {
+    width: calc(100% - 45px);
+}
+
+#desktop-dashboard > div:last-child .content:last-child {
+    padding-left: 15px;
+}
+
+#desktop-dashboard > div:last-child .content:last-child > div:first-child div {
+    width: calc(100% - 200px);
+}
+
+#desktop-dashboard > div:last-child .content:last-child table div table tr {
+    cursor: default;
+}

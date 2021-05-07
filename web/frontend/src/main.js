@@ -14,7 +14,9 @@ import {
     faRedoAlt,
     faArrowLeft,
     faChevronLeft,
-    faChevronRight
+    faChevronRight,
+    faFileDownload,
+    faSort
 } from "@fortawesome/free-solid-svg-icons";
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -22,7 +24,9 @@ library.add(
     faRedoAlt,
     faArrowLeft,
     faChevronLeft,
-    faChevronRight);
+    faChevronRight,
+    faFileDownload,
+    faSort);
 
 Vue.config.productionTip = false;
 
