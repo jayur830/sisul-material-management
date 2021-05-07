@@ -20,8 +20,15 @@ public class Log {
     @JoinColumn(name = "stock_id")
     private Stock stock;
 
-    private Integer inOut;
-    private Integer count;
+    @Builder.Default
+    private Integer inOut = 0;
+
+    @Builder.Default
+    private Integer count = 0;
+
+    @Builder.Default
+    private Integer lastCount = 0;
+
     private String unit;
     private String workClass;
     private String workerName;

@@ -1,0 +1,116 @@
+package org.sisul.material_management.service;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.sisul.material_management.entity.Item;
+import org.sisul.material_management.entity.Log;
+import org.sisul.material_management.entity.Stock;
+import org.sisul.material_management.repository.ItemRepository;
+import org.sisul.material_management.repository.LogRepository;
+import org.sisul.material_management.repository.StockRepository;
+import org.sisul.material_management.vo.RequestInsertLogVO;
+import org.sisul.material_management.vo.RequestMaterialVO;
+import org.sisul.material_management.vo.ResponseSubmitItemsVO;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class SubmitService {
+    private final LogRepository logRepository;
+    private final StockRepository stockRepository;
+    private final ItemRepository itemRepository;
+
+    public ResponseSubmitItemsVO getSubmitItems() {
+        ResponseSubmitItemsVO response = new ResponseSubmitItemsVO();
+        List<String> workClasses = response.getWorkClasses();
+        List<String> units = response.getUnits();
+
+        List<Item> itemList = this.itemRepository.findAll();
+        itemList.forEach(item -> {
+            if ("근무반".equals(item.getItemCategory()))
+                workClasses.add(item.getItemName());
+            else if ("단위".equals(item.getItemCategory()))
+                units.add(item.getItemName());
+        });
+
+        return response.withMaterials(getMaterials());
+    }
+
+    public int isExistMaterial(final String category, final String item) {
+        return this.stockRepository.findByCategoryAndItem(category, item) != null ? 1 : 0;
+    }
+
+    @Transactional
+    public void submit(final RequestInsertLogVO request, MultipartFile...imgs) throws ParseException {
+        uploadImage(imgs);
+
+        Stock stock = this.stockRepository.findByCategoryAndItem(
+                request.getCategory(),
+                request.getItem());
+        if (stock != null) {
+            stock.setCount(stock.getCount() + request.getCount() * (request.getInOut() == 0 ? 1 : -1));
+            this.stockRepository.save(stock);
+        }
+        this.logRepository.save(Log.builder()
+                .logTime(request.getLogTime())
+                .stock(stock)
+                .inOut(request.getInOut())
+                .count(request.getCount())
+                .unit(request.getUnit())
+                .workClass(request.getWorkClass())
+                .workerName(request.getWorkerName())
+                .img1(imgs[0] == null ? null : imgs[0].getOriginalFilename())
+                .img2(imgs[1] == null ? null : imgs[1].getOriginalFilename())
+                .img3(imgs[2] == null ? null : imgs[2].getOriginalFilename())
+                .build());
+    }
+
+    public Map<String, List<String>> getMaterials() {
+        Map<String, List<String>> materials = new HashMap<>();
+        this.stockRepository.findAll().forEach(stock -> {
+            final String category = stock.getCategory();
+            if (!materials.containsKey(category))
+                materials.put(category, new ArrayList<>());
+            materials.get(category).add(stock.getItem());
+        });
+        return materials;
+    }
+
+    @Transactional
+    public void addMaterials(final RequestMaterialVO material) {
+        this.stockRepository.save(Stock.builder()
+                .category(material.getCategory())
+                .item(material.getItem())
+                .count(material.getInitCount())
+                .build());
+    }
+
+    private void uploadImage(MultipartFile ...imgs) {
+        for (MultipartFile img : imgs) {
+            if (img == null) continue;
+            try {
+                byte[] bytes = img.getBytes();
+
+                final String path = "src/main/resources/img/" + img.getOriginalFilename();
+                OutputStream outputStream = new FileOutputStream(new File(path));
+                outputStream.write(bytes);
+                outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

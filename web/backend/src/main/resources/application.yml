@@ -37,6 +37,9 @@ spring:
           auth: true
           starttls:
             enable: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
 logging:
   level:
     org.sisul.material_management: info

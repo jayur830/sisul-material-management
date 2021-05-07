@@ -3,7 +3,9 @@ package org.sisul.material_management.vo;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @With
@@ -14,9 +16,7 @@ public class ResponseSubmitItemsVO {
     @Builder.Default
     private List<String> workClasses = new ArrayList<>();
     @Builder.Default
-    private List<String> categories = new ArrayList<>();
-    @Builder.Default
-    private List<String> items = new ArrayList<>();
+    private Map<String, List<String>> materials = new HashMap<>();
     @Builder.Default
     private List<String> units = new ArrayList<>();
 }
