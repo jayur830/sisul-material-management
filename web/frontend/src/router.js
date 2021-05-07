@@ -23,6 +23,10 @@ export default new VueRouter({
             component: () => import("./components/contents/submit/Submit")
         },
         {
+            path: "/material",
+            component: () => import("./components/contents/material/Material")
+        },
+        {
             path: "/management",
             component: () => import("./components/contents/management/Management")
         }

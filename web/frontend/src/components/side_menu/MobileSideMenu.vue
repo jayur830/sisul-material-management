@@ -8,6 +8,9 @@
                 <router-link to="/submit">입/출고 입력</router-link>
             </li>
             <li>
+                <router-link to="/material">자재 추가</router-link>
+            </li>
+            <li>
                 <router-link to="/management">항목 추가</router-link>
             </li>
         </ul>
