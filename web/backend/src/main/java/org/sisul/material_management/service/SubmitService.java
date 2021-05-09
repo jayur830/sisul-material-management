@@ -19,7 +19,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -28,8 +31,6 @@ public class SubmitService {
     private final LogRepository logRepository;
     private final StockRepository stockRepository;
     private final ItemRepository itemRepository;
-
-    private final MaterialService materialService;
 
     public ResponseSubmitItemsVO getSubmitItems() {
         ResponseSubmitItemsVO response = new ResponseSubmitItemsVO();
@@ -44,7 +45,7 @@ public class SubmitService {
                 units.add(item.getItemName());
         });
 
-        return response.withMaterials(this.materialService.getMaterials());
+        return response.withMaterials(getMaterials());
     }
 
     public int isExistMaterial(final String category, final String item) {
@@ -82,6 +83,17 @@ public class SubmitService {
                 .item(material.getItem())
                 .count(material.getInitCount())
                 .build());
+    }
+
+    private Map<String, List<String>> getMaterials() {
+        Map<String, List<String>> materials = new HashMap<>();
+        this.stockRepository.findAll().forEach(stock -> {
+            final String category = stock.getCategory();
+            if (!materials.containsKey(category))
+                materials.put(category, new ArrayList<>());
+            materials.get(category).add(stock.getItem());
+        });
+        return materials;
     }
 
     private void uploadImage(MultipartFile ...imgs) {

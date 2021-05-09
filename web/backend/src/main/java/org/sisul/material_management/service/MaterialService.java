@@ -8,12 +8,7 @@ import org.sisul.material_management.vo.RequestMaterialVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Slf4j
 @Service
@@ -21,26 +16,28 @@ import java.util.stream.IntStream;
 public class MaterialService {
     private final StockRepository stockRepository;
 
-    public Map<String, List<String>> getMaterials() {
-        Map<String, List<String>> materials = new HashMap<>();
-        this.stockRepository.findAll().forEach(stock -> {
-            final String category = stock.getCategory();
-            if (!materials.containsKey(category))
-                materials.put(category, new ArrayList<>());
-            materials.get(category).add(stock.getItem());
-        });
-        return materials;
+    public List<Stock> getMaterials() {
+        return this.stockRepository.findAll();
     }
 
     @Transactional
     public void commitMaterials(final List<RequestMaterialVO> materials) {
-        this.stockRepository.deleteAll();
-        this.stockRepository.saveAll(IntStream.range(0, materials.size())
-                .mapToObj(i -> Stock.builder()
-                        .stockId(i + 1)
-                        .category(materials.get(i).getCategory())
-                        .item(materials.get(i).getItem())
-                        .count(materials.get(i).getInitCount())
-                        .build()).collect(Collectors.toList()));
+        int lastStockId = (int) (this.stockRepository.count() + 1);
+        for (final RequestMaterialVO material : materials) {
+            final Stock stock = this.stockRepository.findByCategoryAndItem(material.getCategory(), material.getItem());
+            this.stockRepository.save(stock != null ?
+                    stock.withCount(material.getInitCount()) :
+                    Stock.builder()
+                            .stockId(lastStockId++)
+                            .category(material.getCategory())
+                            .item(material.getItem())
+                            .count(material.getInitCount())
+                            .build());
+        }
+    }
+
+    @Transactional
+    public void deleteMaterial(final String category, final String item) {
+        this.stockRepository.deleteByCategoryAndItem(category, item);
     }
 }

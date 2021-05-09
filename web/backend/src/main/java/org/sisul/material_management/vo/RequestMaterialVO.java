@@ -10,5 +10,7 @@ import lombok.*;
 public class RequestMaterialVO {
     private String category;
     private String item;
-    private Integer initCount;
+
+    @Builder.Default
+    private Integer initCount = 0;
 }
