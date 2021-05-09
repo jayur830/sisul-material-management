@@ -39,6 +39,18 @@
     </div>
 </template>
 
+<script>
+    import LoginMixin from "./LoginMixin";
+
+    export default {
+        name: "DesktopLogin",
+        mixins: [LoginMixin],
+        mounted() {
+
+        }
+    }
+</script>
+
 <style>
     @import "./Desktop.css";
 </style>

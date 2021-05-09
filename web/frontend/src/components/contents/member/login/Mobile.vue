@@ -39,6 +39,18 @@
     </div>
 </template>
 
+<script>
+    import LoginMixin from "./LoginMixin";
+
+    export default {
+        name: "MobileLogin",
+        mixins: [LoginMixin],
+        mounted() {
+
+        }
+    }
+</script>
+
 <style>
     @import "./Mobile.css";
 </style>
