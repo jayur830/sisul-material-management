@@ -90,6 +90,12 @@
     transition: color 0.1s;
 }
 
+#mobile-dashboard-view > table td .log-img > div svg.disable,
+#mobile-dashboard-view > table td .log-img > div svg.disable:hover {
+    color: #9c9c9c;
+    cursor: default;
+}
+
 #mobile-dashboard-view > table td .log-img > div svg:hover {
     color: #0070c0;
 }

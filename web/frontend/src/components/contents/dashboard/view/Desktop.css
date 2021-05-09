@@ -68,6 +68,16 @@
     height: 100%;
 }
 
+#desktop-dashboard-view > table td .log-img > div:nth-child(2) {
+    height: 100%;
+    display: table;
+}
+
+#desktop-dashboard-view > table td .log-img > div:nth-child(2) > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 #desktop-dashboard-view > table td .log-img > div:first-child,
 #desktop-dashboard-view > table td .log-img > div:last-child {
     width: 5%;
@@ -83,6 +93,12 @@
 #desktop-dashboard-view > table td .log-img > div svg {
     cursor: pointer;
     transition: color 0.1s;
+}
+
+#desktop-dashboard-view > table td .log-img > div svg.disable,
+#desktop-dashboard-view > table td .log-img > div svg.disable:hover {
+    color: #9c9c9c;
+    cursor: default;
 }
 
 #desktop-dashboard-view > table td .log-img > div svg:hover {

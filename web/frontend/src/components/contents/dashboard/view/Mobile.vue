@@ -51,13 +51,13 @@
                         <div class="log-img">
                             <div>
                                 <div>
-                                    <font-awesome-icon size="1x" :icon="['fa', 'chevron-left']" @click="setImgIndex(-1)" />
+                                    <font-awesome-icon size="1x" :icon="['fa', 'chevron-left']" @click="setImgIndex(-1)" :class="selectedImgIndex == 0 ? 'disable' : ''" />
                                 </div>
                             </div>
                             <div><img :src="'/api/dashboard/img?fileName=' + logData.imgs[selectedImgIndex]" alt="" style="width: 220px;" /></div>
                             <div>
                                 <div>
-                                    <font-awesome-icon size="1x" :icon="['fa', 'chevron-right']" @click="setImgIndex(1)" />
+                                    <font-awesome-icon size="1x" :icon="['fa', 'chevron-right']" @click="setImgIndex(1)" :class="selectedImgIndex == logData.imgs.length - 1 ? 'disable' : ''" />
                                 </div>
                             </div>
                         </div>

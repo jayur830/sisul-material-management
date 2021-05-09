@@ -30,3 +30,8 @@
 #app-side-menu ul li a:hover {
     color: #0070c0;
 }
+
+#app-side-menu ul li a.on {
+    color: #0070c0;
+    cursor: default;
+}

@@ -29,6 +29,30 @@ export default new VueRouter({
         {
             path: "/management",
             component: () => import("./components/contents/management/Management")
+        },
+        {
+            path: "/member",
+            redirect: "/member/login"
+        },
+        {
+            path: "/member/login",
+            component: () => import("./components/contents/member/login/Login")
+        },
+        {
+            path: "/member/signUp",
+            component: () => import("./components/contents/member/sign_up/SignUp")
+        },
+        {
+            path: "/member/findUsername",
+            component: () => import("./components/contents/member/find_username/FindUsername")
+        },
+        {
+            path: "/member/findPassword",
+            component: () => import("./components/contents/member/find_password/FindPassword")
+        },
+        {
+            path: "/member/myPage",
+            component: () => import("./components/contents/member/my_page/MyPage")
         }
     ]
 });

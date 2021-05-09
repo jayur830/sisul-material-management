@@ -152,7 +152,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="content scroll animate__animated animate__fadeInDown" v-show="selectedStock">
+        <div class="content scroll animate__animated animate__fadeInDown" v-show="selectedStock" style="animation-delay: 0.6s;">
             <div>
                 <h2>자재별 입/출고 내역</h2>
                 <div>

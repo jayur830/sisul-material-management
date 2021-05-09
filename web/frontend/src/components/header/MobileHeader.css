@@ -3,14 +3,18 @@
     padding: 5px 8px;
     display: flex;
     z-index: 99999;
+}
+
+#mobile-header > div:first-child {
+    display: flex;
     cursor: pointer;
 }
 
-#mobile-header > img {
+#mobile-header > div:first-child > img {
     margin: 5px;
 }
 
-#mobile-header > div > div:nth-child(1) {
+#mobile-header > div:first-child > div > div:nth-child(1) {
     font-family: 'NanumSquare_acEB', serif;
     color: #e7e6e6;
     font-size: 14pt;
@@ -18,9 +22,35 @@
     letter-spacing: 0.05em;
 }
 
-#mobile-header > div > div:nth-child(2) {
+#mobile-header > div:first-child > div > div:nth-child(2) {
     font-family: 'NanumSquare_acR', serif;
     color: #e7e6e6;
     font-size: 4pt;
     padding-left: 10px;
+}
+
+#mobile-header > div:last-child {
+    width: calc(100% - 230px);
+    color: #e7e6e6;
+    font-size: 4pt;
+    text-align: right;
+}
+
+#mobile-header > div:last-child > a {
+    display: inline-block;
+    color: #e7e6e6;
+    text-decoration: none;
+    height: 100%;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: color 0.1s;
+}
+
+#mobile-header > div:last-child > a:hover {
+    color: #0070c0;
+}
+
+#mobile-header > div:last-child > a > div:first-child {
+    text-align: center;
+    padding: 7px 0 5px;
 }

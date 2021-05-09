@@ -16,7 +16,10 @@ import {
     faChevronLeft,
     faChevronRight,
     faFileDownload,
-    faSort
+    faSort,
+    faUser,
+    faSignInAlt,
+    faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -26,7 +29,10 @@ library.add(
     faChevronLeft,
     faChevronRight,
     faFileDownload,
-    faSort);
+    faSort,
+    faUser,
+    faSignInAlt,
+    faSignOutAlt);
 
 Vue.config.productionTip = false;
 

@@ -3,10 +3,14 @@
     padding: 10px 15px;
     display: flex;
     z-index: 99999;
+}
+
+#app-header > div:nth-child(1) {
+    display: flex;
     cursor: pointer;
 }
 
-#app-header > div:nth-child(2) {
+#app-header > div:nth-child(1) > div:nth-child(2) {
     font-family: 'NanumSquare_acEB', serif;
     color: #e7e6e6;
     font-size: 22pt;
@@ -14,9 +18,35 @@
     letter-spacing: 0.05em;
 }
 
-#app-header > div:nth-child(3) {
+#app-header > div:nth-child(1) > div:nth-child(3) {
     font-family: 'NanumSquare_acR', serif;
     color: #e7e6e6;
     font-size: 8pt;
     padding-top: 30px;
+}
+
+#app-header > div:nth-child(2) {
+    width: calc(100% - 558px);
+    color: #e7e6e6;
+    font-size: 8pt;
+    text-align: right;
+}
+
+#app-header > div:nth-child(2) > a {
+    display: inline-block;
+    color: #e7e6e6;
+    text-decoration: none;
+    height: 100%;
+    margin-left: 20px;
+    cursor: pointer;
+    transition: color 0.1s;
+}
+
+#app-header > div:nth-child(2) > a:hover {
+    color: #0070c0;
+}
+
+#app-header > div:nth-child(2) > a > div:first-child {
+    text-align: center;
+    padding: 3px 0;
 }
