@@ -17,7 +17,8 @@ export default {
                 manualCategory: "",
                 manualItem: "",
                 manualUnit: ""
-            }
+            },
+            isExist: null
         }
     },
     getters: {
@@ -25,10 +26,13 @@ export default {
     },
     mutations: {
         INIT_SUBMIT_PROPERTIES: (state, properties) => {
+            properties["categories"] = Object.keys(properties.materials);
+            properties["categories"].sort();
+            console.log(properties);
             state.submit.properties = Object.freeze(properties);
             state.submit.data.workClass = properties.workClasses[0];
-            state.submit.data.category = properties.categories[0];
-            state.submit.data.item = properties.items[0];
+            state.submit.data.category = Object.keys(properties.materials)[0];
+            state.submit.data.item = properties.materials[Object.keys(properties.materials)[0]][0];
             state.submit.data.unit = properties.units[0];
         },
 
@@ -44,7 +48,9 @@ export default {
         SET_SUBMIT_MANUAL_CATEGORY: (state, category) => state.submit.data.manualCategory = category,
         SET_SUBMIT_MANUAL_ITEM: (state, item) => state.submit.data.manualItem = item,
         SET_SUBMIT_MANUAL_UNIT: (state, unit) => state.submit.data.manualUnit = unit,
-        CLEAR_SUBMIT_FORM_DATA: state => state.submit.data = { workClass: "", workerName: "", category: "", item: "", inOut: null, count: null, unit: "", files: ["", "", ""], manualWorkClass: "", manualCategory: "", manualItem: "", manualUnit: "" }
+        CLEAR_SUBMIT_FORM_DATA: state => state.submit.data = { workClass: "", workerName: "", category: "", item: "", inOut: null, count: null, unit: "", files: ["", "", ""], manualWorkClass: "", manualCategory: "", manualItem: "", manualUnit: "" },
+        SET_SUBMIT_EXIST_MATERIAL: (state, isExist) => state.submit.isExist = isExist === 1,
+        CLEAR_SUBMIT_EXIST_MATERIAL: state => state.submit.isExist = null
     },
     actions: {
         INIT_SUBMIT_PROPERTIES: async context => await context.commit("INIT_SUBMIT_PROPERTIES", await axios.get("/api/submit/items").then(response => response.data)),
@@ -60,6 +66,8 @@ export default {
         SET_SUBMIT_MANUAL_CATEGORY: (context, category) => context.commit("SET_SUBMIT_MANUAL_CATEGORY", category),
         SET_SUBMIT_MANUAL_ITEM: (context, item) => context.commit("SET_SUBMIT_MANUAL_ITEM", item),
         SET_SUBMIT_MANUAL_UNIT: (context, unit) => context.commit("SET_SUBMIT_MANUAL_UNIT", unit),
-        CLEAR_SUBMIT_FORM_DATA: context => context.commit("CLEAR_SUBMIT_FORM_DATA")
+        CLEAR_SUBMIT_FORM_DATA: context => context.commit("CLEAR_SUBMIT_FORM_DATA"),
+        SET_SUBMIT_EXIST_MATERIAL: async (context, { category, item }) => context.commit("SET_SUBMIT_EXIST_MATERIAL", await axios.get("/api/submit/isExistMaterial", { params: { category, item } }).then(response => response.data)),
+        CLEAR_SUBMIT_EXIST_MATERIAL: context => context.commit("CLEAR_SUBMIT_EXIST_MATERIAL")
     }
 }

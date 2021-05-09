@@ -1,5 +1,5 @@
 import { mapActions, mapState } from "vuex";
-import { alert, confirm } from "../../../common";
+import { alert, confirm, prompt } from "../../../common";
 import moment from "moment";
 import axios from "axios";
 
@@ -22,7 +22,8 @@ export default {
             manualWorkClass: state => state.submit.data.manualWorkClass,
             manualCategory: state => state.submit.data.manualCategory,
             manualItem: state => state.submit.data.manualItem,
-            manualUnit: state => state.submit.data.manualUnit
+            manualUnit: state => state.submit.data.manualUnit,
+            isExist: state => state.submit.isExist
         })
     },
     methods: {
@@ -40,7 +41,9 @@ export default {
             setManualCategory: "SET_SUBMIT_MANUAL_CATEGORY",
             setManualItem: "SET_SUBMIT_MANUAL_ITEM",
             setManualUnit: "SET_SUBMIT_MANUAL_UNIT",
-            clearFormData: "CLEAR_SUBMIT_FORM_DATA"
+            clearFormData: "CLEAR_SUBMIT_FORM_DATA",
+            setIsExist: "SET_SUBMIT_EXIST_MATERIAL",
+            clearIsExistVariable: "CLEAR_SUBMIT_EXIST_MATERIAL"
         }),
 
         async onLoadFile(e, index) {
@@ -51,26 +54,47 @@ export default {
             });
         },
 
-        submit() {
+        async submit() {
             if (this.workClass === "*" && this.manualWorkClass === "")
-                alert("근무반(수기입력)을 입력하세요.");
+                await alert("근무반(수기입력)을 입력하세요.");
             else if (this.workerName === "")
-                alert("작업자 성명을 입력하세요.");
+                await alert("작업자 성명을 입력하세요.");
             else if (this.category === "*" && this.manualCategory === "")
-                alert("자재 종류(수기입력)를 입력하세요.");
+                await alert("자재 종류(수기입력)를 입력하세요.");
             else if (this.item === "*" && this.manualItem === "")
-                alert("자재 제품명(수기입력)을 입력하세요.");
+                await alert("자재 제품명(수기입력)을 입력하세요.");
             else if (this.inOut == null)
-                alert("입/출고를 선택하세요.");
+                await alert("입/출고를 선택하세요.");
             else if (this.count == null)
-                alert("자재 수량을 입력하세요.");
+                await alert("자재 수량을 입력하세요.");
             else if (this.count === 0)
-                alert("1개 이상의 자재 수량을 입력하세요.");
+                await alert("1개 이상의 자재 수량을 입력하세요.");
             else if (this.unit === "*" && this.manualUnit === "")
-                alert("단위(수기입력)를 입력하세요.");
+                await alert("단위(수기입력)를 입력하세요.");
             else if (!this.files[0] && !this.files[1] && !this.files[2])
-                alert("한 장 이상의 현장 사진을 첨부하세요.");
-            else confirm("저장하시겠습니까?", async () => {
+                await alert("한 장 이상의 현장 사진을 첨부하세요.");
+            else {
+                await this.setIsExist({
+                    category: this.category,
+                    item: this.item
+                });
+                if (!this.isExist) {
+                    await this.clearIsExistVariable();
+                    await new Promise(resolve => confirm("등록되지 않은 자재입니다.\n추가하시겠습니까?", resolve));
+                    // eslint-disable-next-line no-unused-vars
+                    let count = 0;
+                    // eslint-disable-next-line no-constant-condition
+                    while (true) {
+                        const promptText = await new Promise(resolve => prompt("초기 재고량을 입력해주세요.", "0", resolve));
+                        console.log(promptText);
+                        if (!/^[0-9]/g.test(promptText))
+                            await new Promise(resolve => alert("숫자만 입력해주세요.", resolve));
+                        else {
+                            count = parseInt(promptText);
+                            break;
+                        }
+                    }
+                } else await confirm("저장하시겠습니까?", async () => {
                     const formData = new FormData();
                     formData.append('logTime', moment().format('YYYYMMDDhhmmss'));
                     formData.append('workClass', this.workClass === "*" ? this.manualWorkClass : this.workClass);
@@ -88,6 +112,7 @@ export default {
                     await axios.post("/api/submit/submit", formData, { headers: { "Content-Type": "multipart/form-data" } });
                     await alert("저장되었습니다.");
                 });
+            }
         }
     }
 }

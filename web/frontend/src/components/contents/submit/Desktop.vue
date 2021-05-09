@@ -45,7 +45,7 @@
                             <td>
                                 <label>
                                     <select :value="item" @change="setItem($event.target.value)">
-                                        <option :key="i" v-for="(item, i) in properties.items">{{ item }}</option>
+                                        <option :key="i" v-for="(item, i) in properties.materials[category]">{{ item }}</option>
                                         <option value="*">기타(수기입력)</option>
                                     </select>
                                 </label>

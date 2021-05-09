@@ -1,10 +1,11 @@
 <template>
-    <div id="confirm">
+    <div id="prompt">
         <div>
             <div>
                 <div>
                     <div class="animate__animated animate__bounceIn">
                         <div>{{ title }}</div>
+                        <div><input type="text" v-model="text" /></div>
                         <div>
                             <input type="button" :value="okButtonText" @click="onOk" />
                             <input type="button" :value="cancelButtonText" @click="setInvisible" />
@@ -20,25 +21,32 @@
     import { mapActions } from "vuex";
 
     export default {
-        name: "Confirm",
+        name: "Prompt",
         props: {
             title: String,
+            defaultValue: String,
             okButtonText: String,
             cancelButtonText: String,
         },
+        data: () => ({
+            text: "",
+        }),
         methods: {
             ...mapActions({
-                setInvisible: "SET_CONFIRM_INVISIBLE"
+                setInvisible: "SET_PROMPT_INVISIBLE"
             }),
 
             async onOk() {
-                await this.$emit("ok");
+                await this.$emit("ok", this.text);
                 await this.setInvisible();
             }
+        },
+        mounted() {
+            this.text = this.defaultValue;
         }
     }
 </script>
 
 <style>
-    @import "./Confirm.css";
+    @import "./Prompt.css";
 </style>

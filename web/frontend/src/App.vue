@@ -16,6 +16,12 @@
                  :ok-button-text="confirm.okButtonText"
                  :cancel-button-text="confirm.cancelButtonText"
                  @ok="confirm.onOk" />
+        <prompt v-show="prompt.show"
+                :title="prompt.title"
+                :default-value="prompt.defaultValue"
+                :ok-button-text="prompt.okButtonText"
+                :cancel-button-text="prompt.cancelButtonText"
+                @ok="prompt.onOk" />
     </div>
 </template>
 
@@ -29,6 +35,7 @@
     import AppContents from "./components/contents/AppContents";
     import Alert from "./components/common/Alert";
     import Confirm from "./components/common/Confirm";
+    import Prompt from "./components/common/Prompt";
 
     export default {
         name: "App",
@@ -36,7 +43,8 @@
             ...mapState({
                 windowWidth: state => state.common.windowWidth,
                 alert: state => state.common.alert,
-                confirm: state => state.common.confirm
+                confirm: state => state.common.confirm,
+                prompt: state => state.common.prompt
             })
         },
         components: {
@@ -46,7 +54,8 @@
             MobileSideMenu,
             AppContents,
             Alert,
-            Confirm
+            Confirm,
+            Prompt
         },
         methods: {
             ...mapActions({
