@@ -19,11 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -32,6 +28,8 @@ public class SubmitService {
     private final LogRepository logRepository;
     private final StockRepository stockRepository;
     private final ItemRepository itemRepository;
+
+    private final MaterialService materialService;
 
     public ResponseSubmitItemsVO getSubmitItems() {
         ResponseSubmitItemsVO response = new ResponseSubmitItemsVO();
@@ -46,7 +44,7 @@ public class SubmitService {
                 units.add(item.getItemName());
         });
 
-        return response.withMaterials(getMaterials());
+        return response.withMaterials(this.materialService.getMaterials());
     }
 
     public int isExistMaterial(final String category, final String item) {
@@ -54,21 +52,20 @@ public class SubmitService {
     }
 
     @Transactional
-    public void submit(final RequestInsertLogVO request, MultipartFile...imgs) throws ParseException {
+    public void submit(final RequestInsertLogVO request, MultipartFile...imgs) {
         uploadImage(imgs);
 
         Stock stock = this.stockRepository.findByCategoryAndItem(
                 request.getCategory(),
                 request.getItem());
-        if (stock != null) {
-            stock.setCount(stock.getCount() + request.getCount() * (request.getInOut() == 0 ? 1 : -1));
-            this.stockRepository.save(stock);
-        }
+        stock.setCount(stock.getCount() + request.getCount() * (request.getInOut() == 0 ? 1 : -1));
+        this.stockRepository.save(stock);
         this.logRepository.save(Log.builder()
                 .logTime(request.getLogTime())
                 .stock(stock)
                 .inOut(request.getInOut())
                 .count(request.getCount())
+                .lastCount(stock.getCount())
                 .unit(request.getUnit())
                 .workClass(request.getWorkClass())
                 .workerName(request.getWorkerName())
@@ -76,17 +73,6 @@ public class SubmitService {
                 .img2(imgs[1] == null ? null : imgs[1].getOriginalFilename())
                 .img3(imgs[2] == null ? null : imgs[2].getOriginalFilename())
                 .build());
-    }
-
-    public Map<String, List<String>> getMaterials() {
-        Map<String, List<String>> materials = new HashMap<>();
-        this.stockRepository.findAll().forEach(stock -> {
-            final String category = stock.getCategory();
-            if (!materials.containsKey(category))
-                materials.put(category, new ArrayList<>());
-            materials.get(category).add(stock.getItem());
-        });
-        return materials;
     }
 
     @Transactional

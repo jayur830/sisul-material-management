@@ -31,7 +31,7 @@ public class SubmitController {
         return this.submitService.isExistMaterial(category, item);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addMaterial")
     public void addMaterial(@RequestBody RequestMaterialVO material) {
         this.submitService.addMaterials(material);
     }
