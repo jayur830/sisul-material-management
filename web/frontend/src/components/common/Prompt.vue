@@ -7,7 +7,7 @@
                         <div>
                             <div :key="i" v-for="(sentence, i) in title.split('\n')">{{ sentence }}</div>
                         </div>
-                        <div><input type="text" v-model="text" /></div>
+                        <div><input type="text" v-model="text" @keyup="e => { if (e.key === 'Enter') onOk(); }" /></div>
                         <div>
                             <input type="button" :value="okButtonText" @click="onOk" />
                             <input type="button" :value="cancelButtonText" @click="setInvisible" />
