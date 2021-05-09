@@ -4,13 +4,13 @@
             <div class="animate__animated animate__fadeInDown">
                 <div>
                     <span>자재 종류</span>
-                    <label><input type="text" :value="inputtedCategory" @change="setInputtedCategory($event.target.value)" /></label>
+                    <label><input type="text" :value="inputtedCategory" @change="setInputtedCategory($event.target.value)" @keyup="e => { if (e.key === 'Enter') onAdd(); }" /></label>
                     <span>자재 제품명</span>
-                    <label><input type="text" :value="inputtedItem" @change="setInputtedItem($event.target.value)" /></label>
+                    <label><input type="text" :value="inputtedItem" @change="setInputtedItem($event.target.value)" @keyup="e => { if (e.key === 'Enter') onAdd(); }" /></label>
                 </div>
                 <div>
                     <span>초기 재고량</span>
-                    <label><input type="number" :value="inputtedCount" @change="setInputtedCount($event.target.value)" /></label>
+                    <label><input type="number" :value="inputtedCount" @change="setInputtedCount($event.target.value)" @keyup="e => { if (e.key === 'Enter') onAdd(); }" /></label>
                     <label><input type="button" class="btn" value="추가" @click="onAdd" /></label>
                 </div>
             </div>

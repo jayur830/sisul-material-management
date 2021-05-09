@@ -10,14 +10,14 @@
             </div>
             <table>
                 <colgroup>
-                    <col style="width: 160px;" />
-                    <col style="width: 80px;" />
-                    <col style="width: calc((100% - 460px) * 0.3);" />
-                    <col style="width: calc((100% - 460px) * 0.4);" />
-                    <col style="width: 110px;" />
-                    <col style="width: 110px;" />
-                    <col style="width: calc((100% - 460px) * 0.2);" />
-                    <col style="width: calc((100% - 460px) * 0.1);" />
+                    <col style="width: 14%;" />
+                    <col style="width: 7%;" />
+                    <col style="width: 17%;" />
+                    <col style="width: 17%;" />
+                    <col style="width: 10%;" />
+                    <col style="width: 10%;" />
+                    <col style="width: 12%;" />
+                    <col style="width: 13%;" />
                 </colgroup>
                 <thead>
                     <tr>
@@ -61,14 +61,14 @@
                             <div class="scroll" v-if="log && log.length != 0">
                                 <table>
                                     <colgroup>
-                                        <col style="width: 160px;" />
-                                        <col style="width: 80px;" />
-                                        <col style="width: calc((100% - 460px) * 0.3);" />
-                                        <col style="width: calc((100% - 460px) * 0.4);" />
-                                        <col style="width: 110px;" />
-                                        <col style="width: 110px;" />
-                                        <col style="width: calc((100% - 460px) * 0.2);" />
-                                        <col style="width: calc((100% - 460px) * 0.1);" />
+                                        <col style="width: 14%;" />
+                                        <col style="width: 7%;" />
+                                        <col style="width: 17%;" />
+                                        <col style="width: 17%;" />
+                                        <col style="width: 10%;" />
+                                        <col style="width: 10%;" />
+                                        <col style="width: 12%;" />
+                                        <col style="width: 13%;" />
                                     </colgroup>
                                     <tbody>
                                         <tr :key="i" v-for="(obj, i) in log" @click="$router.push(`/dashboard/view?t=${obj.logTime}&c=${obj.workClass}&n=${obj.workerName}`)">

@@ -64,7 +64,7 @@
     background-color: #262626;
     color: #e7e6e6;
     font-weight: normal;
-    padding: 8px;
+    padding: 8px 0;
 }
 
 #mobile-dashboard .content > table th svg {
@@ -89,7 +89,7 @@
 }
 
 #mobile-dashboard .content > table tbody div table td {
-    padding: 8px;
+    padding: 8px 0;
     transition: background-color 0.1s;
 }
 
@@ -110,6 +110,7 @@
 }
 
 #mobile-dashboard .content:nth-child(1) {
+    /*width: fit-content;*/
     height: 300px;
 }
 
