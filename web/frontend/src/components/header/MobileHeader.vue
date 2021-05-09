@@ -1,6 +1,6 @@
 <template>
     <div id="mobile-header">
-        <div @click="$router.push('/dashboard')">
+        <div @click="$route.path !== '/dashboard' ? $router.push('/dashboard') : null">
             <img src="../../assets/img/logo.png" width="55.7" height="33.3" alt="logo" />
             <div>
                 <div>응급보수자재관리</div>

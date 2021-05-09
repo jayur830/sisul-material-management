@@ -11,11 +11,15 @@
                         <tbody>
                             <tr>
                                 <td class="animate__animated animate__fadeInLeft">USERNAME</td>
-                                <td class="animate__animated animate__fadeInRight"><input type="text" /></td>
+                                <td class="animate__animated animate__fadeInRight">
+                                    <input type="text" v-model="username" @keyup="e => { if (e.key === 'Enter') signIn(); }" />
+                                </td>
                             </tr>
                             <tr>
                                 <td class="animate__animated animate__fadeInLeft">PASSWORD</td>
-                                <td class="animate__animated animate__fadeInRight"><input type="password" /></td>
+                                <td class="animate__animated animate__fadeInRight">
+                                    <input type="password" v-model="password" @keyup="e => { if (e.key === 'Enter') signIn(); }" />
+                                </td>
                             </tr>
                         </tbody>
                         <tfoot>
