@@ -74,26 +74,53 @@ export default {
             else if (!this.files[0] && !this.files[1] && !this.files[2])
                 await alert("한 장 이상의 현장 사진을 첨부하세요.");
             else {
-                await this.setIsExist({
-                    category: this.category,
-                    item: this.item
-                });
-                if (!this.isExist) {
-                    await this.clearIsExistVariable();
-                    await new Promise(resolve => confirm("등록되지 않은 자재입니다.\n추가하시겠습니까?", resolve));
-                    // eslint-disable-next-line no-unused-vars
-                    let count = 0;
-                    // eslint-disable-next-line no-constant-condition
-                    while (true) {
-                        const promptText = await new Promise(resolve => prompt("초기 재고량을 입력해주세요.", "0", resolve));
-                        console.log(promptText);
-                        if (!/^[0-9]/g.test(promptText))
-                            await new Promise(resolve => alert("숫자만 입력해주세요.", resolve));
-                        else {
-                            count = parseInt(promptText);
-                            break;
+                if (this.category === "*" || this.item === "*") {
+                    await this.setIsExist({
+                        category: this.manualCategory,
+                        item: this.manualItem
+                    });
+
+                    if (!this.isExist) {
+                        await this.clearIsExistVariable();
+                        await new Promise(resolve => confirm("등록되지 않은 자재입니다.\n추가하시겠습니까?", resolve));
+                        // eslint-disable-next-line no-unused-vars
+                        let count = 0;
+                        // eslint-disable-next-line no-constant-condition
+                        while (true) {
+                            const promptText = await new Promise(resolve => prompt("초기 재고량을 입력해주세요.", "0", resolve));
+                            console.log(promptText);
+                            if (!/^[0-9]/g.test(promptText))
+                                await new Promise(resolve => alert("숫자만 입력해주세요.", resolve));
+                            else {
+                                count = parseInt(promptText);
+                                break;
+                            }
                         }
                     }
+
+                    await confirm("입력하신 내용으로\n저장하시겠습니까?", async () => {
+                        const formData = new FormData();
+                        formData.append('logTime', moment().format('YYYYMMDDhhmmss'));
+                        formData.append('workClass', this.workClass === "*" ? this.manualWorkClass : this.workClass);
+                        formData.append('workerName', this.workerName);
+                        formData.append('category', this.category === "*" ? this.manualCategory : this.category);
+                        formData.append('item', this.item === "*" ? this.manualItem : this.item);
+                        formData.append('inOut', this.inOut);
+                        formData.append('count', parseInt(count));
+                        formData.append('unit', this.unit === "*" ? this.manualUnit : this.unit);
+
+                        this.files.forEach((file, i) => {
+                            if (file) formData.append(`img${i + 1}`, file, file.name);
+                        });
+
+                        await axios.post("/api/submit/addMaterial", {
+                            category: this.category,
+                            item: this.item,
+                            initCount: count
+                        });
+                        await axios.post("/api/submit/submit", formData, { headers: { "Content-Type": "multipart/form-data" } });
+                        await alert("저장되었습니다.");
+                    });
                 } else await confirm("저장하시겠습니까?", async () => {
                     const formData = new FormData();
                     formData.append('logTime', moment().format('YYYYMMDDhhmmss'));

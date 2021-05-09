@@ -28,7 +28,6 @@ export default {
         INIT_SUBMIT_PROPERTIES: (state, properties) => {
             properties["categories"] = Object.keys(properties.materials);
             properties["categories"].sort();
-            console.log(properties);
             state.submit.properties = Object.freeze(properties);
             state.submit.data.workClass = properties.workClasses[0];
             state.submit.data.category = Object.keys(properties.materials)[0];
