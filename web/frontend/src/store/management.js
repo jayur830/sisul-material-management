@@ -18,10 +18,7 @@ export default {
             [state.management.items, state.management.srcItems] = [items, items];
         },
         SET_MANAGEMENT_SELECTED_CATEGORY: (state, category) => state.management.selectedCategory = category,
-        SET_MANAGEMENT_INPUTTED_CATEGORY: (state, category) => {
-            console.log(category);
-            state.management.inputtedCategory = category;
-        },
+        SET_MANAGEMENT_INPUTTED_CATEGORY: (state, category) => state.management.inputtedCategory = category,
         ADD_MANAGEMENT_ITEM: (state, item) => {
             if (state.management.items.findIndex(_item => _item === item) === -1)
                 state.management.items = Object.freeze(state.management.items.concat(item));

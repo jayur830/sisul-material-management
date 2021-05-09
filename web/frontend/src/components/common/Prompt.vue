@@ -4,7 +4,9 @@
             <div>
                 <div>
                     <div class="animate__animated animate__bounceIn">
-                        <div>{{ title }}</div>
+                        <div>
+                            <div :key="i" v-for="(sentence, i) in title.split('\n')">{{ sentence }}</div>
+                        </div>
                         <div><input type="text" v-model="text" /></div>
                         <div>
                             <input type="button" :value="okButtonText" @click="onOk" />

@@ -33,7 +33,6 @@ export default {
 
         submit() {
             confirm("적용하시겠습니까?", () => {
-                console.log("aaa");
                 this.commitItems(this.items);
                 alert("적용되었습니다.");
             });

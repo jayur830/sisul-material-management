@@ -40,6 +40,7 @@ export default {
                     "자재 종류": obj.stock.category,
                     "자제 제품명": obj.stock.item,
                     "수량": obj.count,
+                    "재고량": obj.lastCount,
                     "단위": obj.unit
                 })),
                 "전체 입출고 내역",

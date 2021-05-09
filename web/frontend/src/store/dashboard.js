@@ -10,6 +10,7 @@ export default {
                 category: true,
                 item: true,
                 count: true,
+                lastCount: true,
                 workClass: true,
                 workerName: true
             },
@@ -38,7 +39,10 @@ export default {
 
     },
     mutations: {
-        INIT_DASHBOARD_LOG_LIST: (state, data) => state.dashboard.log = Object.freeze(data),
+        INIT_DASHBOARD_LOG_LIST: (state, data) => {
+            console.log(data);
+            state.dashboard.log = Object.freeze(data);
+        },
         ORDER_DASHBOARD_LOG_LIST: (state, { property, order }) => {
             const log = state.dashboard.log.concat();
             log.sort((a, b) => (order ? a[property] < b[property] : a[property] > b[property]) ? 1 : -1);
@@ -70,6 +74,7 @@ export default {
             state.dashboard.stockOrder = Object.freeze({ ...state.dashboard.stockOrder, [property]: order });
         },
         SET_DASHBOARD_STOCK_VIEW: (state, { data, stockId }) => {
+            console.log(data);
             state.dashboard.selectedStock = Object.freeze(data);
             state.dashboard.selectedStockId = stockId;
         },

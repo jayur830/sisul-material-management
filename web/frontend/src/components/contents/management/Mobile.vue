@@ -6,8 +6,6 @@
                 <label>
                     <select :value="selectedCategory" @change="setSelectedCategory($event.target.value)">
                         <option>근무반</option>
-                        <option>자재 종류</option>
-                        <option>자재 제품명</option>
                         <option>단위</option>
                     </select>
                 </label>

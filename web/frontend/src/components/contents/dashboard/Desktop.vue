@@ -10,13 +10,14 @@
             </div>
             <table>
                 <colgroup>
-                    <col style="width: 20%;" />
-                    <col style="width: 10%;" />
-                    <col style="width: 15%;" />
-                    <col style="width: 25%;" />
-                    <col style="width: 10%;" />
-                    <col style="width: 10%;" />
-                    <col style="width: 10%;" />
+                    <col style="width: 160px;" />
+                    <col style="width: 80px;" />
+                    <col style="width: calc((100% - 460px) * 0.3);" />
+                    <col style="width: calc((100% - 460px) * 0.4);" />
+                    <col style="width: 110px;" />
+                    <col style="width: 110px;" />
+                    <col style="width: calc((100% - 460px) * 0.2);" />
+                    <col style="width: calc((100% - 460px) * 0.1);" />
                 </colgroup>
                 <thead>
                     <tr>
@@ -41,6 +42,10 @@
                             <font-awesome-icon size="1x" :icon="['fa', 'sort']" @click="orderLog({ property: 'count', order: !logOrder.count })" />
                         </th>
                         <th>
+                            최종 재고량
+                            <font-awesome-icon size="1x" :icon="['fa', 'sort']" @click="orderLog({ property: 'lastCount', order: !logOrder.lastCount })" />
+                        </th>
+                        <th>
                             근무반
                             <font-awesome-icon size="1x" :icon="['fa', 'sort']" @click="orderLog({ property: 'workClass', order: !logOrder.workClass })" />
                         </th>
@@ -52,17 +57,18 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="7">
-                            <div class="scroll" v-if="log">
+                        <td colspan="8">
+                            <div class="scroll" v-if="log && log.length != 0">
                                 <table>
                                     <colgroup>
-                                        <col style="width: 20%;" />
-                                        <col style="width: 10%;" />
-                                        <col style="width: 15%;" />
-                                        <col style="width: 25%;" />
-                                        <col style="width: 10%;" />
-                                        <col style="width: 10%;" />
-                                        <col style="width: 10%;" />
+                                        <col style="width: 160px;" />
+                                        <col style="width: 80px;" />
+                                        <col style="width: calc((100% - 460px) * 0.3);" />
+                                            <col style="width: calc((100% - 460px) * 0.4);" />
+                                        <col style="width: 110px;" />
+                                        <col style="width: 110px;" />
+                                        <col style="width: calc((100% - 460px) * 0.2);" />
+                                        <col style="width: calc((100% - 460px) * 0.1);" />
                                     </colgroup>
                                     <tbody>
                                         <tr :key="i" v-for="(obj, i) in log" @click="$router.push(`/dashboard/view?t=${obj.logTime}&c=${obj.workClass}&n=${obj.workerName}`)">
@@ -78,13 +84,14 @@
                                                 fontWeight: 'bold',
                                                 color: obj.inOut === 0 ? '#009a46' : '#c55a11'
                                             }">{{ obj.inOut === 0 ? '+' : '-' }}{{ obj.count }}</td>
+                                            <td>{{ obj.lastCount }}</td>
                                             <td>{{ obj.workClass }}</td>
                                             <td>{{ obj.workerName }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div v-else>No data</div>
+                            <div class="scroll" v-else><table><tbody><tr><td>No data</td></tr></tbody></table></div>
                         </td>
                     </tr>
                 </tbody>
@@ -124,7 +131,7 @@
                     <tbody>
                         <tr>
                             <td colspan="3">
-                                <div class="scroll" v-if="stock">
+                                <div class="scroll" v-if="stock && stock.length != 0">
                                     <table>
                                         <colgroup>
                                             <col style="width: 33%;" />
@@ -140,7 +147,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div v-else>No data</div>
+                                <div class="scroll" v-else><table><tbody><tr><td>No data</td></tr></tbody></table></div>
                             </td>
                         </tr>
                     </tbody>
@@ -189,7 +196,7 @@
                     <tbody>
                         <tr>
                             <td colspan="5">
-                                <div class="scroll">
+                                <div class="scroll" v-if="selectedStock && selectedStock.length != 0">
                                     <table>
                                         <colgroup>
                                             <col style="width: 30%;" />
@@ -216,6 +223,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="scroll" v-else><table><tbody><tr><td>No data</td></tr></tbody></table></div>
                             </td>
                         </tr>
                     </tbody>
