@@ -5,8 +5,8 @@ spring:
     name: SISUL
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/stock_management?serverTimezone=UTC
-    url: jdbc:mysql://180.231.115.99:3306/stock_management?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/stock_management?serverTimezone=UTC
+#    url: jdbc:mysql://180.231.115.99:3306/stock_management?serverTimezone=UTC
     username: sisul
     password: sisul20@!
   jpa:
