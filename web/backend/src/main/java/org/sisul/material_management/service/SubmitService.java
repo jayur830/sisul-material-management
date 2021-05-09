@@ -79,6 +79,7 @@ public class SubmitService {
     @Transactional
     public void addMaterials(final RequestMaterialVO material) {
         this.stockRepository.save(Stock.builder()
+                .stockId((int) (this.stockRepository.count() + 1))
                 .category(material.getCategory())
                 .item(material.getItem())
                 .count(material.getInitCount())
