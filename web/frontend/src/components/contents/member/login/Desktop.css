@@ -2,3 +2,73 @@
     height: calc(100% - 60px);
     padding: 30px;
 }
+
+#desktop-login > div {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+#desktop-login > div > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#desktop-login > div > div > div {
+    width: fit-content;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#desktop-login input[type=text],
+#desktop-login input[type=password] {
+    width: 200px;
+    height: 25px;
+    border: 1px solid #615f5f;
+    border-radius: 3px;
+    padding: 0 10px;
+    font: 12pt 'NanumSquare_acB', serif;
+    outline: none;
+}
+
+#desktop-login table td {
+    font: 16pt 'NanumSquareB';
+    padding: 3px 7px;
+}
+
+#desktop-login table tfoot td {
+    padding: 5px 0;
+}
+
+#desktop-login table tfoot td > div:first-child {
+    padding: 10px 0;
+}
+
+#desktop-login table tfoot td > div:first-child a {
+    font: 9pt 'NanumSquare_acB';
+    color: inherit;
+    margin: 0 20px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#desktop-login table tfoot td > div:first-child a:hover {
+    color: #0070c0;
+}
+
+#desktop-login .btn {
+    font: 18pt 'NanumSquareB';
+    margin: 0 5px;
+    padding: 10px 25px;
+    background-color: #3b3838;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+#desktop-login .btn:hover {
+    background-color: #0070c0;
+}

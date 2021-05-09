@@ -2,3 +2,73 @@
     height: calc(100% - 30px);
     padding: 15px;
 }
+
+#mobile-login > div {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+#mobile-login > div > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#mobile-login > div > div > div {
+    width: fit-content;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+#mobile-login input[type=text],
+#mobile-login input[type=password] {
+    width: 150px;
+    height: 20px;
+    border: 1px solid #615f5f;
+    border-radius: 3px;
+    padding: 0 10px;
+    font: 12pt 'NanumSquare_acB', serif;
+    outline: none;
+}
+
+#mobile-login table td {
+    font: 13pt 'NanumSquareB';
+    padding: 3px 7px;
+}
+
+#mobile-login table tfoot td {
+    padding: 5px 0;
+}
+
+#mobile-login table tfoot td > div:first-child {
+    padding: 10px 0;
+}
+
+#mobile-login table tfoot td > div:first-child a {
+    font: 9pt 'NanumSquare_acB';
+    color: inherit;
+    margin: 0 20px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#mobile-login table tfoot td > div:first-child a:hover {
+    color: #0070c0;
+}
+
+#mobile-login .btn {
+    font: 12pt 'NanumSquareB';
+    margin: 0 5px;
+    padding: 7px 20px;
+    background-color: #3b3838;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+#mobile-login .btn:hover {
+    background-color: #0070c0;
+}
