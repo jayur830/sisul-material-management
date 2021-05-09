@@ -42,7 +42,7 @@
                         </tr>
                         <tr>
                             <td>자재 제품명</td>
-                            <td>
+                            <td v-if="category != '*'">
                                 <label>
                                     <select :value="item" @change="setItem($event.target.value)">
                                         <option :key="i" v-for="(item, i) in properties.materials[category]">{{ item }}</option>
@@ -50,6 +50,9 @@
                                     </select>
                                 </label>
                                 <label v-show="item == '*'"><input type="text" @change="setManualItem($event.target.value)" /></label>
+                            </td>
+                            <td v-else>
+                                <input type="text" @change="setManualItem($event.target.value)" />
                             </td>
                         </tr>
                         <tr>

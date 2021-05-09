@@ -38,7 +38,7 @@ export default {
 
         SET_SUBMIT_WORK_CLASS: (state, workClass) => [state.submit.data.workClass, state.submit.data.manualWorkClass] = [workClass, ""],
         SET_SUBMIT_WORKER_NAME: (state, workerName) => state.submit.data.workerName = workerName,
-        SET_SUBMIT_CATEGORY: (state, category) => [state.submit.data.category, state.submit.data.manualCategory] = [category, ""],
+        SET_SUBMIT_CATEGORY: (state, category) => [state.submit.data.category, state.submit.data.item, state.submit.data.manualCategory] = [category, category !== "*" ? state.submit.properties.materials[category][0] : category, ""],
         SET_SUBMIT_ITEM: (state, item) => [state.submit.data.item, state.submit.data.manualItem] = [item, ""],
         SET_SUBMIT_SELECTED_IN_OUT: (state, inOut) => state.submit.data.inOut = inOut,
         SET_SUBMIT_COUNT: (state, count) => state.submit.data.count = count,
