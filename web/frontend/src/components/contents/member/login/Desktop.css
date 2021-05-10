@@ -39,6 +39,10 @@
     padding: 3px 7px;
 }
 
+#desktop-login table tbody td:first-child {
+    text-align: right;
+}
+
 #desktop-login table tfoot td {
     padding: 5px 0;
 }

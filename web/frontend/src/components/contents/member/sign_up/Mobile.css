@@ -2,3 +2,120 @@
     height: calc(100% - 30px);
     padding: 15px;
 }
+
+#mobile-sign-up .btn {
+    font: 12pt 'NanumSquareB';
+    margin: 0 5px;
+    padding: 7px 20px;
+    background-color: #3b3838;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+#mobile-sign-up .btn:hover {
+    background-color: #0070c0;
+}
+
+#mobile-sign-up input[type=text],
+#mobile-sign-up input[type=password] {
+    width: 150px;
+    height: 20px;
+    border: 1px solid #615f5f;
+    border-radius: 3px;
+    padding: 0 10px;
+    font: 12pt 'NanumSquare_acB', serif;
+    outline: none;
+}
+
+#mobile-sign-up > div {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+#mobile-sign-up > div > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#mobile-sign-up > div > div > div {
+    width: fit-content;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+#mobile-sign-up table {
+    width: 400px;
+}
+
+#mobile-sign-up table td {
+    font: 13pt 'NanumSquareB';
+    padding: 3px 7px;
+}
+
+#mobile-sign-up table tbody tr:first-child td:last-child input.btn {
+    font-size: 8pt;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+#mobile-sign-up table tbody td:first-child {
+    text-align: right;
+}
+
+#mobile-sign-up table tbody tr:nth-child(4) td:first-child {
+    vertical-align: top;
+}
+
+#mobile-sign-up table tbody td label {
+    display: block;
+}
+
+#mobile-sign-up table tbody td select,
+#mobile-sign-up table tbody td input[type=text],
+#mobile-sign-up table tbody td input[type=password],
+#mobile-sign-up table tbody td input[type=email] {
+    font: 10pt 'NanumSquare_acB';
+    width: 180px;
+    margin: 0;
+    padding: 0 10px;
+    outline: none;
+}
+
+#mobile-sign-up table tbody td select {
+    width: 202px;
+    height: 22px;
+    border-radius: 3px;
+}
+
+#mobile-sign-up table tbody td input[type=email] {
+    width: 180px;
+    height: 20px;
+    border: 1px solid #615f5f;
+    border-radius: 3px;
+}
+
+#mobile-sign-up table tfoot td {
+    padding: 5px 0;
+}
+
+#mobile-sign-up table tfoot td {
+    padding: 10px 0 0;
+}
+
+#mobile-sign-up table tfoot td a {
+    font: 9pt 'NanumSquare_acB';
+    color: inherit;
+    margin: 0 20px;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#mobile-sign-up table tfoot td a:hover {
+    color: #0070c0;
+}

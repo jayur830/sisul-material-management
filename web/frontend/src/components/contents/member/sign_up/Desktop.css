@@ -2,3 +2,113 @@
     height: calc(100% - 60px);
     padding: 30px;
 }
+
+#desktop-sign-up .btn {
+    font: 16pt 'NanumSquareB';
+    margin: 0 10px;
+    padding: 7px 20px;
+    background-color: #3b3838;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+#desktop-sign-up .btn:hover {
+    background-color: #0070c0;
+}
+
+#desktop-sign-up > div {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+#desktop-sign-up > div > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#desktop-sign-up > div > div > div {
+    width: fit-content;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+#desktop-sign-up input[type=text],
+#desktop-sign-up input[type=password] {
+    width: 150px;
+    height: 20px;
+    border: 1px solid #615f5f;
+    border-radius: 3px;
+    padding: 0 10px;
+    font: 12pt 'NanumSquare_acB', serif;
+    outline: none;
+}
+
+#desktop-sign-up table td {
+    font: 16pt 'NanumSquareB';
+    padding: 5px 10px;
+}
+
+#desktop-sign-up table tbody td:first-child {
+    text-align: right;
+}
+
+#desktop-sign-up table tbody tr:first-child td:last-child input.btn {
+    font-size: 12pt;
+    border-radius: 5px;
+    padding: 6px 15px;
+}
+
+#desktop-sign-up table tbody tr:nth-child(4) td:first-child {
+    vertical-align: top;
+}
+
+#desktop-sign-up table tbody td label {
+    display: block;
+}
+
+#desktop-sign-up table tbody td select,
+#desktop-sign-up table tbody td input[type=text],
+#desktop-sign-up table tbody td input[type=password],
+#desktop-sign-up table tbody td input[type=email] {
+    font: 12pt 'NanumSquare_acB';
+    width: 220px;
+    margin: 0;
+    padding: 4px 10px;
+    outline: none;
+}
+
+#desktop-sign-up table tbody td select {
+    width: 242px;
+    height: 30px;
+    font-size: 12pt;
+    border-radius: 3px;
+}
+
+#desktop-sign-up table tbody td input[type=email] {
+    width: 220px;
+    height: 20px;
+    border: 1px solid #615f5f;
+    border-radius: 3px;
+}
+
+#desktop-sign-up table tfoot td {
+    padding: 20px 0 10px;
+}
+
+#desktop-sign-up table tfoot td a {
+    font: 9pt 'NanumSquare_acB';
+    color: inherit;
+    margin: 0 20px;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#desktop-sign-up table tfoot td a:hover {
+    color: #0070c0;
+}
