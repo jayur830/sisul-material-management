@@ -24,7 +24,7 @@ public class CustomUserDetails implements UserDetails {
     private String authority = "USER";
 
     @Builder.Default
-    private boolean enabled =  true;
+    private boolean locked = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -40,7 +40,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !this.locked;
     }
 
     @Override
@@ -50,6 +50,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return !this.locked;
     }
 }
