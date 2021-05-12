@@ -1,4 +1,4 @@
-package kr.co.kesti.wmo.utils;
+package org.sisul.material_management.utils;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;

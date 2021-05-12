@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sisul.material_management.security.CustomUserDetailsService;
 import org.sisul.material_management.service.MemberService;
+import org.sisul.material_management.vo.RequestFindPasswordVO;
 import org.sisul.material_management.vo.RequestFindUsernameVO;
 import org.sisul.material_management.vo.RequestSignUpVO;
 import org.springframework.security.core.Authentication;
@@ -63,5 +64,10 @@ public class MemberController {
     @PostMapping("/findUsername")
     public String findUsername(@RequestBody final RequestFindUsernameVO request) {
         return this.memberService.findUsername(request);
+    }
+
+    @PostMapping("/findPassword")
+    public Map<String, Boolean> findPassword(@RequestBody final RequestFindPasswordVO request) {
+        return this.memberService.findPassword(request);
     }
 }

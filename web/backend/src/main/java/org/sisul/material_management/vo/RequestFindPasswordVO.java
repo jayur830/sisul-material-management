@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestFindUsernameVO {
-    private String workClass;
-    private String workerName;
+public class RequestFindPasswordVO {
+    private String username;
+    private String email;
 }

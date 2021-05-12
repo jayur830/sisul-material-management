@@ -2,16 +2,21 @@ package org.sisul.material_management.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.sisul.material_management.entity.Member;
 import org.sisul.material_management.repository.ItemRepository;
 import org.sisul.material_management.repository.MemberRepository;
+import org.sisul.material_management.utils.MailUtils;
+import org.sisul.material_management.vo.RequestFindPasswordVO;
 import org.sisul.material_management.vo.RequestFindUsernameVO;
 import org.sisul.material_management.vo.RequestSignUpVO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -46,5 +51,24 @@ public class MemberService {
         } catch (NullPointerException e) {
             return null;
         }
+    }
+
+    @Transactional
+    public Map<String, Boolean> findPassword(final RequestFindPasswordVO request) {
+        Map<String, Boolean> response = new HashMap<>();
+        try {
+            Member member = this.memberRepository.findByUsernameAndEmail(request.getUsername(), request.getEmail());
+            if (member == null) response.put("isExistUser", false);
+            else {
+                response.put("isExistUser", true);
+                final String newPassword = RandomStringUtils.randomAlphanumeric(10);
+                this.memberRepository.updateByUsernameAndEmail(this.passwordEncoder.encode(newPassword), request.getUsername(), request.getEmail());
+//                MailUtils.sendEmail("jayur830@gmail.com", request.getEmail(), "[서울시설공단] 응급보수자재관리 :: 임시 비밀번호 안내", newPassword, true);
+                MailUtils.sendEmail("sisul@material.manage.co.kr", request.getEmail(), "[서울시설공단] 응급보수자재관리 :: 임시 비밀번호 안내", newPassword, true);
+            }
+        } catch (NullPointerException e) {
+            response.put("isExistUser", false);
+        }
+        return response;
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, String> {
     Member findByUsername(final String username);
+    Member findByUsernameAndEmail(final String username, final String email);
 
     @Modifying
     @Query("update Member m set m.passwordWrongCount = m.passwordWrongCount + 1 where m.username = :username")
@@ -27,4 +28,8 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     void initAccountStatusByUsername(@Param("username") final String username);
 
     Member findByWorkClassAndWorkerName(final String workClass, final String workerName);
+
+    @Modifying
+    @Query("update Member m set m.password = :newPassword where m.username = :username and m.email = :email")
+    void updateByUsernameAndEmail(@Param("newPassword") final String newPassword, @Param("username") final String username, @Param("email") final String email);
 }
