@@ -16,6 +16,15 @@
     background-color: #0070c0;
 }
 
+#desktop-sign-up .btn.disabled {
+    background-color: #747171;
+    cursor: default;
+}
+
+#desktop-sign-up .btn.disabled:hover {
+    background-color: #747171;
+}
+
 #desktop-sign-up > div {
     width: 100%;
     height: 100%;

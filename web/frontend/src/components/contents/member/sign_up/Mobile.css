@@ -16,6 +16,15 @@
     background-color: #0070c0;
 }
 
+#mobile-sign-up .btn.disabled {
+    background-color: #747171;
+    cursor: default;
+}
+
+#mobile-sign-up .btn.disabled:hover {
+    background-color: #747171;
+}
+
 #mobile-sign-up input[type=text],
 #mobile-sign-up input[type=password] {
     width: 150px;

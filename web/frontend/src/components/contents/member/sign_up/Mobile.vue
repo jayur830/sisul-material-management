@@ -14,7 +14,7 @@
                                 <td class="animate__animated animate__fadeInRight">
                                     <input type="text" v-model="username" @keyup="e => { if (e.key === 'Enter') signUp(); }" />
                                 </td>
-                                <td><input type="button" class="btn" value="중복확인" /></td>
+                                <td><input type="button" :class="['btn', isCheckedDuplicatedUser ? 'disabled' : '']" :disabled="isCheckedDuplicatedUser" value="중복확인" @click="checkDuplicatedUser" /></td>
                             </tr>
                             <tr>
                                 <td class="animate__animated animate__fadeInLeft">비밀번호</td>

@@ -12,13 +12,13 @@
                             <tr>
                                 <td class="animate__animated animate__fadeInLeft">아이디</td>
                                 <td class="animate__animated animate__fadeInRight">
-                                    <input type="text" v-model="username" @keyup="e => { if (e.key === 'Enter') signIn(); }" />
+                                    <input type="text" v-model="username" @keyup="e => { if (e.key === 'Enter') login(); }" />
                                 </td>
                             </tr>
                             <tr>
                                 <td class="animate__animated animate__fadeInLeft">비밀번호</td>
                                 <td class="animate__animated animate__fadeInRight">
-                                    <input type="password" v-model="password" @keyup="e => { if (e.key === 'Enter') signIn(); }" />
+                                    <input type="password" v-model="password" @keyup="e => { if (e.key === 'Enter') login(); }" />
                                 </td>
                             </tr>
                         </tbody>
@@ -31,7 +31,7 @@
                                     </div>
                                     <div class="animate__animated animate__fadeInUp">
                                         <router-link to="/member/signUp" class="btn">회원가입</router-link>
-                                        <input type="button" class="btn" value="로그인" />
+                                        <input type="button" class="btn" value="로그인" @click="login" />
                                     </div>
                                 </td>
                             </tr>

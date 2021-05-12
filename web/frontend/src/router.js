@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+import store from "./store/store";
+
 Vue.use(VueRouter);
 
 export default new VueRouter({
@@ -20,15 +22,30 @@ export default new VueRouter({
         },
         {
             path: "/submit",
-            component: () => import("./components/contents/submit/Submit")
+            component: () => import("./components/contents/submit/Submit"),
+            async beforeEnter(to, from, next) {
+                await store.dispatch("SET_AUTHENTICATED");
+                if (store.state.member.isAuthenticated) return next();
+                next("/member/login");
+            }
         },
         {
             path: "/material",
-            component: () => import("./components/contents/material/Material")
+            component: () => import("./components/contents/material/Material"),
+            async beforeEnter(to, from, next) {
+                await store.dispatch("SET_AUTHENTICATED");
+                if (store.state.member.isAuthenticated) return next();
+                next("/member/login");
+            }
         },
         {
             path: "/management",
-            component: () => import("./components/contents/management/Management")
+            component: () => import("./components/contents/management/Management"),
+            async beforeEnter(to, from, next) {
+                await store.dispatch("SET_AUTHENTICATED");
+                if (store.state.member.isAuthenticated) return next();
+                next("/member/login");
+            }
         },
         {
             path: "/member",
@@ -52,7 +69,12 @@ export default new VueRouter({
         },
         {
             path: "/member/myPage",
-            component: () => import("./components/contents/member/my_page/MyPage")
+            component: () => import("./components/contents/member/my_page/MyPage"),
+            async beforeEnter(to, from, next) {
+                await store.dispatch("SET_AUTHENTICATED");
+                if (store.state.member.isAuthenticated) return next();
+                next("/member/login");
+            }
         }
     ]
 });

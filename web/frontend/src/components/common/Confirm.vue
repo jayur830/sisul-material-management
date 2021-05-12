@@ -9,7 +9,7 @@
                         </div>
                         <div>
                             <input type="button" :value="okButtonText" @click="onOk" />
-                            <input type="button" :value="cancelButtonText" @click="setInvisible" />
+                            <input type="button" :value="cancelButtonText" @click="onCancel" />
                         </div>
                     </div>
                 </div>
@@ -35,6 +35,11 @@
 
             async onOk() {
                 await this.$emit("ok");
+                await this.setInvisible();
+            },
+
+            async onCancel() {
+                await this.$emit("cancel");
                 await this.setInvisible();
             }
         }

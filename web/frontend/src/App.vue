@@ -15,7 +15,8 @@
                  :title="confirm.title"
                  :ok-button-text="confirm.okButtonText"
                  :cancel-button-text="confirm.cancelButtonText"
-                 @ok="confirm.onOk" />
+                 @ok="confirm.onOk"
+                 @cancel="confirm.onCancel" />
         <prompt v-show="prompt.show"
                 :title="prompt.title"
                 :default-value="prompt.defaultValue"
@@ -59,7 +60,8 @@
         },
         methods: {
             ...mapActions({
-                setWindowSize: "SET_WINDOW_SIZE"
+                setWindowSize: "SET_WINDOW_SIZE",
+                setAuthenticated: "SET_AUTHENTICATED"
             })
         },
         mounted() {
@@ -71,6 +73,7 @@
                     height: window.innerHeight
                 }), 200);
             });
+            this.setAuthenticated();
         }
     }
 </script>

@@ -6,6 +6,7 @@ import axios from "axios";
 export default {
     name: "SignUpMixin",
     data: () => ({
+        isCheckedDuplicatedUser: false,
         username: "",
         password: "",
         passwordConfirm: "",
@@ -23,6 +24,18 @@ export default {
         ...mapActions({
             setWorkClasses: "SET_MEMBER_SIGN_UP_WORK_CLASSES",
         }),
+
+        async checkDuplicatedUser() {
+            if (this.username === "")
+                await new Promise(resolve => alert("아이디를 입력해주세요.", resolve));
+            else {
+                const isExist = await axios.get("/api/member/findByUsername", { params: { username: this.username } }).then(response => response.data);
+                if (isExist) {
+                    new Promise(resolve => alert("사용 가능한 아이디입니다.", resolve));
+                    this.isCheckedDuplicatedUser = true;
+                } else new Promise(resolve => alert("이미 존재하는 아이디입니다.\n다시 입력해주세요.", resolve));
+            }
+        },
 
         async signUp() {
             if (this.username === "")
@@ -55,6 +68,7 @@ export default {
                     email: this.email
                 });
                 await alert("정상적으로 가입되었습니다.");
+                await this.$router.push("/member/login");
             }
         }
     }
