@@ -16,7 +16,7 @@
                 <div><font-awesome-icon size="4x" :icon="['fa', 'user']" /></div>
                 <div>내 정보</div>
             </router-link>
-            <a v-show="isAuthenticated">
+            <a v-show="isAuthenticated" @click="logout">
                 <div><font-awesome-icon size="4x" :icon="['fa', 'sign-out-alt']" /></div>
                 <div>로그아웃</div>
             </a>
@@ -25,15 +25,11 @@
 </template>
 
 <script>
-    import { mapState } from "vuex";
+    import HeaderMixin from "./HeaderMixin";
 
     export default {
         name: "AppHeader",
-        computed: {
-            ...mapState({
-                isAuthenticated: state => state.member.isAuthenticated
-            })
-        }
+        mixins: [HeaderMixin]
     }
 </script>
 
