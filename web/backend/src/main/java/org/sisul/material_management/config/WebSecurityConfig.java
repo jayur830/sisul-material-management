@@ -2,11 +2,13 @@ package org.sisul.material_management.config;
 
 import lombok.RequiredArgsConstructor;
 import org.sisul.material_management.security.*;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -30,14 +32,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.userDetailsService(this.customUserDetailsService);
 
         http.formLogin()
-                .loginProcessingUrl("/api/member/signIn")
+                .loginProcessingUrl("/api/member/login")
                 .loginPage("/")
                 .successHandler(this.loginSuccessHandler)
                 .failureHandler(this.loginFailureHandler)
                 .permitAll();
 
         http.logout()
-                .logoutUrl("/api/member/signOut")
+                .logoutUrl("/api/member/logout")
                 .logoutSuccessHandler(this.customLogoutSuccessHandler)
                 .invalidateHttpSession(true);
     }
