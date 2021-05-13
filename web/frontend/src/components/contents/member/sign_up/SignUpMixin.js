@@ -10,8 +10,7 @@ export default {
         username: "",
         password: "",
         passwordConfirm: "",
-        workClass: "",
-        manualWorkClass: "",
+        workClass: "*",
         workerName: "",
         email: ""
     }),
@@ -42,18 +41,22 @@ export default {
                 await new Promise(resolve => alert("아이디를 입력해주세요.", resolve));
             else if (this.username.length < 5)
                 await new Promise(resolve => alert("아이디는 5자 이상 입력해주세요.", resolve));
+            else if (!this.isCheckedDuplicatedUser)
+                await new Promise(resolve => alert("아이디를 중복확인하세요.", resolve));
             else if (this.password === "")
                 await new Promise(resolve => alert("비밀번호를 입력해주세요.", resolve));
             else if (this.password.indexOf(" ") !== -1)
                 await new Promise(resolve => alert("비밀번호는 공백 없이 입력해주세요.", resolve));
+            else if (this.password.length < 8 || this.password.length > 20 || !/[a-zA-Z0-9~!@#$%^&*()_+\-|<>?:;/]/.test(this.password))
+                await new Promise(resolve => alert("비밀번호는 8자 이상 20자 이하의\n영문자+숫자+특수문자\n(~,!,@,#,$,%,^,&,*,(,),_,+,-,|,<,>,?,:,;,/)\n조합으로 입력해주세요.", resolve));
             else if (this.passwordConfirm === "")
                 await new Promise(resolve => alert("비밀번호 확인을 입력해주세요.", resolve));
             else if (this.passwordConfirm.indexOf(" ") !== -1)
                 await new Promise(resolve => alert("비밀번호는 공백 없이 입력해주세요.", resolve));
             else if (this.password !== this.passwordConfirm)
                 await new Promise(resolve => alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.\n다시 입력해주세요.", resolve));
-            else if (this.workClass === "*" && this.manualWorkClass === "")
-                await new Promise(resolve => alert("근무반을 입력해주세요.", resolve));
+            else if (this.workClass === "*")
+                await new Promise(resolve => alert("근무반을 선택해주세요.", resolve));
             else if (this.workerName === "")
                 await new Promise(resolve => alert("이름을 입력해주세요.", resolve));
             else if (this.email === "")

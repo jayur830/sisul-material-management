@@ -33,12 +33,9 @@
                                 <td class="animate__animated animate__fadeInRight">
                                     <label>
                                         <select v-model="workClass">
+                                            <option value="*">--- 근무반 선택 ---</option>
                                             <option :key="i" v-for="(workClass, i) in workClasses">{{ workClass }}</option>
-                                            <option value="*">기타(수기입력)</option>
                                         </select>
-                                    </label>
-                                    <label v-show="workClass === '*'">
-                                        <input type="text" v-model="manualWorkClass" />
                                     </label>
                                 </td>
                             </tr>
@@ -77,10 +74,7 @@
         name: "MobileSignUp",
         mixins: [SignUpMixin],
         async mounted() {
-            if (!this.workClasses) {
-                await this.setWorkClasses();
-                this.workClass = this.workClasses[0];
-            }
+            if (!this.workClasses) await this.setWorkClasses();
         }
     }
 </script>

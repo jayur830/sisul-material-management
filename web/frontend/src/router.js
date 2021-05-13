@@ -75,6 +75,15 @@ export default new VueRouter({
                 if (store.state.member.isAuthenticated) return next();
                 next("/member/login");
             }
+        },
+        {
+            path: "/member/changePassword",
+            component: () => import("./components/contents/member/change_password/ChangePassword"),
+            async beforeEnter(to, from, next) {
+                await store.dispatch("SET_AUTHENTICATED");
+                if (store.state.member.isAuthenticated) return next();
+                next("/member/login");
+            }
         }
     ]
 });

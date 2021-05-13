@@ -1,0 +1,77 @@
+#mobile-change-password {
+    height: 100%;
+}
+
+#mobile-change-password > div {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+#mobile-change-password > div > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#mobile-change-password > div > div > div {
+    width: fit-content;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+#mobile-change-password input[type=password] {
+    width: 150px;
+    height: 20px;
+    border: 1px solid #615f5f;
+    border-radius: 3px;
+    padding: 0 10px;
+    font: 12pt 'NanumSquare_acB', serif;
+    outline: none;
+}
+
+#mobile-change-password table td {
+    font: 13pt 'NanumSquareB';
+    padding: 3px 7px;
+}
+
+#mobile-change-password table tbody td:first-child {
+    text-align: right;
+}
+
+#mobile-change-password table tfoot td {
+    padding: 5px 0;
+}
+
+#mobile-change-password table tfoot td {
+    padding: 10px 0;
+}
+
+#mobile-change-password table tfoot td a {
+    font: 9pt 'NanumSquare_acB';
+    color: inherit;
+    margin: 0 20px;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#mobile-change-password table tfoot td a:hover {
+    color: #0070c0;
+}
+
+#mobile-change-password .btn {
+    font: 12pt 'NanumSquareB';
+    margin: 0 5px;
+    padding: 7px 20px;
+    background-color: #3b3838;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+#mobile-change-password .btn:hover {
+    background-color: #0070c0;
+}

@@ -2,3 +2,122 @@
     height: calc(100% - 60px);
     padding: 30px;
 }
+
+#desktop-my-page .btn {
+    font: 16pt 'NanumSquareB';
+    margin: 0 10px;
+    padding: 7px 20px;
+    background-color: #3b3838;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+#desktop-my-page .btn:hover {
+    background-color: #0070c0;
+}
+
+#desktop-my-page .btn.disabled {
+    background-color: #747171;
+    cursor: default;
+}
+
+#desktop-my-page .btn.disabled:hover {
+    background-color: #747171;
+}
+
+#desktop-my-page > div {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+#desktop-my-page > div > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#desktop-my-page > div > div > div {
+    width: fit-content;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+#desktop-my-page input[type=text],
+#desktop-my-page input[type=password] {
+    width: 150px;
+    height: 20px;
+    border: 1px solid #615f5f;
+    border-radius: 3px;
+    padding: 0 10px;
+    font: 12pt 'NanumSquare_acB', serif;
+    outline: none;
+}
+
+#desktop-my-page table td {
+    font: 16pt 'NanumSquareB';
+    padding: 5px 10px;
+}
+
+#desktop-my-page table tbody td:first-child {
+    text-align: right;
+}
+
+#desktop-my-page table tbody tr:nth-child(2) td:last-child a.btn {
+    font-size: 12pt;
+    border-radius: 5px;
+    padding: 6px 15px;
+}
+
+#desktop-my-page table tbody tr:nth-child(4) td:first-child {
+    vertical-align: top;
+}
+
+#desktop-my-page table tbody td label {
+    display: block;
+}
+
+#desktop-my-page table tbody td select,
+#desktop-my-page table tbody td input[type=text],
+#desktop-my-page table tbody td input[type=password],
+#desktop-my-page table tbody td input[type=email] {
+    font: 12pt 'NanumSquare_acB';
+    width: 220px;
+    margin: 0;
+    padding: 4px 10px;
+    outline: none;
+}
+
+#desktop-my-page table tbody td select {
+    width: 242px;
+    height: 30px;
+    font-size: 12pt;
+    border-radius: 3px;
+}
+
+#desktop-my-page table tbody td input[type=email] {
+    width: 220px;
+    height: 20px;
+    border: 1px solid #615f5f;
+    border-radius: 3px;
+}
+
+#desktop-my-page table tfoot td {
+    padding: 20px 0 10px;
+}
+
+#desktop-my-page table tfoot td a {
+    font: 9pt 'NanumSquare_acB';
+    color: inherit;
+    margin: 0 20px;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#desktop-my-page table tfoot td a:hover {
+    color: #0070c0;
+}

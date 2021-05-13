@@ -2,3 +2,131 @@
     height: calc(100% - 30px);
     padding: 15px;
 }
+
+#mobile-my-page .btn {
+    font: 12pt 'NanumSquareB';
+    margin: 0 5px;
+    padding: 7px 20px;
+    background-color: #3b3838;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+#mobile-my-page .btn:hover {
+    background-color: #0070c0;
+}
+
+#mobile-my-page .btn.disabled {
+    background-color: #747171;
+    cursor: default;
+}
+
+#mobile-my-page .btn.disabled:hover {
+    background-color: #747171;
+}
+
+#mobile-my-page input[type=text],
+#mobile-my-page input[type=password] {
+    width: 150px;
+    height: 20px;
+    border: 1px solid #615f5f;
+    border-radius: 3px;
+    padding: 0 10px;
+    font: 12pt 'NanumSquare_acB', serif;
+    outline: none;
+}
+
+#mobile-my-page > div {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+#mobile-my-page > div > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#mobile-my-page > div > div > div {
+    width: fit-content;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin: 0 auto;
+    padding: 15px 5px 15px 15px;
+}
+
+#mobile-my-page table {
+    width: 350px;
+}
+
+#mobile-my-page table td {
+    font: 13pt 'NanumSquareB';
+    padding: 3px 0;
+}
+
+#mobile-my-page table tbody tr:nth-child(2) td:last-child a.btn {
+    width: 100px;
+    font-size: 8pt;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+#mobile-my-page table tbody td:first-child {
+    font-size: 10pt;
+    text-align: right;
+}
+
+#mobile-my-page table tbody tr:nth-child(4) td:first-child {
+    vertical-align: top;
+}
+
+#mobile-my-page table tbody td label {
+    display: block;
+}
+
+#mobile-my-page table tbody td select,
+#mobile-my-page table tbody td input[type=text],
+#mobile-my-page table tbody td input[type=password],
+#mobile-my-page table tbody td input[type=email] {
+    font: 10pt 'NanumSquare_acB';
+    width: 180px;
+    margin: 0;
+    padding: 0 10px;
+    outline: none;
+}
+
+#mobile-my-page table tbody td select {
+    width: 202px;
+    height: 22px;
+    border-radius: 3px;
+}
+
+#mobile-my-page table tbody td input[type=email] {
+    width: 180px;
+    height: 20px;
+    border: 1px solid #615f5f;
+    border-radius: 3px;
+}
+
+#mobile-my-page table tfoot td {
+    padding: 5px 0;
+}
+
+#mobile-my-page table tfoot td {
+    padding: 10px 0 0;
+}
+
+#mobile-my-page table tfoot td a {
+    font: 9pt 'NanumSquare_acB';
+    color: inherit;
+    margin: 0 20px;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#mobile-my-page table tfoot td a:hover {
+    color: #0070c0;
+}
