@@ -32,4 +32,16 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     @Modifying
     @Query("update Member m set m.password = :newPassword where m.username = :username and m.email = :email")
     void updateByUsernameAndEmail(@Param("newPassword") final String newPassword, @Param("username") final String username, @Param("email") final String email);
+
+    @Modifying
+    @Query("update Member m set m.workClass = :workClass, m.workerName = :workerName, m.email = :email where m.username = :username")
+    void updateByUsername(
+            @Param("username") final String username,
+            @Param("workClass") final String workClass,
+            @Param("workerName") final String workerName,
+            @Param("email") final String email);
+
+    @Modifying
+    @Query("update Member m set m.password = :newPassword where m.username = :username")
+    void updatePasswordByUsername(@Param("username") final String username, @Param("newPassword") final String newPassword);
 }

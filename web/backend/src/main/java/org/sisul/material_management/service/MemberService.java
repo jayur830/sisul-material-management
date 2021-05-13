@@ -7,9 +7,8 @@ import org.sisul.material_management.entity.Member;
 import org.sisul.material_management.repository.ItemRepository;
 import org.sisul.material_management.repository.MemberRepository;
 import org.sisul.material_management.utils.MailUtils;
-import org.sisul.material_management.vo.RequestFindPasswordVO;
-import org.sisul.material_management.vo.RequestFindUsernameVO;
-import org.sisul.material_management.vo.RequestSignUpVO;
+import org.sisul.material_management.vo.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,5 +69,42 @@ public class MemberService {
             response.put("isExistUser", false);
         }
         return response;
+    }
+
+    public ResponseLoggedInMemberVO getLoggedInMember() {
+        Member member = this.memberRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        return ResponseLoggedInMemberVO.builder()
+                .username(member.getUsername())
+                .password(member.getPassword())
+                .workClass(member.getWorkClass())
+                .workerName(member.getWorkerName())
+                .email(member.getEmail())
+                .build();
+    }
+
+    @Transactional
+    public void updateInfo(final RequestUpdateInfoVO request) {
+        this.memberRepository.updateByUsername(request.getUsername(), request.getWorkClass(), request.getWorkerName(), request.getEmail());
+    }
+
+    public Map<String, Boolean> compareCurrentPassword(final String currentPassword) {
+        Map<String, Boolean> response = new HashMap<>();
+
+        final String password = this.memberRepository.findByUsername(
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getName())
+                .getPassword();
+        log.info("{} {} {}", currentPassword.substring(0, currentPassword.length() - 1), password, this.passwordEncoder.matches(currentPassword, password));
+        response.put("isMatched", this.passwordEncoder.matches(currentPassword.substring(0, currentPassword.length() - 1), password));
+        return response;
+    }
+
+    @Transactional
+    public void changePassword(final String newPassword) {
+        this.memberRepository.updatePasswordByUsername(
+                SecurityContextHolder.getContext().getAuthentication().getName(),
+                this.passwordEncoder.encode(newPassword.substring(0, newPassword.length() - 1)));
     }
 }

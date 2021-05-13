@@ -2,16 +2,17 @@ package org.sisul.material_management.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.sisul.material_management.repository.MemberRepository;
 import org.sisul.material_management.security.CustomUserDetailsService;
 import org.sisul.material_management.service.MemberService;
-import org.sisul.material_management.vo.RequestFindPasswordVO;
-import org.sisul.material_management.vo.RequestFindUsernameVO;
-import org.sisul.material_management.vo.RequestSignUpVO;
+import org.sisul.material_management.vo.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -69,5 +70,25 @@ public class MemberController {
     @PostMapping("/findPassword")
     public Map<String, Boolean> findPassword(@RequestBody final RequestFindPasswordVO request) {
         return this.memberService.findPassword(request);
+    }
+
+    @GetMapping("/getLoggedInMember")
+    public ResponseLoggedInMemberVO getLoggedInMember() {
+        return this.memberService.getLoggedInMember();
+    }
+
+    @PutMapping("/updateInfo")
+    public void updateInfo(@RequestBody final RequestUpdateInfoVO request) {
+        this.memberService.updateInfo(request);
+    }
+
+    @PostMapping("/compareCurrentPassword")
+    public Map<String, Boolean> compareCurrentPassword(@RequestBody final String currentPassword) {
+        return this.memberService.compareCurrentPassword(currentPassword);
+    }
+
+    @PostMapping("/changePassword")
+    public void changePassword(@RequestBody final String newPassword) {
+        this.memberService.changePassword(newPassword);
     }
 }
