@@ -12,5 +12,6 @@ import java.util.List;
 public interface LogRepository extends JpaRepository<Log, Date> {
     List<Log> findAllByOrderByLogTimeDesc();
     Log findByLogTimeAndWorkClassAndWorkerName(final String logTime, final String workClass, final String workerName);
+    void deleteByLogTime(final String logTime);
     List<Log> findAllByStockStockIdOrderByLogTimeDesc(final int stockId);
 }

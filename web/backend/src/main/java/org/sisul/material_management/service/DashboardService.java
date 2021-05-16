@@ -7,6 +7,7 @@ import org.sisul.material_management.entity.Stock;
 import org.sisul.material_management.repository.LogRepository;
 import org.sisul.material_management.repository.StockRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,6 +29,11 @@ public class DashboardService {
 
     public Log dashboardLogView(final String logTime, final String workClass, final String workerName) {
         return this.logRepository.findByLogTimeAndWorkClassAndWorkerName(logTime, workClass, workerName);
+    }
+
+    @Transactional
+    public void removeDashboardLog(final String logTime) {
+        this.logRepository.deleteByLogTime(logTime);
     }
 
     public List<Stock> dashboardStockList() {

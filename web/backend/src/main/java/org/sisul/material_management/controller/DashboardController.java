@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.sisul.material_management.entity.Log;
 import org.sisul.material_management.entity.Stock;
 import org.sisul.material_management.service.DashboardService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -32,6 +29,11 @@ public class DashboardController {
             @RequestParam("workClass") final String workClass,
             @RequestParam("workerName") final String workerName) {
         return this.dashboardService.dashboardLogView(logTime, workClass, workerName);
+    }
+
+    @DeleteMapping("/log/remove")
+    public void removeDashboardLog(@RequestParam("logTime") final String logTime) {
+        this.dashboardService.removeDashboardLog(logTime);
     }
 
     @GetMapping("/stock/list")
