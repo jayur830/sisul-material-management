@@ -118,6 +118,15 @@
     width: calc(100% - 138px);
 }
 
+#mobile-dashboard .content:nth-child(1) table tbody td div table tbody td:nth-child(9) svg {
+    color: #262626;
+    transition: color 0.2s;
+}
+
+#mobile-dashboard .content:nth-child(1) table tbody td div table tbody td:nth-child(9) svg:hover {
+    color: #0070c0;
+}
+
 #mobile-dashboard .content:nth-child(2) > div:first-child div {
     width: calc(100% - 34px);
 }

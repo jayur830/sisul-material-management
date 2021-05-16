@@ -17,6 +17,7 @@ import {
     faChevronRight,
     faFileDownload,
     faSort,
+    faTimes,
     faUser,
     faSignInAlt,
     faSignOutAlt
@@ -30,6 +31,7 @@ library.add(
     faChevronRight,
     faFileDownload,
     faSort,
+    faTimes,
     faUser,
     faSignInAlt,
     faSignOutAlt);

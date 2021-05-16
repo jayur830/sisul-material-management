@@ -116,6 +116,19 @@
     width: calc(100% - 180px);
 }
 
+#desktop-dashboard > .content:first-child table tbody td div table tbody td:nth-child(9) svg {
+    color: #262626;
+    transition: color 0.2s;
+}
+
+#desktop-dashboard > .content:first-child table tbody td div table tbody td:nth-child(9) svg:hover {
+    color: #0070c0;
+}
+
+#desktop-dashboard > .content:first-child table tbody td div table tbody td:nth-child(9) svg:active {
+    color: #0070c0;
+}
+
 #desktop-dashboard > div:last-child {
     display: flex;
     padding-top: 15px;

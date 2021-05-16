@@ -1,12 +1,13 @@
 import { mapActions, mapState } from "vuex";
 
 import moment from "moment";
-import { downloadExcel } from "../../../common";
+import { alert, confirm, downloadExcel } from "../../../common";
 
 export default {
     name: "DashboardMixin",
     computed: {
         ...mapState({
+            isAdmin: state => state.member.isAdmin,
             log: state => state.dashboard.log,
             logOrder: state => state.dashboard.logOrder,
             stock: state => state.dashboard.stock,
@@ -20,6 +21,7 @@ export default {
         ...mapActions({
             initLog: "INIT_DASHBOARD_LOG_LIST",
             orderLog: "ORDER_DASHBOARD_LOG_LIST",
+            _removeLog: "REMOVE_DASHBOARD_LOG",
             initStock: "INIT_DASHBOARD_STOCK_LIST",
             orderStock: "ORDER_DASHBOARD_STOCK_LIST",
             setStockView: "SET_DASHBOARD_STOCK_VIEW",
@@ -72,6 +74,12 @@ export default {
                 })),
                 "재고",
                 `서울시설공단_응급보수자재관리_자재별입출고내역_${moment().format("YYYYMMDDhhmmss")}.xlsx`);
+        },
+
+        async removeLog(logTime) {
+            await new Promise(resolve => confirm("해당 로그를 삭제하시겠습니까?", resolve));
+            await this._removeLog(logTime);
+            await alert("삭제되었습니다.");
         }
     }
 }

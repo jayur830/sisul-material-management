@@ -9,7 +9,18 @@
                 </div>
             </div>
             <table>
-                <colgroup>
+                <colgroup v-if="isAdmin">
+                    <col style="width: 13%;" />
+                    <col style="width: 6%;" />
+                    <col style="width: 16%;" />
+                    <col style="width: 16%;" />
+                    <col style="width: 9%;" />
+                    <col style="width: 9%;" />
+                    <col style="width: 11%;" />
+                    <col style="width: 12%;" />
+                    <col style="width: 8%;" />
+                </colgroup>
+                <colgroup v-else>
                     <col style="width: 14%;" />
                     <col style="width: 7%;" />
                     <col style="width: 17%;" />
@@ -53,11 +64,50 @@
                             작업자명
                             <font-awesome-icon size="1x" :icon="['fa', 'sort']" @click="orderLog({ property: 'workerName', order: !logOrder.workerName })" />
                         </th>
+                        <th v-if="isAdmin"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="8">
+                        <td colspan="9" v-if="isAdmin">
+                            <div class="scroll" v-if="log && log.length != 0">
+                                <table>
+                                    <colgroup>
+                                        <col style="width: 13%;" />
+                                        <col style="width: 6%;" />
+                                        <col style="width: 16%;" />
+                                        <col style="width: 16%;" />
+                                        <col style="width: 9%;" />
+                                        <col style="width: 9%;" />
+                                        <col style="width: 11%;" />
+                                        <col style="width: 12%;" />
+                                        <col style="width: 8%;" />
+                                    </colgroup>
+                                    <tbody>
+                                        <tr :key="i" v-for="(obj, i) in log" @click="$router.push(`/dashboard/view?t=${obj.logTime}&c=${obj.workClass}&n=${obj.workerName}`)">
+                                            <td>{{ toLogTime(obj.logTime, 'YYYYMMDDhhmmss') }}</td>
+                                            <td :style="{
+                                                fontWeight: 'bold',
+                                                backgroundColor: obj.inOut === 0 ? '#009a46' : '#c55a11',
+                                                color: obj.inOut === 0 ? '#bdffdb' : '#f8cbad'
+                                            }">{{ obj.inOut === 0 ? '입고' : '출고' }}</td>
+                                            <td>{{ obj.stock.category }}</td>
+                                            <td>{{ obj.stock.item }}</td>
+                                            <td :style="{
+                                                fontWeight: 'bold',
+                                                color: obj.inOut === 0 ? '#009a46' : '#c55a11'
+                                            }">{{ obj.inOut === 0 ? '+' : '-' }}{{ obj.count }}</td>
+                                            <td>{{ obj.lastCount }}</td>
+                                            <td>{{ obj.workClass }}</td>
+                                            <td>{{ obj.workerName }}</td>
+                                            <td @click.stop="removeLog(obj.logTime)"><font-awesome-icon size="2x" :icon="['fa', 'times']" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="scroll" v-else><table><tbody><tr><td>No data</td></tr></tbody></table></div>
+                        </td>
+                        <td colspan="8" v-else>
                             <div class="scroll" v-if="log && log.length != 0">
                                 <table>
                                     <colgroup>
