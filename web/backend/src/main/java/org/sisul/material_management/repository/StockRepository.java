@@ -16,5 +16,9 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     @Modifying
     @Query("update Stock s set s.count = :count where s.category = :category and s.item = :item")
-    void updateByCategoryAndItem(@Param("category") final String category, @Param("item") final String item, @Param("count") final int count);
+    void updateCountByCategoryAndItem(@Param("category") final String category, @Param("item") final String item, @Param("count") final int count);
+
+    @Modifying
+    @Query("update Stock s set s.count = s.count + :count where s.category = :category and s.item = :item")
+    void addCountByCategoryAndItem(@Param("category") final String category, @Param("item") final String item, @Param("count") final int count);
 }

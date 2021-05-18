@@ -19,12 +19,27 @@ public interface LogRepository extends JpaRepository<Log, Date> {
     List<Log> findAllByStockStockIdOrderByLogTimeDesc(final int stockId);
 
     @Modifying
-    @Query("update Log l set l.lastCount = l.lastCount + :count where l.logTime > :logTime")
-    void updateCountAllByLogTimeGreaterThan(@Param("count") final int count, @Param("logTime") final String logTime);
+    @Query(
+            "update Log l " +
+            "set l.lastCount = l.lastCount + :count " +
+            "where l.logTime > :logTime " +
+            "and l.stock = :stock")
+    void updateCountAllByLogTimeGreaterThan(
+            @Param("count") final int count,
+            @Param("logTime") final String logTime,
+            @Param("stock") final Stock stock);
 
     @Modifying
-    @Query("update Log l set l.lastCount = l.lastCount + :subCount + :addCount where l.logTime > :logTime")
-    void updateCountAllByLogTimeGreaterThan(@Param("subCount") final int subCount, @Param("addCount") final int addCount, @Param("logTime") final String logTime);
+    @Query(
+            "update Log l " +
+            "set l.lastCount = l.lastCount + :subCount + :addCount " +
+            "where l.logTime > :logTime " +
+            "and l.stock = :stock")
+    void updateCountAllByLogTimeGreaterThan(
+            @Param("subCount") final int subCount,
+            @Param("addCount") final int addCount,
+            @Param("logTime") final String logTime,
+            @Param("stock") final Stock stock);
 
     Log findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(final String category, final String item);
 }

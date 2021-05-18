@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletOutputStream;
 import java.io.*;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -32,9 +33,14 @@ public class DashboardService {
 
     @Transactional
     public void modifyDashboardLog(final RequestInsertLogVO request, MultipartFile...imgs) {
-        uploadImage(imgs);
+        String[] fileNames = uploadImage(imgs);
 
         Log log = this.logRepository.findByLogTime(request.getLogTime());
+
+        if (log.getImg1() != null) new File("src/main/resources/img/" + log.getImg1()).delete();
+        if (log.getImg2() != null) new File("src/main/resources/img/" + log.getImg2()).delete();
+        if (log.getImg3() != null) new File("src/main/resources/img/" + log.getImg3()).delete();
+
         final int subCount = log.getCount() * (log.getInOut() == 0 ? -1 : 1);
 
         log.setLastCount(log.getLastCount() + subCount);
@@ -45,44 +51,51 @@ public class DashboardService {
         stock.setCategory(request.getCategory());
         stock.setItem(request.getItem());
         log.setUnit(request.getUnit());
-        log.setImg1(imgs[0] == null ? null : imgs[0].getOriginalFilename());
-        log.setImg2(imgs[1] == null ? null : imgs[1].getOriginalFilename());
-        log.setImg3(imgs[2] == null ? null : imgs[2].getOriginalFilename());
+        log.setImg1(fileNames[0]);
+        log.setImg2(fileNames[1]);
+        log.setImg3(fileNames[2]);
+        log.setCount(request.getCount());
         log.setLastCount(log.getLastCount() + request.getCount() * (request.getInOut() == 0 ? 1 : -1));
 
         this.logRepository.save(log);
-        this.logRepository.updateCountAllByLogTimeGreaterThan(subCount, request.getCount() * (request.getInOut() == 0 ? 1 : -1), request.getLogTime());
+        this.logRepository.updateCountAllByLogTimeGreaterThan(
+                subCount,
+                request.getCount() * (request.getInOut() == 0 ? 1 : -1),
+                request.getLogTime(),
+                stock);
+        this.stockRepository.updateCountByCategoryAndItem(
+                stock.getCategory(),
+                stock.getItem(),
+                this.logRepository.findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(
+                        stock.getCategory(),
+                        stock.getItem()).getLastCount());
     }
 
     @Transactional
     public void removeDashboardLog(final String logTime) {
-        Log log = this.logRepository.findByLogTime(logTime);
-        String img1 = log.getImg1();
-        String img2 = log.getImg2();
-        String img3 = log.getImg3();
-        if (img1 != null) {
-            File img = new File("src/main/resources/img/" + img1);
-            if (img.isFile() && img.exists()) img.delete();
-        }
-        if (img2 != null) {
-            File img = new File("src/main/resources/img/" + img2);
-            if (img.isFile() && img.exists()) img.delete();
-        }
-        if (img3 != null) {
-            File img = new File("src/main/resources/img/" + img3);
-            if (img.isFile() && img.exists()) img.delete();
-        }
-        final int count = log.getCount() * (log.getInOut() == 0 ? -1 : 1);
-        this.logRepository.updateCountAllByLogTimeGreaterThan(count, logTime);
-        this.logRepository.delete(log);
+        Log _log = this.logRepository.findByLogTime(logTime);
+        String img1 = _log.getImg1();
+        String img2 = _log.getImg2();
+        String img3 = _log.getImg3();
+        if (img1 != null) new File("src/main/resources/img/" + img1).delete();
+        if (img2 != null) new File("src/main/resources/img/" + img2).delete();
+        if (img3 != null) new File("src/main/resources/img/" + img3).delete();
+        final int count = _log.getCount() * (_log.getInOut() == 0 ? -1 : 1);
+        Stock stock = _log.getStock();
+        this.logRepository.updateCountAllByLogTimeGreaterThan(count, logTime, stock);
+        this.logRepository.delete(_log);
 
-        Stock stock = log.getStock();
         Log lastLog = this.logRepository.findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(stock.getCategory(), stock.getItem());
         if (lastLog != null)
-            this.stockRepository.updateByCategoryAndItem(
+            this.stockRepository.updateCountByCategoryAndItem(
                     stock.getCategory(),
                     stock.getItem(),
                     lastLog.getLastCount());
+        else
+            this.stockRepository.addCountByCategoryAndItem(
+                    stock.getCategory(),
+                    stock.getItem(),
+                    count);
     }
 
     public List<Stock> dashboardStockList() {
@@ -96,7 +109,7 @@ public class DashboardService {
     public void getImage(final String fileName, ServletOutputStream outputStream) throws IOException {
         File imgFile = new File("src/main/resources/img/" + fileName);
 
-        if (!imgFile.isFile()) imgFile = new File("src/main/resources/not_found.png");
+        if (!imgFile.isFile() || !imgFile.exists()) imgFile = new File("src/main/resources/not_found.png");
 
         byte[] buf = new byte[1024];
         int readByte;
@@ -128,19 +141,28 @@ public class DashboardService {
         }
     }
 
-    private void uploadImage(MultipartFile ...imgs) {
+    private String[] uploadImage(MultipartFile ...imgs) {
+        String[] fileNames = new String[3];
+        int i = 0;
         for (MultipartFile img : imgs) {
             if (img == null) continue;
             try {
+                String fileName = Objects.requireNonNull(img.getOriginalFilename()).substring(0, img.getOriginalFilename().lastIndexOf("."));
+                fileName += "_" + System.currentTimeMillis() + img.getOriginalFilename().substring(img.getOriginalFilename().lastIndexOf("."));
                 byte[] bytes = img.getBytes();
-
-                final String path = "src/main/resources/img/" + img.getOriginalFilename();
+                final String path = "src/main/resources/img/" + fileName;
                 OutputStream outputStream = new FileOutputStream(new File(path));
                 outputStream.write(bytes);
                 outputStream.flush();
+                outputStream.close();
+
+                fileNames[i] = fileName;
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                ++i;
             }
         }
+        return fileNames;
     }
 }

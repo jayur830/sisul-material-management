@@ -112,6 +112,7 @@ public class SubmitService {
                 OutputStream outputStream = new FileOutputStream(new File(path));
                 outputStream.write(bytes);
                 outputStream.flush();
+                outputStream.close();
 
                 fileNames[i] = fileName;
             } catch (IOException e) {
