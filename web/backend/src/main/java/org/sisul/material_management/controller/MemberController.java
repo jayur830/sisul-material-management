@@ -36,8 +36,6 @@ public class MemberController {
                 !authentication.getPrincipal().equals("anonymousUser");
         auth.put("isAuthenticated", isAuthenticated);
 
-        log.info("{}", authentication.getName());
-        log.info("{}", authentication.getAuthorities());
         if (isAuthenticated) auth.put("isAdmin", ((List<GrantedAuthority>) authentication.getAuthorities()).get(0).getAuthority().equals("ADMIN"));
         return auth;
     }

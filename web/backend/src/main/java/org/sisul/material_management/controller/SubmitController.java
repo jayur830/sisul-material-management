@@ -6,6 +6,7 @@ import org.sisul.material_management.service.SubmitService;
 import org.sisul.material_management.vo.RequestInsertLogVO;
 import org.sisul.material_management.vo.RequestMaterialVO;
 import org.sisul.material_management.vo.ResponseSubmitItemsVO;
+import org.sisul.material_management.vo.ResponseSubmitUserInfoVO;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,5 +44,10 @@ public class SubmitController {
             @Nullable @RequestParam MultipartFile img2,
             @Nullable @RequestParam MultipartFile img3) throws ParseException {
         this.submitService.submit(request, img1, img2, img3);
+    }
+
+    @GetMapping("/getUserInfo")
+    public ResponseSubmitUserInfoVO getUserInfo() {
+        return this.submitService.getUserInfo();
     }
 }

@@ -4,13 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sisul.material_management.entity.Item;
 import org.sisul.material_management.entity.Log;
+import org.sisul.material_management.entity.Member;
 import org.sisul.material_management.entity.Stock;
 import org.sisul.material_management.repository.ItemRepository;
 import org.sisul.material_management.repository.LogRepository;
+import org.sisul.material_management.repository.MemberRepository;
 import org.sisul.material_management.repository.StockRepository;
 import org.sisul.material_management.vo.RequestInsertLogVO;
 import org.sisul.material_management.vo.RequestMaterialVO;
 import org.sisul.material_management.vo.ResponseSubmitItemsVO;
+import org.sisul.material_management.vo.ResponseSubmitUserInfoVO;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,10 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -31,6 +32,7 @@ public class SubmitService {
     private final LogRepository logRepository;
     private final StockRepository stockRepository;
     private final ItemRepository itemRepository;
+    private final MemberRepository memberRepository;
 
     public ResponseSubmitItemsVO getSubmitItems() {
         ResponseSubmitItemsVO response = new ResponseSubmitItemsVO();
@@ -54,7 +56,7 @@ public class SubmitService {
 
     @Transactional
     public void submit(final RequestInsertLogVO request, MultipartFile...imgs) {
-        uploadImage(imgs);
+        String[] fileNames = uploadImage(imgs);
 
         Stock stock = this.stockRepository.findByCategoryAndItem(
                 request.getCategory(),
@@ -70,9 +72,9 @@ public class SubmitService {
                 .unit(request.getUnit())
                 .workClass(request.getWorkClass())
                 .workerName(request.getWorkerName())
-                .img1(imgs[0] == null ? null : imgs[0].getOriginalFilename())
-                .img2(imgs[1] == null ? null : imgs[1].getOriginalFilename())
-                .img3(imgs[2] == null ? null : imgs[2].getOriginalFilename())
+                .img1(fileNames[0])
+                .img2(fileNames[1])
+                .img3(fileNames[2])
                 .build());
     }
 
@@ -97,19 +99,35 @@ public class SubmitService {
         return materials;
     }
 
-    private void uploadImage(MultipartFile ...imgs) {
+    private String[] uploadImage(MultipartFile ...imgs) {
+        String[] fileNames = new String[3];
+        int i = 0;
         for (MultipartFile img : imgs) {
             if (img == null) continue;
             try {
+                String fileName = Objects.requireNonNull(img.getOriginalFilename()).substring(0, img.getOriginalFilename().lastIndexOf("."));
+                fileName += "_" + System.currentTimeMillis() + img.getOriginalFilename().substring(img.getOriginalFilename().lastIndexOf("."));
                 byte[] bytes = img.getBytes();
-
-                final String path = "src/main/resources/img/" + img.getOriginalFilename();
+                final String path = "src/main/resources/img/" + fileName;
                 OutputStream outputStream = new FileOutputStream(new File(path));
                 outputStream.write(bytes);
                 outputStream.flush();
+
+                fileNames[i] = fileName;
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                ++i;
             }
         }
+        return fileNames;
+    }
+
+    public ResponseSubmitUserInfoVO getUserInfo() {
+        Member member = this.memberRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        return ResponseSubmitUserInfoVO.builder()
+                .workClass(member.getWorkClass())
+                .workerName(member.getWorkerName())
+                .build();
     }
 }
