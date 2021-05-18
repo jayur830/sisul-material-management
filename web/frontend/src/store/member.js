@@ -37,7 +37,6 @@ export default {
         SET_AUTHENTICATED: (state, { isAuthenticated, isAdmin }) => [state.member.isAuthenticated, state.member.isAdmin] = [isAuthenticated, isAdmin],
 
         LOGIN: (state, loginResult) => {
-            console.log(loginResult);
             if (loginResult.username) state.member.isAuthenticated = true;
         },
 
@@ -47,7 +46,6 @@ export default {
 
         SET_MEMBER_MY_PAGE_WORK_CLASSES: (state, workClasses) => state.member.myPage.workClasses = Object.freeze(workClasses),
         SET_MEMBER_MY_PAGE_DATA: (state, data) => {
-            console.log(data);
             [state.member.myPage.src.username, state.member.myPage.dst.username] = [data.username, data.username];
             [state.member.myPage.src.password, state.member.myPage.dst.password] = [data.password, data.password];
             [state.member.myPage.src.workClass, state.member.myPage.dst.workClass] = [data.workClass, data.workClass];

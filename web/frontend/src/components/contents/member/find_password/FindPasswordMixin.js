@@ -31,7 +31,6 @@ export default {
                     username: this.username,
                     email: this.email
                 }).then(response => response.data)).isExistUser;
-                console.log(isExistUser);
                 if (isExistUser) {
                     await alert("임시 비밀번호를 해당 이메일로 전송하였습니다.\n로그인 후 비밀번호를 즉시 변경하세요.");
                     await this.$router.push("/member/login");

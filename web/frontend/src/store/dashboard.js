@@ -32,6 +32,10 @@ export default {
                 count: true,
                 workClass: true,
                 workerName: true
+            },
+            edit: {
+                properties: null,
+                isExist: null
             }
         }
     },
@@ -84,13 +88,21 @@ export default {
             selectedStock.sort((a, b) => (order ? a[property] < b[property] : a[property] > b[property]) ? 1 : -1);
             state.dashboard.selectedStock = Object.freeze(selectedStock);
             state.dashboard.selectedStockOrder = Object.freeze({ ...state.dashboard.selectedStockOrder, [property]: order });
-        }
+        },
+
+        INIT_DASHBOARD_EDIT_PROPERTIES: (state, properties) => {
+            properties["categories"] = Object.keys(properties.materials);
+            properties["categories"].sort();
+            state.dashboard.edit.properties = Object.freeze(properties);
+        },
+        SET_DASHBOARD_EDIT_EXIST_MATERIAL: (state, isExist) => state.dashboard.edit.isExist = isExist === 1,
+        CLEAR_DASHBOARD_EDIT_EXIST_MATERIAL: state => state.dashboard.edit.isExist = null
     },
     actions: {
         INIT_DASHBOARD_LOG_LIST: async context => context.commit("INIT_DASHBOARD_LOG_LIST", await axios.get("/api/dashboard/log/list").then(response => response.data)),
         ORDER_DASHBOARD_LOG_LIST: (context, { property, order }) => context.commit("ORDER_DASHBOARD_LOG_LIST", { property, order }),
         REMOVE_DASHBOARD_LOG: async (context, logTime) => {
-            await axios.delete("", { params: { logTime } });
+            await axios.delete("/api/dashboard/log/remove", { params: { logTime } });
             await context.commit("REMOVE_DASHBOARD_LOG", logTime);
         },
         SET_DASHBOARD_LOG_VIEW: async (context, { logTime, workClass, workerName }) => context.commit("SET_DASHBOARD_LOG_VIEW", await axios.get("/api/dashboard/log/view", { params: { logTime, workClass, workerName } }).then(response => response.data)),
@@ -99,6 +111,9 @@ export default {
         INIT_DASHBOARD_STOCK_LIST: async context => context.commit("INIT_DASHBOARD_STOCK_LIST", await axios.get("/api/dashboard/stock/list").then(response => response.data)),
         ORDER_DASHBOARD_STOCK_LIST: (context, { property, order }) => context.commit("ORDER_DASHBOARD_STOCK_LIST", { property, order }),
         SET_DASHBOARD_STOCK_VIEW: async (context, stockId) => context.commit("SET_DASHBOARD_STOCK_VIEW", { data: await axios.get("/api/dashboard/stock/view", { params: { stockId } }).then(response => response.data), stockId }),
-        ORDER_DASHBOARD_STOCK_VIEW: (context, { property, order }) => context.commit("ORDER_DASHBOARD_STOCK_VIEW", { property, order })
+        ORDER_DASHBOARD_STOCK_VIEW: (context, { property, order }) => context.commit("ORDER_DASHBOARD_STOCK_VIEW", { property, order }),
+        INIT_DASHBOARD_EDIT_PROPERTIES: async context => await context.commit("INIT_DASHBOARD_EDIT_PROPERTIES", await axios.get("/api/submit/items").then(response => response.data)),
+        SET_DASHBOARD_EDIT_EXIST_MATERIAL: async (context, { category, item }) => context.commit("SET_DASHBOARD_EDIT_EXIST_MATERIAL", await axios.get("/api/submit/isExistMaterial", { params: { category, item } }).then(response => response.data)),
+        CLEAR_DASHBOARD_EDIT_EXIST_MATERIAL: context => context.commit("CLEAR_DASHBOARD_EDIT_EXIST_MATERIAL")
     }
 }

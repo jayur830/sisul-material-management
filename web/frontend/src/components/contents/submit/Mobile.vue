@@ -121,6 +121,7 @@
         mixins: [SubmitMixin],
         mounted() {
             this.initProperties();
+            if (this.isAuthenticated) this.setUserInfo();
         },
         destroyed() {
             this.clearFormData();

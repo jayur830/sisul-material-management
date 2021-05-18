@@ -10,6 +10,7 @@ export default {
     }),
     computed: {
         ...mapState({
+            isAuthenticated: state => state.member.isAuthenticated,
             properties: state => state.submit.properties,
             workClass: state => state.submit.data.workClass,
             workerName: state => state.submit.data.workerName,
@@ -29,6 +30,7 @@ export default {
     methods: {
         ...mapActions({
             initProperties: "INIT_SUBMIT_PROPERTIES",
+            setUserInfo: "SET_SUBMIT_USER_INFO",
             setWorkClass: "SET_SUBMIT_WORK_CLASS",
             setWorkerName: "SET_SUBMIT_WORKER_NAME",
             setCategory: "SET_SUBMIT_CATEGORY",
@@ -47,7 +49,6 @@ export default {
         }),
 
         async onLoadFile(e, index) {
-            console.log(e.target.files);
             await this.setImgFile({
                 index,
                 file: e.target.files[0]
@@ -80,7 +81,7 @@ export default {
                         item: this.manualItem
                     });
 
-                if (!this.isExist) {
+                if (this.isExist == false) {
                     await this.clearIsExistVariable();
                     await new Promise(resolve => confirm("등록되지 않은 자재입니다.\n추가하시겠습니까?", resolve));
                     // eslint-disable-next-line no-unused-vars
@@ -126,14 +127,14 @@ export default {
 
         createFormData() {
             const formData = new FormData();
-            formData.append('logTime', moment().format('YYYYMMDDhhmmss'));
-            formData.append('workClass', this.workClass == "*" ? this.manualWorkClass : this.workClass);
-            formData.append('workerName', this.workerName);
-            formData.append('category', this.category == "*" ? this.manualCategory : this.category);
-            formData.append('item', this.item == "*" ? this.manualItem : this.item);
-            formData.append('inOut', this.inOut);
-            formData.append('count', parseInt(this.count));
-            formData.append('unit', this.unit == "*" ? this.manualUnit : this.unit);
+            formData.append("logTime", moment().format("YYYYMMDDhhmmss"));
+            formData.append("workClass", this.workClass == "*" ? this.manualWorkClass : this.workClass);
+            formData.append("workerName", this.workerName);
+            formData.append("category", this.category == "*" ? this.manualCategory : this.category);
+            formData.append("item", this.item == "*" ? this.manualItem : this.item);
+            formData.append("inOut", this.inOut);
+            formData.append("count", parseInt(this.count));
+            formData.append("unit", this.unit == "*" ? this.manualUnit : this.unit);
 
             return formData;
         }

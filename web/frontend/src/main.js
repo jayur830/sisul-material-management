@@ -18,6 +18,7 @@ import {
     faFileDownload,
     faSort,
     faTimes,
+    faEdit,
     faUser,
     faSignInAlt,
     faSignOutAlt
@@ -32,6 +33,7 @@ library.add(
     faFileDownload,
     faSort,
     faTimes,
+    faEdit,
     faUser,
     faSignInAlt,
     faSignOutAlt);

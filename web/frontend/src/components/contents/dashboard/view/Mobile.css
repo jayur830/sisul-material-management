@@ -12,6 +12,10 @@
     transition: color 0.1s;
 }
 
+#mobile-dashboard-view h3:nth-child(2) {
+    float: right;
+}
+
 #mobile-dashboard-view h3:hover {
     color: #0070c0;
 }

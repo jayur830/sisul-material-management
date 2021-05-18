@@ -5,6 +5,7 @@ export default {
     name: "DashboardViewMixin",
     computed: {
         ...mapState({
+            isAdmin: state => state.member.isAdmin,
             logData: state => state.dashboard.logView.data,
             selectedImgIndex: state => state.dashboard.logView.selectedImgIndex
         })

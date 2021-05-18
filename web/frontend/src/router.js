@@ -21,6 +21,17 @@ export default new VueRouter({
             component: () => import("./components/contents/dashboard/view/DashboardView")
         },
         {
+            name: "dashboardEdit",
+            props: true,
+            path: "/dashboard/edit",
+            component: () => import("./components/contents/dashboard/edit/DashboardEdit"),
+            async beforeEnter(to, from, next) {
+                await store.dispatch("SET_AUTHENTICATED");
+                if (store.state.member.isAuthenticated && store.state.member.isAdmin) return next();
+                next("/dashboard");
+            }
+        },
+        {
             path: "/submit",
             component: () => import("./components/contents/submit/Submit"),
             async beforeEnter(to, from, next) {

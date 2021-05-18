@@ -2,6 +2,7 @@ import { mapActions, mapState } from "vuex";
 
 import moment from "moment";
 import { alert, confirm, downloadExcel } from "../../../common";
+import xlsx from "xlsx";
 
 export default {
     name: "DashboardMixin",
@@ -32,9 +33,11 @@ export default {
             return moment(d, f).format("YYYY.MM.DD hh:mm:ss");
         },
 
-        downloadLogToExcel() {
-            downloadExcel(
-                this.log.map(obj => ({
+        async downloadLogToExcel() {
+            const book = xlsx.utils.book_new();
+            xlsx.utils.book_append_sheet(
+                book,
+                xlsx.utils.json_to_sheet(this.log.map(obj => ({
                     "입/출고 시간": moment(obj.logTime, "YYYYMMDDhhmmss").format("YYYY.MM.DD hh:mm:ss"),
                     "입/출고": obj.inOut === 0 ? "입고" : "출고",
                     "근무반": obj.workClass,
@@ -44,9 +47,9 @@ export default {
                     "수량": obj.count,
                     "재고량": obj.lastCount,
                     "단위": obj.unit
-                })),
-                "전체 입출고 내역",
-                `서울시설공단_응급보수자재관리_전체입출고내역_${moment().format("YYYYMMDDhhmmss")}.xlsx`);
+                }))),
+                "전체 입출고 내역");
+            xlsx.writeFile(book, `서울시설공단_응급보수자재관리_전체입출고내역_${moment().format("YYYYMMDDhhmmss")}.xlsx`);
         },
 
         downloadStockToExcel() {
@@ -79,6 +82,9 @@ export default {
         async removeLog(logTime) {
             await new Promise(resolve => confirm("해당 로그를 삭제하시겠습니까?", resolve));
             await this._removeLog(logTime);
+            await this.initLog();
+            await this.initStock();
+            if (this.selectedStockId) await this.setStockView(this.selectedStockId);
             await alert("삭제되었습니다.");
         }
     }

@@ -34,6 +34,7 @@ export default {
             state.submit.data.item = properties.materials[Object.keys(properties.materials)[0]][0];
             state.submit.data.unit = properties.units[0];
         },
+        SET_SUBMIT_USER_INFO: (state, { workClass, workerName }) => [state.submit.data.workClass, state.submit.data.workerName] = [workClass, workerName],
 
         SET_SUBMIT_WORK_CLASS: (state, workClass) => [state.submit.data.workClass, state.submit.data.manualWorkClass] = [workClass, ""],
         SET_SUBMIT_WORKER_NAME: (state, workerName) => state.submit.data.workerName = workerName,
@@ -53,6 +54,7 @@ export default {
     },
     actions: {
         INIT_SUBMIT_PROPERTIES: async context => await context.commit("INIT_SUBMIT_PROPERTIES", await axios.get("/api/submit/items").then(response => response.data)),
+        SET_SUBMIT_USER_INFO: async context => await context.commit("SET_SUBMIT_USER_INFO", await axios.get("/api/submit/getUserInfo").then(response => response.data)),
         SET_SUBMIT_WORK_CLASS: (context, workClass) => context.commit("SET_SUBMIT_WORK_CLASS", workClass),
         SET_SUBMIT_WORKER_NAME: (context, workerName) => context.commit("SET_SUBMIT_WORKER_NAME", workerName),
         SET_SUBMIT_CATEGORY: (context, category) => context.commit("SET_SUBMIT_CATEGORY", category),

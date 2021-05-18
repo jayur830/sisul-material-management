@@ -26,7 +26,6 @@ export default {
                 await new Promise(resolve => alert("새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.\n다시 입력해주세요.", resolve));
             else {
                 const isMatched = (await axios.post("/api/member/compareCurrentPassword", this.currentPassword).then(response => response.data)).isMatched;
-                console.log(isMatched);
                 if (isMatched) {
                     await new Promise(resolve => confirm("입력하신 새 비밀번호로 변경하시겠습니까?", resolve));
                     await axios.post("/api/member/changePassword", this.newPassword);

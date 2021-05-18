@@ -4,6 +4,13 @@
             <font-awesome-icon size="1x" :icon="['fa', 'arrow-left']" />
             <span>이전으로 돌아가기</span>
         </h3>
+        <h3 v-show="isAdmin" @click="$router.push({
+            name: 'dashboardEdit',
+            params: { ...logData }
+        })">
+            <font-awesome-icon size="1x" :icon="['fa', 'edit']" />
+            <span>수정하기</span>
+        </h3>
         <div>
             <div class="animate__animated animate__fadeInDown">
                 <div :style="{
@@ -71,7 +78,6 @@
         name: "DesktopDashBoardView",
         mixins: [DashboardViewMixin],
         mounted() {
-            console.log(this.$route.query);
             this.setData({
                 logTime: this.$route.query.t,
                 workClass: this.$route.query.c,
