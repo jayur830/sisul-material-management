@@ -1,5 +1,5 @@
 <template>
-    <div id="desktop-dashboard-edit">
+    <div id="desktop-dashboard-edit" class="animate__animated animate__fadeInRight">
         <div>
             <div>
                 <table v-if="properties">
@@ -132,7 +132,7 @@
             this.category = this.$route.params.stock.category;
             this.item = this.$route.params.stock.item;
             this.inOut = this.$route.params.inOut;
-            this.count = this.$route.params.stock.count;
+            this.count = this.$route.params.count;
             if (this.properties.units.indexOf(this.$route.params.unit) === -1)
                 [this.unit, this.manualUnit] = ["*", this.$route.params.unit];
             else this.unit = this.$route.params.unit;

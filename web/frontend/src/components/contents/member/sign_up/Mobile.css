@@ -53,16 +53,24 @@
     border: 2px solid black;
     border-radius: 15px;
     margin: 0 auto;
-    padding: 15px;
+    padding: 10px;
 }
 
 #mobile-sign-up table {
-    width: 400px;
+    width: 360px;
+}
+
+#mobile-sign-up table colgroup col:nth-child(1) {
+    width: 40%;
+}
+
+#mobile-sign-up table colgroup col:nth-child(2) {
+    width: 60%;
 }
 
 #mobile-sign-up table td {
     font: 13pt 'NanumSquareB';
-    padding: 3px 7px;
+    padding: 3px 0;
 }
 
 #mobile-sign-up table tbody tr:first-child td:last-child input.btn {
@@ -73,6 +81,7 @@
 
 #mobile-sign-up table tbody td:first-child {
     text-align: right;
+    font-size: 10pt;
 }
 
 #mobile-sign-up table tbody tr:nth-child(4) td:first-child {

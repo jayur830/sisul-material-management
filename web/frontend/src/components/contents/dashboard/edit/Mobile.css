@@ -10,11 +10,8 @@
 }
 
 #mobile-dashboard-edit > div > div {
-    width: 500px;
+    width: 100%;
     margin: 0 auto;
-    padding: 30px 20px;
-    border: 2px solid black;
-    border-radius: 15px;
 }
 
 #mobile-dashboard-edit select {
@@ -36,8 +33,9 @@
 
 #mobile-dashboard-edit input[type=button].btn {
     width: calc(50% - 5px);
-    font: 13pt 'NanumSquare_acB';
+    font: 12pt 'NanumSquare_acB';
     padding: 5px 0;
+    border-radius: 5px;
     transition: background-color 0.2s;
 }
 
@@ -64,7 +62,7 @@
 #mobile-dashboard-edit table tbody td:first-child {
     vertical-align: top;
     text-align: right;
-    font: 16pt 'NanumSquareB';
+    font: 13pt 'NanumSquareB';
 }
 
 #mobile-dashboard-edit table tbody td div.file-field {
@@ -78,7 +76,7 @@
     padding: 5px 0;
     border-radius: 5px;
     text-align: center;
-    font: 14pt 'NanumSquare_acB';
+    font: 13pt 'NanumSquare_acB';
     color: #e7e6e6;
     background-color: #262626;
     z-index: 9;
@@ -107,13 +105,14 @@
 }
 
 #mobile-dashboard-edit table tfoot input[type=button].btn {
+    display: inline-block;
     width: 120px;
-    margin: 0 10px;
+    margin: 0 5px;
     padding: 10px 0;
     border-radius: 10px;
     background-color: #0070c0;
     color: white;
-    font: 16pt 'NanumSquare_acB';
+    font: 14pt 'NanumSquare_acB';
     transition: background-color 0.2s;
 }
 
