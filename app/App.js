@@ -18,6 +18,9 @@ import xlsx from 'xlsx';
 import RNFS from 'react-native-fs';
 
 export default class App extends Component {
+    apiUrl = 'http://192.168.219.165:9100';
+    // apiUrl = 'http://180.231.115.99:9100';
+
     styles = StyleSheet.create({
         body: {
             backgroundColor: '#f2f2f2',
@@ -84,8 +87,8 @@ export default class App extends Component {
         super(props);
         this.state = {
             workClasses: null,
+            materials: null,
             categories: null,
-            items: null,
             units: null,
 
             modalVisible: false,
@@ -103,7 +106,7 @@ export default class App extends Component {
                 manualWorkClass: "",
                 manualCategory: "",
                 manualItem: "",
-                manualUnit: "",
+                manualUnit: ""
             }
         };
     }
@@ -111,8 +114,27 @@ export default class App extends Component {
     componentDidMount() {
         (async () => {
             // await SplashScreen.hide();
-            const response = await fetch('http://192.168.219.100:9100/api/submit/items').then(response => response.json());
-            this.setState(response);
+            const response = await fetch(this.apiUrl + '/api/submit/items').then(response => response.json());
+            this.setState({
+                workClasses: response.workClasses,
+                materials: response.materials,
+                categories: Object.keys(response.materials),
+                units: response.units,
+                formData: {
+                    workClass: response.workClasses[0],
+                    workerName: null,
+                    category: Object.keys(response.materials)[0],
+                    item: response.materials[Object.keys(response.materials)[0]][0],
+                    inOut: null,
+                    count: null,
+                    unit: response.units[0],
+                    imgFiles: [null, null, null],
+                    manualWorkClass: "",
+                    manualCategory: "",
+                    manualItem: "",
+                    manualUnit: ""
+                }
+            });
         })();
     }
 
@@ -197,7 +219,7 @@ export default class App extends Component {
                     });
             });
 
-            await fetch('http://192.168.219.100:9100/api/submit/submit', {
+            await fetch(this.apiUrl + '/api/submit/submit', {
                 method: 'POST',
                 body: formData
             });
@@ -309,17 +331,17 @@ export default class App extends Component {
                             <Text style={this.styles.td0Text}>자재 제품명</Text>
                         </View>
                         <View style={this.styles.td1}>
-                            <View style={this.styles.pickerWrap}>
+                            <View style={{ ...this.styles.pickerWrap, display: this.state.formData.category === '*' ? 'none' : 'flex' }}>
                                 <Picker
                                     onValueChange={item => this.setState({ formData: { ...this.state.formData, item } })}
                                     style={this.styles.picker}>
-                                    {this.state.items != null ?
-                                        this.state.items
+                                    {this.state.materials && this.state.formData.category && this.state.materials[this.state.formData.category] ?
+                                        this.state.materials[this.state.formData.category]
                                             .map((item, i) => <Picker.Item key={i} label={item} value={item} />)
-                                            .concat(<Picker.Item key={this.state.items.length} label="기타(수기입력)" value="*" />) : null}
+                                            .concat(<Picker.Item key={this.state.materials[this.state.formData.category].length} label="기타(수기입력)" value="*" />) : null}
                                 </Picker>
                             </View>
-                            <View style={{ display: this.state.formData.item === '*' ? 'flex' : 'none' }}>
+                            <View style={{ display: this.state.formData.category === '*' || this.state.formData.item === '*' ? 'flex' : 'none' }}>
                                 <TextInput
                                     style={this.styles.textInput}
                                     value={this.state.formData.manualItem}

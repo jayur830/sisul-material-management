@@ -7,22 +7,27 @@ export default class ImageFileModal extends Component {
             <Modal
                 animationType="fade"
                 visible={this.props.modalVisible}
-                onRequestClose={this.props.onCancel} style={{ padding: 10 }}>
-                <View style={{ padding: 10 }}>
-                    <View><Text style={{ fontSize: 18 }}>사진</Text></View>
-                    <View>
-                        <TouchableOpacity onPress={() => this.props.onCapture(this.props.index)}>
-                            <Text>카메라</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.props.onGallery(this.props.index)}>
-                            <Text>이미지 선택</Text>
-                        </TouchableOpacity>
+                onRequestClose={this.props.onCancel}
+                transparent>
+                <View style={{ height: '100%', backgroundColor: 'rgba(0,0,0,0.47)' }}>
+                    <View style={{ flex: 3 }} />
+                    <View style={{ width: 300, flex: 2, justifyContent: 'center', alignSelf: 'center', paddingHorizontal: 23, paddingVertical: 0, backgroundColor: 'white' }}>
+                        <View style={{ paddingBottom: 12 }}><Text style={{ fontSize: 20 }}>사진</Text></View>
+                        <View>
+                            <TouchableOpacity onPress={() => this.props.onCapture(this.props.index)} style={{ paddingVertical: 6 }}>
+                                <Text style={{ fontSize: 16 }}>카메라</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.props.onGallery(this.props.index)} style={{ paddingVertical: 6 }}>
+                                <Text style={{ fontSize: 16 }}>이미지 선택</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ width: '100%', textAlign: 'right' }}>
+                            <TouchableOpacity onPress={this.props.onCancel}>
+                                <Text style={{ paddingTop: 10, textAlign: 'right' }}>취소</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <View style={{ width: '100%', textAlign: 'right' }}>
-                        <TouchableOpacity onPress={this.props.onCancel}>
-                            <Text>취소</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <View style={{ flex: 3 }} />
                 </View>
             </Modal>
         );
