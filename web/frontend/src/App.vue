@@ -22,7 +22,8 @@
                 :default-value="prompt.defaultValue"
                 :ok-button-text="prompt.okButtonText"
                 :cancel-button-text="prompt.cancelButtonText"
-                @ok="prompt.onOk" />
+                @ok="prompt.onOk"
+                @cancel="prompt.onCancel" />
     </div>
 </template>
 

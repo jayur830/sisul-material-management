@@ -23,7 +23,8 @@ export default {
                 defaultValue: "",
                 okButtonText: "",
                 cancelButtonText: "",
-                onOk: () => null
+                onOk: () => null,
+                onCancel: () => null
             }
         }
     },
@@ -36,7 +37,7 @@ export default {
         SET_ALERT_VISIBLE: (state, alert) => state.common.alert = { ...alert },
         SET_CONFIRM_INVISIBLE: state => state.common.confirm = { show: false, title: "", okButtonText: "", cancelButtonText: "", onOk: () => null, onCancel: () => null },
         SET_CONFIRM_VISIBLE: (state, confirm) => state.common.confirm = { ...confirm },
-        SET_PROMPT_INVISIBLE: state => state.common.prompt = { show: false, title: "", defaultValue: "", okButtonText: "", cancelButtonText: "", onOk: () => null },
+        SET_PROMPT_INVISIBLE: state => state.common.prompt = { show: false, title: "", defaultValue: "", okButtonText: "", cancelButtonText: "", onOk: () => null, onCancel: () => null },
         SET_PROMPT_VISIBLE: (state, prompt) => state.common.prompt = { ...prompt }
     },
     actions: {

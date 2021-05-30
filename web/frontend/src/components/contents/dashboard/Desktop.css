@@ -146,6 +146,19 @@
     width: calc(100% - 45px);
 }
 
+#desktop-dashboard > div:last-child .content:first-child table tbody td div table tbody td:last-child svg {
+    color: #262626;
+    transition: color 0.2s;
+}
+
+#desktop-dashboard > div:last-child .content:first-child table tbody td div table tbody td:last-child svg:hover {
+    color: #0070c0;
+}
+
+#desktop-dashboard > div:last-child .content:first-child table tbody td div table tbody td:last-child svg:active {
+    color: #0070c0;
+}
+
 #desktop-dashboard > div:last-child .content:last-child {
     padding-left: 15px;
 }

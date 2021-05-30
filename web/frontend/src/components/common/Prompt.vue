@@ -10,7 +10,7 @@
                         <div><input type="text" v-model="text" @keyup="e => { if (e.key === 'Enter') onOk(); }" /></div>
                         <div>
                             <input type="button" :value="okButtonText" @click="onOk" />
-                            <input type="button" :value="cancelButtonText" @click="setInvisible" />
+                            <input type="button" :value="cancelButtonText" @click="onCancel" />
                         </div>
                     </div>
                 </div>
@@ -41,6 +41,13 @@
             async onOk() {
                 await this.$emit("ok", this.text);
                 await this.setInvisible();
+                this.text = "";
+            },
+
+            async onCancel() {
+                await this.$emit("cancel");
+                await this.setInvisible();
+                this.text = "";
             }
         },
         mounted() {
