@@ -14,8 +14,6 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ImageFileModal from './components/Modal';
 import moment from 'moment';
-import xlsx from 'xlsx';
-import RNFS from 'react-native-fs';
 
 export default class App extends Component {
     apiUrl = 'http://192.168.219.165:9100';
@@ -138,7 +136,11 @@ export default class App extends Component {
         })();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.clear();
+        console.log('prevProps: ', prevProps);
+        console.log('prevState: ', prevState);
+        console.log('snapshot: ', snapshot);
         console.log(this.state.formData);
     }
 
@@ -252,13 +254,13 @@ export default class App extends Component {
 
             await this.setState({
                 formData: {
-                    workClass: null,
+                    workClass: this.state.workClasses[0],
                     workerName: null,
-                    category: null,
-                    item: null,
+                    category: Object.keys(this.state.materials)[0],
+                    item: this.state.materials[Object.keys(this.state.materials)[0]][0],
                     inOut: null,
                     count: null,
-                    unit: null,
+                    unit: this.state.units[0],
                     imgFiles: [null, null, null]
                 }
             });
@@ -310,7 +312,10 @@ export default class App extends Component {
                         <View style={this.styles.td1}>
                             <View style={this.styles.pickerWrap}>
                                 <Picker
-                                    onValueChange={category => this.setState({ formData: { ...this.state.formData, category } })}
+                                    onValueChange={category => {
+                                        if (category === '*') this.setState({ formData: { ...this.state.formData, category, item: '*' } });
+                                        else this.setState({ formData: { ...this.state.formData, category } });
+                                    }}
                                     style={this.styles.picker}>
                                     {this.state.categories != null ?
                                         this.state.categories
@@ -322,7 +327,7 @@ export default class App extends Component {
                                 <TextInput
                                     style={this.styles.textInput}
                                     value={this.state.formData.manualCategory}
-                                    onChangeText={category => this.setState({ formData: { ...this.state.formData, manualCategory: category } })} />
+                                    onChangeText={category => this.setState({ formData: { ...this.state.formData, item: '*', manualCategory: category } })} />
                             </View>
                         </View>
                     </View>
@@ -345,7 +350,7 @@ export default class App extends Component {
                                 <TextInput
                                     style={this.styles.textInput}
                                     value={this.state.formData.manualItem}
-                                    onChangeText={item => this.setState({ formData: { ...this.state.formData, manualItem: item } })} />
+                                    onChangeText={item => this.setState({ formData: { ...this.state.formData, item: '*', manualItem: item } })} />
                             </View>
                         </View>
                     </View>
