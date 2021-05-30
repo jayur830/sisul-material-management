@@ -1,6 +1,9 @@
 server:
   port: 9100
 spring:
+  profiles:
+    active: local
+#    active: prd
   application:
     name: SISUL
   datasource:
@@ -17,8 +20,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-        show_sql: true
-        format_sql: true
         jdbc:
           time_zone: Asia/Seoul
   devtools:
@@ -44,3 +45,21 @@ spring:
 logging:
   level:
     org.sisul.material_management: info
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  jpa:
+    properties:
+      show_sql: true
+      format_sql: true
+---
+spring:
+  config:
+    activate:
+      on-profile: prd
+  jpa:
+    properties:
+      show_sql: false
+      format_sql: false

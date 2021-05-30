@@ -17,6 +17,7 @@ import java.text.ParseException;
 @RestController
 @RequestMapping("/api/submit")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class SubmitController {
     private final SubmitService submitService;
 
@@ -42,7 +43,7 @@ public class SubmitController {
             final RequestInsertLogVO request,
             @Nullable @RequestParam MultipartFile img1,
             @Nullable @RequestParam MultipartFile img2,
-            @Nullable @RequestParam MultipartFile img3) throws ParseException {
+            @Nullable @RequestParam MultipartFile img3) {
         this.submitService.submit(request, img1, img2, img3);
     }
 

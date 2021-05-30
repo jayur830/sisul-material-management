@@ -58,10 +58,19 @@ public class SubmitService {
     public void submit(final RequestInsertLogVO request, MultipartFile...imgs) {
         String[] fileNames = uploadImage(imgs);
 
+        log.info("{}", request);
+
         Stock stock = this.stockRepository.findByCategoryAndItem(
                 request.getCategory(),
                 request.getItem());
-        stock.setCount(stock.getCount() + request.getCount() * (request.getInOut() == 0 ? 1 : -1));
+        if (stock != null)
+            stock.setCount(stock.getCount() + request.getCount() * (request.getInOut() == 0 ? 1 : -1));
+        else stock = Stock.builder()
+                .stockId((int) this.stockRepository.count() + 1)
+                .category(request.getCategory())
+                .item(request.getItem())
+                .count(request.getCount() * (request.getInOut() == 0 ? 1 : -1))
+                .build();
         this.stockRepository.save(stock);
         this.logRepository.save(Log.builder()
                 .logTime(request.getLogTime())
@@ -108,7 +117,7 @@ public class SubmitService {
                 String fileName = Objects.requireNonNull(img.getOriginalFilename()).substring(0, img.getOriginalFilename().lastIndexOf("."));
                 fileName += "_" + System.currentTimeMillis() + img.getOriginalFilename().substring(img.getOriginalFilename().lastIndexOf("."));
                 byte[] bytes = img.getBytes();
-                final String path = "src/main/resources/img/" + fileName;
+                final String path = "/sisul/img/" + fileName;
                 OutputStream outputStream = new FileOutputStream(new File(path));
                 outputStream.write(bytes);
                 outputStream.flush();

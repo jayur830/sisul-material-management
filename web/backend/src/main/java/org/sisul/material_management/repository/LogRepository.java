@@ -22,6 +22,15 @@ public interface LogRepository extends JpaRepository<Log, Date> {
     @Query(
             "update Log l " +
             "set l.lastCount = l.lastCount + :count " +
+            "where l.stock = :stock")
+    void updateCountAll(
+            @Param("count") final int count,
+            @Param("stock") final Stock stock);
+
+    @Modifying
+    @Query(
+            "update Log l " +
+            "set l.lastCount = l.lastCount + :count " +
             "where l.logTime > :logTime " +
             "and l.stock = :stock")
     void updateCountAllByLogTimeGreaterThan(

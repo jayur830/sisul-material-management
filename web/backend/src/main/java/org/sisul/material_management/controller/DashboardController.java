@@ -6,6 +6,7 @@ import org.sisul.material_management.entity.Log;
 import org.sisul.material_management.entity.Stock;
 import org.sisul.material_management.service.DashboardService;
 import org.sisul.material_management.vo.RequestInsertLogVO;
+import org.sisul.material_management.vo.RequestModifyStockVO;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,6 +57,11 @@ public class DashboardController {
     @GetMapping("/stock/view")
     public List<Log> dashboardStockView(@RequestParam("stockId") final int stockId) {
         return this.dashboardService.dashboardStockView(stockId);
+    }
+
+    @PutMapping("/stock/modify")
+    public void modifyDashboardStock(@RequestBody final RequestModifyStockVO request) {
+        this.dashboardService.modifyDashboardStock(request);
     }
 
     @GetMapping("/img")

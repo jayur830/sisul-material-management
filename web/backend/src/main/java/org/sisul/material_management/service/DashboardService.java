@@ -7,6 +7,7 @@ import org.sisul.material_management.entity.Stock;
 import org.sisul.material_management.repository.LogRepository;
 import org.sisul.material_management.repository.StockRepository;
 import org.sisul.material_management.vo.RequestInsertLogVO;
+import org.sisul.material_management.vo.RequestModifyStockVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,9 +38,9 @@ public class DashboardService {
 
         Log log = this.logRepository.findByLogTime(request.getLogTime());
 
-        if (log.getImg1() != null) new File("src/main/resources/img/" + log.getImg1()).delete();
-        if (log.getImg2() != null) new File("src/main/resources/img/" + log.getImg2()).delete();
-        if (log.getImg3() != null) new File("src/main/resources/img/" + log.getImg3()).delete();
+        if (log.getImg1() != null) new File("/sisul/img/" + log.getImg1()).delete();
+        if (log.getImg2() != null) new File("/sisul/img/" + log.getImg2()).delete();
+        if (log.getImg3() != null) new File("/sisul/img/" + log.getImg3()).delete();
 
         final int subCount = log.getCount() * (log.getInOut() == 0 ? -1 : 1);
 
@@ -77,9 +78,9 @@ public class DashboardService {
         String img1 = _log.getImg1();
         String img2 = _log.getImg2();
         String img3 = _log.getImg3();
-        if (img1 != null) new File("src/main/resources/img/" + img1).delete();
-        if (img2 != null) new File("src/main/resources/img/" + img2).delete();
-        if (img3 != null) new File("src/main/resources/img/" + img3).delete();
+        if (img1 != null) new File("/sisul/img/" + img1).delete();
+        if (img2 != null) new File("/sisul/img/" + img2).delete();
+        if (img3 != null) new File("/sisul/img/" + img3).delete();
         final int count = _log.getCount() * (_log.getInOut() == 0 ? -1 : 1);
         Stock stock = _log.getStock();
         this.logRepository.updateCountAllByLogTimeGreaterThan(count, logTime, stock);
@@ -106,10 +107,18 @@ public class DashboardService {
         return this.logRepository.findAllByStockStockIdOrderByLogTimeDesc(stockId);
     }
 
-    public void getImage(final String fileName, ServletOutputStream outputStream) throws IOException {
-        File imgFile = new File("src/main/resources/img/" + fileName);
+    @Transactional
+    public void modifyDashboardStock(final RequestModifyStockVO request) {
+        Stock stock = this.stockRepository.findByStockId(request.getStockId());
+        final int count = request.getCount() - stock.getCount();
+        this.stockRepository.updateCountByStockId(request.getCount(), request.getStockId());
+        this.logRepository.updateCountAll(count, stock);
+    }
 
-        if (!imgFile.isFile() || !imgFile.exists()) imgFile = new File("src/main/resources/not_found.png");
+    public void getImage(final String fileName, ServletOutputStream outputStream) throws IOException {
+        File imgFile = new File("/sisul/img/" + fileName);
+
+        if (!imgFile.isFile() || !imgFile.exists()) imgFile = new File("/sisul/img/not_found.png");
 
         byte[] buf = new byte[1024];
         int readByte;
@@ -150,7 +159,7 @@ public class DashboardService {
                 String fileName = Objects.requireNonNull(img.getOriginalFilename()).substring(0, img.getOriginalFilename().lastIndexOf("."));
                 fileName += "_" + System.currentTimeMillis() + img.getOriginalFilename().substring(img.getOriginalFilename().lastIndexOf("."));
                 byte[] bytes = img.getBytes();
-                final String path = "src/main/resources/img/" + fileName;
+                final String path = "/sisul/img/" + fileName;
                 OutputStream outputStream = new FileOutputStream(new File(path));
                 outputStream.write(bytes);
                 outputStream.flush();
