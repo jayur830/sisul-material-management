@@ -14,11 +14,21 @@ export default new VueRouter({
         },
         {
             path: "/dashboard",
-            component: () => import("./components/contents/dashboard/Dashboard")
+            component: () => import("./components/contents/dashboard/Dashboard"),
+            async beforeEnter(to, from, next) {
+                await store.dispatch("SET_AUTHENTICATED");
+                if (store.state.member.isAuthenticated && store.state.member.isAdmin) return next();
+                next("/member/login");
+            }
         },
         {
             path: "/dashboard/view",
-            component: () => import("./components/contents/dashboard/view/DashboardView")
+            component: () => import("./components/contents/dashboard/view/DashboardView"),
+            async beforeEnter(to, from, next) {
+                await store.dispatch("SET_AUTHENTICATED");
+                if (store.state.member.isAuthenticated && store.state.member.isAdmin) return next();
+                next("/member/login");
+            }
         },
         {
             name: "dashboardEdit",

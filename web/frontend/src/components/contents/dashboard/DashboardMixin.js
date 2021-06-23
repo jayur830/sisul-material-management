@@ -99,6 +99,9 @@ export default {
             await alert("삭제되었습니다.");
         },
 
+        /**
+         * @deprecated
+         * */
         async modifyStockCount(stockId, defaultCount) {
             // eslint-disable-next-line no-constant-condition
             while (true) {

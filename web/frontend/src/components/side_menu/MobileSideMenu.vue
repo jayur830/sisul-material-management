@@ -1,7 +1,7 @@
 <template>
     <div id="mobile-side-menu" :class="['animate__animated', 'animate__slideInDown']">
         <ul>
-            <li>
+            <li v-show="isAuthenticated">
                 <router-link to="/dashboard" active-class="on">입/출고 조회</router-link>
             </li>
             <li v-show="isAuthenticated">
