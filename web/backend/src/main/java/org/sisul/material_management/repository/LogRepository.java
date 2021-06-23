@@ -18,6 +18,7 @@ public interface LogRepository extends JpaRepository<Log, Date> {
     Log findByLogTime(final String logTime);
     List<Log> findAllByStockStockIdOrderByLogTimeDesc(final int stockId);
 
+    @Deprecated
     @Modifying
     @Query(
             "update Log l " +

@@ -59,6 +59,7 @@ public class DashboardController {
         return this.dashboardService.dashboardStockView(stockId);
     }
 
+    @Deprecated
     @PutMapping("/stock/modify")
     public void modifyDashboardStock(@RequestBody final RequestModifyStockVO request) {
         this.dashboardService.modifyDashboardStock(request);

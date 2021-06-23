@@ -17,7 +17,6 @@ import java.text.ParseException;
 @RestController
 @RequestMapping("/api/submit")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class SubmitController {
     private final SubmitService submitService;
 

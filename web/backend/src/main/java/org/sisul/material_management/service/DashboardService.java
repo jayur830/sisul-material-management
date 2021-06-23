@@ -107,6 +107,7 @@ public class DashboardService {
         return this.logRepository.findAllByStockStockIdOrderByLogTimeDesc(stockId);
     }
 
+    @Deprecated
     @Transactional
     public void modifyDashboardStock(final RequestModifyStockVO request) {
         Stock stock = this.stockRepository.findByStockId(request.getStockId());

@@ -26,6 +26,9 @@ public class CustomUserDetails implements UserDetails {
     @Builder.Default
     private boolean locked = false;
 
+    @Builder.Default
+    private boolean confirmed = false;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -51,5 +54,9 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return !this.locked;
+    }
+
+    public boolean isConfirmed() {
+        return this.confirmed;
     }
 }

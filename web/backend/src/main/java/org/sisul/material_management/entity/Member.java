@@ -41,4 +41,8 @@ public class Member {
 
     @Column(name = "p_email", length = 100)
     private String email;
+
+    @Column(name = "p_confirm")
+    @Builder.Default
+    private Boolean confirmed = false;
 }

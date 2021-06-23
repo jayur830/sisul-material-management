@@ -48,6 +48,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             errorMsg = MessageUtils.getMessage("auth.error.AccountExpired");
         else if (exception instanceof LockedException)
             errorMsg = MessageUtils.getMessage("auth.error.Locked");
+        else if (exception instanceof NonConfirmedException)
+            errorMsg = MessageUtils.getMessage("auth.error.NonConfirmed");
 
         response.setCharacterEncoding("utf-8");
         response.getWriter().print(String.format("{ \"errorMsg\": \"%s\" }", errorMsg));
