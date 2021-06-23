@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, ScrollView, Appearance } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Button } from 'react-native-elements';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
@@ -16,8 +16,10 @@ import ImageFileModal from './components/Modal';
 import moment from 'moment';
 
 export default class App extends Component {
-    apiUrl = 'http://192.168.219.165:9100';
-    // apiUrl = 'http://180.231.115.99:9100';
+    // apiUrl = 'http://192.168.219.165:9100';
+    apiUrl = 'http://180.231.115.99:9100';
+
+    isDarkMode = Appearance.getColorScheme() === 'dark';
 
     styles = StyleSheet.create({
         body: {
@@ -51,10 +53,12 @@ export default class App extends Component {
             borderRadius: 5
         },
         picker: {
+            color: 'black',
             position: 'relative',
             top: -13
         },
         textInput: {
+            color: 'black',
             backgroundColor: 'white',
             paddingVertical: 1,
             borderRadius: 5,
@@ -282,8 +286,8 @@ export default class App extends Component {
                                     style={this.styles.picker}>
                                     {this.state.workClasses != null ?
                                         this.state.workClasses
-                                            .map((workClass, i) => <Picker.Item key={i} label={workClass} value={workClass} />)
-                                            .concat(<Picker.Item key={this.state.workClasses.length} label="기타(수기입력)" value="*" />) : null}
+                                            .map((workClass, i) => <Picker.Item key={i} label={workClass} value={workClass} color={this.isDarkMode ? 'white' : 'black'} />)
+                                            .concat(<Picker.Item key={this.state.workClasses.length} label="기타(수기입력)" value="*" color={this.isDarkMode ? 'white' : 'black'} />) : null}
                                 </Picker>
                             </View>
                             <View style={{ display: this.state.formData.workClass === '*' ? 'flex' : 'none' }}>
@@ -319,8 +323,8 @@ export default class App extends Component {
                                     style={this.styles.picker}>
                                     {this.state.categories != null ?
                                         this.state.categories
-                                            .map((category, i) => <Picker.Item key={i} label={category} value={category} />)
-                                            .concat(<Picker.Item key={this.state.categories.length} label="기타(수기입력)" value="*" />) : null}
+                                            .map((category, i) => <Picker.Item key={i} label={category} value={category} color={this.isDarkMode ? 'white' : 'black'} />)
+                                            .concat(<Picker.Item key={this.state.categories.length} label="기타(수기입력)" value="*" color={this.isDarkMode ? 'white' : 'black'} />) : null}
                                 </Picker>
                             </View>
                             <View style={{ display: this.state.formData.category === '*' ? 'flex' : 'none' }}>
@@ -342,8 +346,8 @@ export default class App extends Component {
                                     style={this.styles.picker}>
                                     {this.state.materials && this.state.formData.category && this.state.materials[this.state.formData.category] ?
                                         this.state.materials[this.state.formData.category]
-                                            .map((item, i) => <Picker.Item key={i} label={item} value={item} />)
-                                            .concat(<Picker.Item key={this.state.materials[this.state.formData.category].length} label="기타(수기입력)" value="*" />) : null}
+                                            .map((item, i) => <Picker.Item key={i} label={item} value={item} color={this.isDarkMode ? 'white' : 'black'} />)
+                                            .concat(<Picker.Item key={this.state.materials[this.state.formData.category].length} label="기타(수기입력)" value="*" color={this.isDarkMode ? 'white' : 'black'} />) : null}
                                 </Picker>
                             </View>
                             <View style={{ display: this.state.formData.category === '*' || this.state.formData.item === '*' ? 'flex' : 'none' }}>
@@ -401,8 +405,8 @@ export default class App extends Component {
                                     style={this.styles.picker}>
                                     {this.state.units != null ?
                                         this.state.units
-                                            .map((unit, i) => <Picker.Item key={i} label={unit} value={unit} />)
-                                            .concat(<Picker.Item key={this.state.units.length} label="기타(수기입력)" value="*" />) : null}
+                                            .map((unit, i) => <Picker.Item key={i} label={unit} value={unit} color={this.isDarkMode ? 'white' : 'black'} />)
+                                            .concat(<Picker.Item key={this.state.units.length} label="기타(수기입력)" value="*" color={this.isDarkMode ? 'white' : 'black'} />) : null}
                                 </Picker>
                             </View>
                             <View style={{ display: this.state.formData.unit === '*' ? 'flex' : 'none' }}>
@@ -441,6 +445,7 @@ export default class App extends Component {
                 <ImageFileModal
                     index={this.state.imgFileIndex}
                     modalVisible={this.state.modalVisible}
+                    isDarkMode={this.isDarkMode}
                     onCapture={this.onCapture}
                     onGallery={this.onGallery}
                     onCancel={() => this.setState({ modalVisible: false })} />
