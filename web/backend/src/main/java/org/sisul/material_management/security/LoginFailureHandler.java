@@ -28,10 +28,12 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             HttpServletRequest request,
             HttpServletResponse response,
             AuthenticationException exception) throws IOException, ServletException {
-        String errorMsg = exception.getMessage();
+        String errorCode = exception.getMessage();
 
-        if (exception instanceof UsernameNotFoundException)
-            errorMsg = MessageUtils.getMessage("auth.error.UsernameNotFound");
+        if (exception instanceof NonConfirmedException)
+            errorCode = MessageUtils.getMessage("auth.error.NonConfirmed");
+        else if (exception instanceof UsernameNotFoundException)
+            errorCode = MessageUtils.getMessage("auth.error.UsernameNotFound");
         else if (exception instanceof BadCredentialsException) {
             String username = request.getParameter("username");
 
@@ -39,19 +41,17 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             if (this.memberRepository.findPasswordWrongCountByUsername(username) == 5)
                 this.memberRepository.disableAccountByUsername(username);
 
-            errorMsg = MessageUtils.getMessage("auth.error.BadCredentials");
+            errorCode = MessageUtils.getMessage("auth.error.BadCredentials");
         } else if (exception instanceof CredentialsExpiredException)
-            errorMsg = MessageUtils.getMessage("auth.error.CredentialsExpired");
+            errorCode = MessageUtils.getMessage("auth.error.CredentialsExpired");
         else if (exception instanceof DisabledException)
-            errorMsg = MessageUtils.getMessage("auth.error.Disabled");
+            errorCode = MessageUtils.getMessage("auth.error.Disabled");
         else if (exception instanceof AccountExpiredException)
-            errorMsg = MessageUtils.getMessage("auth.error.AccountExpired");
+            errorCode = MessageUtils.getMessage("auth.error.AccountExpired");
         else if (exception instanceof LockedException)
-            errorMsg = MessageUtils.getMessage("auth.error.Locked");
-        else if (exception instanceof NonConfirmedException)
-            errorMsg = MessageUtils.getMessage("auth.error.NonConfirmed");
+            errorCode = MessageUtils.getMessage("auth.error.Locked");
 
         response.setCharacterEncoding("utf-8");
-        response.getWriter().print(String.format("{ \"errorMsg\": \"%s\" }", errorMsg));
+        response.getWriter().print(String.format("{ \"errorCode\": %s }", errorCode));
     }
 }

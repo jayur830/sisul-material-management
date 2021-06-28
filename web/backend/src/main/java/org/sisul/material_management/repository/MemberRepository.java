@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface MemberRepository extends JpaRepository<Member, String> {
     Member findByUsername(final String username);
@@ -44,4 +46,10 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     @Modifying
     @Query("update Member m set m.password = :newPassword where m.username = :username")
     void updatePasswordByUsername(@Param("username") final String username, @Param("newPassword") final String newPassword);
+
+    List<Member> findAllByConfirmedOrderByUsername(final boolean confirmed);
+
+    @Modifying
+    @Query("update Member m set m.confirmed = true where m.username = :username")
+    void updateConfirmedByUsername(@Param("username") final String username);
 }

@@ -107,4 +107,13 @@ public class MemberService {
                 SecurityContextHolder.getContext().getAuthentication().getName(),
                 this.passwordEncoder.encode(newPassword.substring(0, newPassword.length() - 1)));
     }
+
+    public List<Member> getUnconfirmedMembers() {
+        return this.memberRepository.findAllByConfirmedOrderByUsername(false);
+    }
+
+    @Transactional
+    public void confirm(final String username) {
+        this.memberRepository.updateConfirmedByUsername(username);
+    }
 }

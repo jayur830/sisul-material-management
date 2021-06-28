@@ -20,7 +20,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         final String username = (String) authentication.getPrincipal();
         final String password = (String) authentication.getCredentials();
-        final CustomUserDetails user = (CustomUserDetails) this.customUserDetailsService.loadUserByUsername(username);
+        final CustomUserDetails user = this.customUserDetailsService.loadUserByUsername(username);
 
         // if not matched username or password
         if (!this.passwordEncoder.matches(password, user.getPassword()))

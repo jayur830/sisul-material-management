@@ -2,6 +2,7 @@ package org.sisul.material_management.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.sisul.material_management.entity.Member;
 import org.sisul.material_management.repository.MemberRepository;
 import org.sisul.material_management.security.CustomUserDetailsService;
 import org.sisul.material_management.service.MemberService;
@@ -35,8 +36,12 @@ public class MemberController {
         final boolean isAuthenticated = authentication != null &&
                 !authentication.getPrincipal().equals("anonymousUser");
         auth.put("isAuthenticated", isAuthenticated);
+        auth.put("isConfirmed", false);
 
-        if (isAuthenticated) auth.put("isAdmin", ((List<GrantedAuthority>) authentication.getAuthorities()).get(0).getAuthority().equals("ADMIN"));
+        if (isAuthenticated) {
+            auth.put("isAdmin", ((List<GrantedAuthority>) authentication.getAuthorities()).get(0).getAuthority().equals("ADMIN"));
+            auth.replace("isConfirmed", this.customUserDetailsService.loadUserByUsername(authentication.getName()).isConfirmed());
+        }
         return auth;
     }
 
@@ -88,5 +93,15 @@ public class MemberController {
     @PostMapping("/changePassword")
     public void changePassword(@RequestBody final String newPassword) {
         this.memberService.changePassword(newPassword);
+    }
+
+    @GetMapping("/getUnconfirmedMembers")
+    public List<Member> getUnconfirmedMembers() {
+        return this.memberService.getUnconfirmedMembers();
+    }
+
+    @PutMapping("/confirm")
+    public void confirm(@RequestBody final Map<String, String> request) {
+        this.memberService.confirm(request.get("username"));
     }
 }
