@@ -9,7 +9,10 @@ export default {
     }),
     computed: {
         ...mapState({
-            isAuthenticated: state => state.member.isAuthenticated
+            isAuthenticated: state => state.member.isAuthenticated,
+            isConfirmed: state => state.member.isConfirmed,
+            errorMsg: state => state.member.errorMsg,
+            errorCode: state => state.member.errorCode
         })
     },
     methods: {
@@ -28,12 +31,16 @@ export default {
                     username: this.username,
                     password: this.password
                 });
-                await this.setAuthenticated();
-                if (this.isAuthenticated) {
-                    await alert(`${this.username}님 환영합니다.`)
-                    sessionStorage.setItem("username", this.username);
-                    await this.$router.push("/");
-                } else await alert("아이디 또는 비밀번호가 맞지 않습니다.\n다시 입력해주세요.");
+                if (this.errorCode != null)
+                    await alert(this.errorMsg[this.errorCode]);
+                else {
+                    await this.setAuthenticated();
+                    if (this.isAuthenticated && this.isConfirmed) {
+                        await alert(`${this.username}님 환영합니다.`)
+                        sessionStorage.setItem("username", this.username);
+                        await this.$router.push("/");
+                    }
+                }
             }
         }
     }

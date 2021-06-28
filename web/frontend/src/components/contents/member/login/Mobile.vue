@@ -48,10 +48,7 @@
 
     export default {
         name: "MobileLogin",
-        mixins: [LoginMixin],
-        mounted() {
-
-        }
+        mixins: [LoginMixin]
     }
 </script>
 

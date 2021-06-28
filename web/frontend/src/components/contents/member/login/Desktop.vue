@@ -48,10 +48,7 @@
 
     export default {
         name: "DesktopLogin",
-        mixins: [LoginMixin],
-        mounted() {
-
-        }
+        mixins: [LoginMixin]
     }
 </script>
 

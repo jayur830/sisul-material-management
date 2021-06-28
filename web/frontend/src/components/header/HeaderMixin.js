@@ -7,7 +7,8 @@ export default {
     name: "HeaderMixin",
     computed: {
         ...mapState({
-            isAuthenticated: state => state.member.isAuthenticated
+            isAuthenticated: state => state.member.isAuthenticated,
+            isConfirmed: state => state.member.isConfirmed
         })
     },
     methods: {
@@ -21,8 +22,8 @@ export default {
             await this.setAuthenticated();
             sessionStorage.removeItem("username");
             await new Promise(resolve => alert("로그아웃 되었습니다.", resolve));
-            if (this.$route.path !== "/dashboard")
-                await this.$router.push("/dashboard");
+            if (this.$route.path !== "/member/login")
+                await this.$router.push("/member/login");
         }
     }
 }

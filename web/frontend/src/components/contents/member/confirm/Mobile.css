@@ -1,0 +1,76 @@
+#mobile-member-confirm {
+    height: calc(100% - 30px);
+    padding: 15px;
+}
+
+#mobile-member-confirm h2 {
+    margin: 0;
+    font: 14pt 'NanumSquareEB', serif;
+}
+
+#mobile-member-confirm table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#mobile-member-confirm > table {
+    margin-top: 10px;
+    animation-delay: 0.2s;
+}
+
+#mobile-member-confirm table th,
+#mobile-member-confirm table td {
+    text-align: center;
+    font-size: 8pt;
+    padding: 10px 0;
+}
+
+#mobile-member-confirm table th {
+    background-color: #262626;
+    color: #e7e6e6;
+}
+
+#mobile-member-confirm table div.scroll td:last-child input[type=button] {
+    font: 9pt 'NanumSquare_acEB';
+    color: #e7e6e6;
+    background-color: #0070c0;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    transition: background-color 0.1s;
+    cursor: pointer;
+}
+
+#mobile-member-confirm table div.scroll td:last-child input[type=button]:hover {
+    background-color: #3e9bd0;
+}
+
+#mobile-member-confirm table div.scroll tr:nth-child(odd) td {
+    background-color: #e7e6e6;
+    transition: background-color 0.2s;
+}
+
+#mobile-member-confirm table div.scroll tr:nth-child(even) td {
+    background-color: #d0d0d0;
+    transition: background-color 0.2s;
+}
+
+#mobile-member-confirm table div.scroll tr:hover td {
+    background-color: #bdbdbd;
+}
+
+#mobile-member-confirm table div.scroll tbody td {
+    border-bottom: 1px solid #828282;
+}
+
+#mobile-member-confirm table > tbody > tr > td {
+    padding: 0;
+}
+
+#mobile-member-confirm table div.scroll {
+    overflow-x: hidden;
+}
+
+#mobile-member-confirm table div.scroll table tbody td {
+    padding: 5px 0;
+}

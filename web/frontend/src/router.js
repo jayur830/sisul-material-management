@@ -17,7 +17,7 @@ export default new VueRouter({
             component: () => import("./components/contents/dashboard/Dashboard"),
             async beforeEnter(to, from, next) {
                 await store.dispatch("SET_AUTHENTICATED");
-                if (store.state.member.isAuthenticated && store.state.member.isAdmin) return next();
+                if (store.state.member.isAuthenticated && store.state.member.isConfirmed) return next();
                 next("/member/login");
             }
         },
@@ -26,7 +26,7 @@ export default new VueRouter({
             component: () => import("./components/contents/dashboard/view/DashboardView"),
             async beforeEnter(to, from, next) {
                 await store.dispatch("SET_AUTHENTICATED");
-                if (store.state.member.isAuthenticated && store.state.member.isAdmin) return next();
+                if (store.state.member.isAuthenticated && store.state.member.isConfirmed) return next();
                 next("/member/login");
             }
         },
@@ -37,7 +37,7 @@ export default new VueRouter({
             component: () => import("./components/contents/dashboard/edit/DashboardEdit"),
             async beforeEnter(to, from, next) {
                 await store.dispatch("SET_AUTHENTICATED");
-                if (store.state.member.isAuthenticated && store.state.member.isAdmin) return next();
+                if (store.state.member.isAuthenticated && store.state.member.isConfirmed && store.state.member.isAdmin) return next();
                 next("/dashboard");
             }
         },
@@ -46,7 +46,7 @@ export default new VueRouter({
             component: () => import("./components/contents/submit/Submit"),
             async beforeEnter(to, from, next) {
                 await store.dispatch("SET_AUTHENTICATED");
-                if (store.state.member.isAuthenticated) return next();
+                if (store.state.member.isAuthenticated && store.state.member.isConfirmed) return next();
                 next("/member/login");
             }
         },
@@ -55,7 +55,7 @@ export default new VueRouter({
             component: () => import("./components/contents/material/Material"),
             async beforeEnter(to, from, next) {
                 await store.dispatch("SET_AUTHENTICATED");
-                if (store.state.member.isAuthenticated) return next();
+                if (store.state.member.isAuthenticated && store.state.member.isConfirmed) return next();
                 next("/member/login");
             }
         },
@@ -64,7 +64,7 @@ export default new VueRouter({
             component: () => import("./components/contents/management/Management"),
             async beforeEnter(to, from, next) {
                 await store.dispatch("SET_AUTHENTICATED");
-                if (store.state.member.isAuthenticated) return next();
+                if (store.state.member.isAuthenticated && store.state.member.isConfirmed) return next();
                 next("/member/login");
             }
         },
@@ -93,7 +93,7 @@ export default new VueRouter({
             component: () => import("./components/contents/member/my_page/MyPage"),
             async beforeEnter(to, from, next) {
                 await store.dispatch("SET_AUTHENTICATED");
-                if (store.state.member.isAuthenticated) return next();
+                if (store.state.member.isAuthenticated && store.state.member.isConfirmed) return next();
                 next("/member/login");
             }
         },
@@ -102,7 +102,16 @@ export default new VueRouter({
             component: () => import("./components/contents/member/change_password/ChangePassword"),
             async beforeEnter(to, from, next) {
                 await store.dispatch("SET_AUTHENTICATED");
-                if (store.state.member.isAuthenticated) return next();
+                if (store.state.member.isAuthenticated && store.state.member.isConfirmed) return next();
+                next("/member/login");
+            }
+        },
+        {
+            path: "/member/confirm",
+            component: () => import("./components/contents/member/confirm/MemberConfirm"),
+            async beforeEnter(to, from, next) {
+                await store.dispatch("SET_AUTHENTICATED");
+                if (store.state.member.isAuthenticated && store.state.member.isConfirmed) return next();
                 next("/member/login");
             }
         }

@@ -1,6 +1,6 @@
 module.exports = {
     devServer: {
-        proxy: "http://192.168.219.165:9100"
+        proxy: "http://192.168.219.165:9200"
     },
     chainWebpack: config => {
         config.plugin("html").tap(args => {

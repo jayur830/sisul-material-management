@@ -11,6 +11,7 @@ export default {
     computed: {
         ...mapState({
             isAuthenticated: state => state.member.isAuthenticated,
+            isConfirmed: state => state.member.isConfirmed,
             properties: state => state.submit.properties,
             workClass: state => state.submit.data.workClass,
             workerName: state => state.submit.data.workerName,

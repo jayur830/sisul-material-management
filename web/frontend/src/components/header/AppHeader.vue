@@ -6,15 +6,15 @@
             <div>Emergency maintenance material management</div>
         </div>
         <div>
-            <router-link to="/member/login" v-show="!isAuthenticated">
+            <router-link to="/member/login" v-show="!(isAuthenticated && isConfirmed)">
                 <div><font-awesome-icon size="2x" :icon="['fa', 'sign-in-alt']" /></div>
                 <div>로그인</div>
             </router-link>
-            <router-link to="/member/myPage" v-show="isAuthenticated">
+            <router-link to="/member/myPage" v-show="isAuthenticated && isConfirmed">
                 <div><font-awesome-icon size="2x" :icon="['fa', 'user']" /></div>
                 <div>내 정보</div>
             </router-link>
-            <a v-show="isAuthenticated" @click="logout">
+            <a v-show="isAuthenticated && isConfirmed" @click="logout">
                 <div><font-awesome-icon size="2x" :icon="['fa', 'sign-out-alt']" /></div>
                 <div>로그아웃</div>
             </a>

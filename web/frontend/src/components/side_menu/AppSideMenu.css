@@ -1,8 +1,8 @@
 #app-side-menu {
     position: absolute;
-    height: calc(100% - 102px);
+    height: calc(100% - 82px);
     background-color: #3b3838;
-    padding: 20px;
+    padding: 10px;
 }
 
 #app-side-menu ul {
