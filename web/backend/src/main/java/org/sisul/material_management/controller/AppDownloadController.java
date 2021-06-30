@@ -19,7 +19,7 @@ import java.io.OutputStream;
 @RequestMapping("/app/download")
 @RequiredArgsConstructor
 public class AppDownloadController {
-    @GetMapping("/서울시설공단 응급보수자재관리.apk")
+    @GetMapping("/sisul-android.apk")
     public void downloadAndroid(final HttpServletResponse response) throws IOException {
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         response.setHeader("Content-Transfer-Encoding", "binary;");

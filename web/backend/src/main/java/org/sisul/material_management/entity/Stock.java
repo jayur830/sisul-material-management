@@ -20,4 +20,7 @@ public class Stock {
 
     @Builder.Default
     private Integer count = 0;
+
+    @Builder.Default
+    private boolean available = true;
 }

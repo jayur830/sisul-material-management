@@ -100,7 +100,7 @@ public class DashboardService {
     }
 
     public List<Stock> dashboardStockList() {
-        return this.stockRepository.findAll();
+        return this.stockRepository.findAllByAvailable(true);
     }
 
     public List<Log> dashboardStockView(final int stockId) {

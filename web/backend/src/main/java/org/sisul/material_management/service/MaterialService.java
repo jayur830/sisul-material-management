@@ -17,7 +17,7 @@ public class MaterialService {
     private final StockRepository stockRepository;
 
     public List<Stock> getMaterials() {
-        return this.stockRepository.findAll();
+        return this.stockRepository.findAllByAvailable(true);
     }
 
     @Transactional
@@ -38,6 +38,6 @@ public class MaterialService {
 
     @Transactional
     public void deleteMaterial(final String category, final String item) {
-        this.stockRepository.deleteByCategoryAndItem(category, item);
+        this.stockRepository.updateAvailableByCategoryAndItem(category, item);
     }
 }
