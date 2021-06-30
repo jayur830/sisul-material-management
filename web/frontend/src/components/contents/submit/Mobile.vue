@@ -86,15 +86,15 @@
                             <td class="animate__animated animate__fadeInLeft">사진 첨부</td>
                             <td>
                                 <div class="file-field animate__animated animate__fadeInRight">
-                                    <label for="file-1" v-text="files[0] ? (files[0].name.length > 20 ? files[0].name.substring(0, 17) + '...' : files[0].name) : '사진 업로드'"></label>
+                                    <label for="file-1" v-text="files[0] && files[0] !== '' ? (files[0].name.length > 20 ? files[0].name.substring(0, 17) + '...' : files[0].name) : '사진 업로드'"></label>
                                     <input type="file" id="file-1" accept="image/jpeg" @change="e => onLoadFile(e, 0)" />
                                 </div>
                                 <div class="file-field animate__animated animate__fadeInRight" style="animation-delay: 0.1s;">
-                                    <label for="file-2" v-text="files[1] ? (files[1].name.length > 20 ? files[1].name.substring(0, 17) + '...' : files[1].name) : '사진 업로드'"></label>
+                                    <label for="file-2" v-text="files[1] && files[1] !== '' ? (files[1].name.length > 20 ? files[1].name.substring(0, 17) + '...' : files[1].name) : '사진 업로드'"></label>
                                     <input type="file" id="file-2" accept="image/jpeg" @change="e => onLoadFile(e, 1)" />
                                 </div>
                                 <div class="file-field animate__animated animate__fadeInRight" style="animation-delay: 0.2s;">
-                                    <label for="file-3" v-text="files[2] ? (files[2].name.length > 20 ? files[2].name.substring(0, 17) + '...' : files[2].name) : '사진 업로드'"></label>
+                                    <label for="file-3" v-text="files[2] && files[2] !== '' ? (files[2].name.length > 20 ? files[2].name.substring(0, 17) + '...' : files[2].name) : '사진 업로드'"></label>
                                     <input type="file" id="file-3" accept="image/jpeg" @change="e => onLoadFile(e, 2)" />
                                 </div>
                             </td>

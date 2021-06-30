@@ -86,15 +86,15 @@
                             <td>사진 첨부</td>
                             <td>
                                 <div class="file-field">
-                                    <label for="file-1" v-text="files[0] !== '' ? (files[0].name.length > 25 ? files[0].name.substring(0, 22) + '...' : files[0].name) : '사진 업로드'"></label>
+                                    <label for="file-1" v-text="files[0] && files[0] !== '' ? (files[0].name.length > 25 ? files[0].name.substring(0, 22) + '...' : files[0].name) : '사진 업로드'"></label>
                                     <input type="file" id="file-1" @change="e => onLoadFile(e, 0)" />
                                 </div>
                                 <div class="file-field">
-                                    <label for="file-2" v-text="files[1] !== '' ? (files[1].name.length > 25 ? files[1].name.substring(0, 22) + '...' : files[1].name) : '사진 업로드'"></label>
+                                    <label for="file-2" v-text="files[1] && files[1] !== '' ? (files[1].name.length > 25 ? files[1].name.substring(0, 22) + '...' : files[1].name) : '사진 업로드'"></label>
                                     <input type="file" id="file-2" @change="e => onLoadFile(e, 1)" />
                                 </div>
                                 <div class="file-field">
-                                    <label for="file-3" v-text="files[2] !== '' ? (files[2].name.length > 25 ? files[2].name.substring(0, 22) + '...' : files[2].name) : '사진 업로드'"></label>
+                                    <label for="file-3" v-text="files[2] && files[2] !== '' ? (files[2].name.length > 25 ? files[2].name.substring(0, 22) + '...' : files[2].name) : '사진 업로드'"></label>
                                     <input type="file" id="file-3" @change="e => onLoadFile(e, 2)" />
                                 </div>
                             </td>

@@ -36,10 +36,10 @@ export default {
 
         remove(_item) {
             if (this.srcItems.indexOf(_item) !== -1)
-                confirm("자재 항목을 삭제하면 기존 로그까지\n모두 소멸됩니다. 삭제하시겠습니까?", () => {
+                confirm("자재 항목을 삭제하면 기존 로그까지\n모두 소멸됩니다. 삭제하시겠습니까?", async () => {
                     const [category, item, count] = _item.split(":");
-                    this.removeItemAndCommit({ category, item, count });
-                    alert("삭제되었습니다.");
+                    await this.removeItemAndCommit({ category, item, count });
+                    await alert("삭제되었습니다.");
                 });
             else this.removeItem(_item);
         },
