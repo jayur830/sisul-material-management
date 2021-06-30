@@ -17,7 +17,7 @@
                  :cancel-button-text="confirm.cancelButtonText"
                  @ok="confirm.onOk"
                  @cancel="confirm.onCancel" />
-        <prompt v-show="prompt.show"
+        <prompt v-if="prompt.show"
                 :title="prompt.title"
                 :default-value="prompt.defaultValue"
                 :ok-button-text="prompt.okButtonText"

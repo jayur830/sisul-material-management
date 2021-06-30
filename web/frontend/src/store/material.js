@@ -5,7 +5,7 @@ export default {
         material: {
             inputtedCategory: "",
             inputtedItem: "",
-            inputtedCount: null,
+            inputtedCount: 0,
             items: [],
             srcItems: []
         }

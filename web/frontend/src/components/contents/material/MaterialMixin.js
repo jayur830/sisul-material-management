@@ -27,31 +27,25 @@ export default {
         onAdd() {
             if (this.inputtedCategory === "")
                 alert("추가할 자재 종류를 입력하세요.");
-            else if (this.inputtedItem === "")
-                alert("추가할 자재 제품명을 입력하세요.");
-            else if (this.inputtedCount === "")
-                alert("초기 재고량을 입력하세요.");
             else this.addItem(`${this.inputtedCategory}:${this.inputtedItem}:${this.inputtedCount}`);
         },
 
-        remove(_item) {
-            if (this.srcItems.indexOf(_item) !== -1)
-                confirm("자재 항목을 삭제하면 기존 로그까지\n모두 소멸됩니다. 삭제하시겠습니까?", async () => {
-                    const [category, item, count] = _item.split(":");
-                    await this.removeItemAndCommit({ category, item, count });
-                    await alert("삭제되었습니다.");
-                });
-            else this.removeItem(_item);
+        async remove(_item) {
+            if (this.srcItems.indexOf(_item) !== -1) {
+                await new Promise(resolve => confirm("삭제하시겠습니까?", resolve));
+                const [category, item, count] = _item.split(":");
+                await this.removeItemAndCommit({ category, item, count });
+                await alert("삭제되었습니다.");
+            } else this.removeItem(_item);
         },
 
-        submit() {
-            confirm("적용하시겠습니까?", () => {
-                this.commitItem(this.items.map(_item => {
-                    const [category, item, initCount] = _item.split(":");
-                    return { category, item, initCount };
-                }));
-                alert("적용되었습니다.");
-            });
+        async submit() {
+            await new Promise(resolve => confirm("적용하시겠습니까?", resolve));
+            await this.commitItem(this.items.map(_item => {
+                const [category, item, initCount] = _item.split(":");
+                return { category, item, initCount };
+            }));
+            await alert("적용되었습니다.");
         },
 
         equalsArray(a, b) {

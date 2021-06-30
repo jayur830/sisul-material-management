@@ -76,9 +76,14 @@ export default {
             else if (!this.files[0] && !this.files[1] && !this.files[2])
                 await alert("한 장 이상의 현장 사진을 첨부하세요.");
             else {
-                if (this.category == "*" || this.item == "*")
+                if (this.category == "*")
                     await this.setIsExist({
                         category: this.manualCategory,
+                        item: this.manualItem
+                    });
+                else if (this.category != "*" && this.item == "*")
+                    await this.setIsExist({
+                        category: this.category,
                         item: this.manualItem
                     });
 

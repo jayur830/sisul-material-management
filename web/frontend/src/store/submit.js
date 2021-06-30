@@ -26,19 +26,21 @@ export default {
     },
     mutations: {
         INIT_SUBMIT_PROPERTIES: (state, properties) => {
+            Object.keys(properties.materials).forEach(key => properties.materials[key] = properties.materials[key].filter(value => value != null && value !== ""));
             properties["categories"] = Object.keys(properties.materials);
             properties["categories"].sort();
             state.submit.properties = Object.freeze(properties);
             state.submit.data.workClass = properties.workClasses[0];
             state.submit.data.category = Object.keys(properties.materials)[0];
-            state.submit.data.item = properties.materials[Object.keys(properties.materials)[0]][0];
+            state.submit.data.item = properties.materials[Object.keys(properties.materials)[0]] && properties.materials[Object.keys(properties.materials)[0]].length > 0 ?
+                properties.materials[Object.keys(properties.materials)[0]][0] : "*";
             state.submit.data.unit = properties.units[0];
         },
         SET_SUBMIT_USER_INFO: (state, { workClass, workerName }) => [state.submit.data.workClass, state.submit.data.workerName] = [workClass, workerName],
 
         SET_SUBMIT_WORK_CLASS: (state, workClass) => [state.submit.data.workClass, state.submit.data.manualWorkClass] = [workClass, ""],
         SET_SUBMIT_WORKER_NAME: (state, workerName) => state.submit.data.workerName = workerName,
-        SET_SUBMIT_CATEGORY: (state, category) => [state.submit.data.category, state.submit.data.item, state.submit.data.manualCategory] = [category, category !== "*" ? state.submit.properties.materials[category][0] : category, ""],
+        SET_SUBMIT_CATEGORY: (state, category) => [state.submit.data.category, state.submit.data.item, state.submit.data.manualCategory] = [category, category !== "*" ? (state.submit.properties.materials[category] && state.submit.properties.materials[category].length > 0 ? state.submit.properties.materials[category][0] : "*") : category, ""],
         SET_SUBMIT_ITEM: (state, item) => [state.submit.data.item, state.submit.data.manualItem] = [item, ""],
         SET_SUBMIT_SELECTED_IN_OUT: (state, inOut) => state.submit.data.inOut = inOut,
         SET_SUBMIT_COUNT: (state, count) => state.submit.data.count = count,
