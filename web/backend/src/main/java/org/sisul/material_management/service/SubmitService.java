@@ -72,6 +72,7 @@ public class SubmitService {
                 .count(request.getCount() * (request.getInOut() == 0 ? 1 : -1))
                 .build();
         this.stockRepository.save(stock);
+        this.stockRepository.deleteByCategoryAndItem(request.getCategory(), "");
         this.logRepository.save(Log.builder()
                 .logTime(request.getLogTime())
                 .stock(stock)
@@ -99,11 +100,12 @@ public class SubmitService {
 
     private Map<String, List<String>> getMaterials() {
         Map<String, List<String>> materials = new HashMap<>();
-        this.stockRepository.findAll().forEach(stock -> {
+        this.stockRepository.findAllByAvailable(true).forEach(stock -> {
             final String category = stock.getCategory();
             if (!materials.containsKey(category))
                 materials.put(category, new ArrayList<>());
-            materials.get(category).add(stock.getItem());
+            if (stock.getItem() != null)
+                materials.get(category).add(stock.getItem());
         });
         return materials;
     }

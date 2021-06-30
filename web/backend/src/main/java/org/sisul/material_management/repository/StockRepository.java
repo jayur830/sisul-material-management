@@ -13,6 +13,9 @@ import java.util.List;
 public interface StockRepository extends JpaRepository<Stock, Integer> {
     Stock findByStockId(final int stockId);
     Stock findByCategoryAndItem(final String category, final String item);
+    Stock findByCategoryAndItemIsNull(final String category);
+
+    void deleteByCategoryAndItem(final String category, final String item);
 
     List<Stock> findAllByAvailable(final boolean available);
 

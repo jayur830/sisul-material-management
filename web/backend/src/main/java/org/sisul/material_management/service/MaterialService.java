@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Service
@@ -22,18 +23,28 @@ public class MaterialService {
 
     @Transactional
     public void commitMaterials(final List<RequestMaterialVO> materials) {
-        int lastStockId = (int) (this.stockRepository.count() + 1);
-        for (final RequestMaterialVO material : materials) {
-            final Stock stock = this.stockRepository.findByCategoryAndItem(material.getCategory(), material.getItem());
-            this.stockRepository.save(stock != null ?
-                    stock.withCount(material.getInitCount()) :
-                    Stock.builder()
-                            .stockId(lastStockId++)
+        AtomicInteger lastStockId = new AtomicInteger((int) (this.stockRepository.count() + 1));
+        materials.forEach(material -> {
+            if (material.getItem() == null && this.stockRepository.findByCategoryAndItemIsNull(material.getCategory()) == null)
+                this.stockRepository.save(Stock.builder()
+                        .stockId(lastStockId.getAndIncrement())
+                        .category(material.getCategory())
+                        .item(null)
+                        .count(material.getInitCount())
+                        .build());
+            else {
+                final Stock nullStock = this.stockRepository.findByCategoryAndItem(material.getCategory(), "");
+                if (nullStock != null) this.stockRepository.delete(nullStock);
+                final Stock stock = this.stockRepository.findByCategoryAndItem(material.getCategory(), material.getItem());
+                if (stock == null)
+                    this.stockRepository.save(Stock.builder()
+                            .stockId(lastStockId.getAndIncrement())
                             .category(material.getCategory())
                             .item(material.getItem())
                             .count(material.getInitCount())
                             .build());
-        }
+            }
+        });
     }
 
     @Transactional
