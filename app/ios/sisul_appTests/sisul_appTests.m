@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface sisul_material_management_react_nativeTests : XCTestCase
+@interface sisul_appTests : XCTestCase
 
 @end
 
-@implementation sisul_material_management_react_nativeTests
+@implementation sisul_appTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {

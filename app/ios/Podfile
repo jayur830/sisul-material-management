@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'sisul_material_management_react_native' do
+target 'sisul_app' do
   config = use_native_modules!
 
   use_react_native!(
@@ -12,9 +12,7 @@ target 'sisul_material_management_react_native' do
     :hermes_enabled => false
   )
 
-  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
-
-  target 'sisul_material_management_react_nativeTests' do
+  target 'sisul_appTests' do
     inherit! :complete
     # Pods for testing
   end
