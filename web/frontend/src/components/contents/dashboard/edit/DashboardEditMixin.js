@@ -22,6 +22,7 @@ export default {
     }),
     computed: {
         ...mapState({
+            srcData: state => state.dashboard.edit.srcData,
             properties: state => state.dashboard.edit.properties,
             isExist: state => state.dashboard.edit.isExist
         })

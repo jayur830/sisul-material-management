@@ -34,6 +34,7 @@ export default {
                 workerName: true
             },
             edit: {
+                srcData: null,
                 properties: null,
                 isExist: null
             }
@@ -93,7 +94,7 @@ export default {
         INIT_DASHBOARD_EDIT_PROPERTIES: (state, properties) => {
             properties["categories"] = Object.keys(properties.materials);
             properties["categories"].sort();
-            state.dashboard.edit.properties = Object.freeze(properties);
+            [state.dashboard.edit.srcData, state.dashboard.edit.properties] = [Object.freeze(properties), Object.freeze(properties)];
         },
         SET_DASHBOARD_EDIT_EXIST_MATERIAL: (state, isExist) => state.dashboard.edit.isExist = isExist === 1,
         CLEAR_DASHBOARD_EDIT_EXIST_MATERIAL: state => state.dashboard.edit.isExist = null

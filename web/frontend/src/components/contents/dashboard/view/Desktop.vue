@@ -56,11 +56,11 @@
                 </tr>
                 <tr>
                     <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;">자재 종류</td>
-                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;">{{ logData.stock.category }}</td>
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;">{{ logData.category }}</td>
                 </tr>
                 <tr>
                     <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.4s;">자재 제품명</td>
-                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.4s;">{{ logData.stock.item }}</td>
+                    <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.4s;">{{ logData.item }}</td>
                 </tr>
                 <tr>
                     <td class="animate__animated animate__fadeInLeft" style="animation-delay: 0.5s;">{{ logData.inOut === 0 ? '입' : '출' }}고수량</td>

@@ -46,8 +46,8 @@ export default {
                         "입/출고": obj.inOut === 0 ? "입고" : "출고",
                         "근무반": obj.workClass,
                         "작업자명": obj.workerName,
-                        "자재 종류": obj.stock.category,
-                        "자제 제품명": obj.stock.item,
+                        "자재 종류": obj.category,
+                        "자제 제품명": obj.item,
                         "수량": obj.count,
                         "재고량": obj.lastCount,
                         "단위": obj.unit
@@ -81,8 +81,8 @@ export default {
                         "입/출고": obj.inOut === 0 ? "입고" : "출고",
                         "근무반": obj.workClass,
                         "작업자명": obj.workerName,
-                        "자재 종류": obj.stock.category,
-                        "자제 제품명": obj.stock.item,
+                        "자재 종류": obj.category,
+                        "자제 제품명": obj.item,
                         "수량": obj.count,
                         "단위": obj.unit
                     })),

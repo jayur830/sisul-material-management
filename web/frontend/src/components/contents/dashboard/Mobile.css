@@ -110,7 +110,6 @@
 }
 
 #mobile-dashboard .content:nth-child(1) {
-    /*width: fit-content;*/
     height: 300px;
 }
 
@@ -118,12 +117,74 @@
     width: calc(100% - 138px);
 }
 
-#mobile-dashboard .content:nth-child(1) table tbody td div table tbody td:nth-child(9) svg {
+#mobile-dashboard .content:nth-child(1)  > div:last-child {
+    overflow-y: hidden;
+    font-size: 7pt;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table {
+    min-width: 705px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table th {
+    background-color: #262626;
+    color: #e7e6e6;
+    font-weight: normal;
+    padding: 8px 0;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table th svg {
+    margin-left: 2px;
+    cursor: pointer;
+    transition: color 0.1s;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table th svg:active {
+    color: #0070c0;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table tbody div {
+    width: calc(100% + 13px);
+    height: 238px;
+    overflow-x: hidden;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table tbody div table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table tbody div table td {
+    text-align: center;
+    padding: 8px 0;
+    transition: background-color 0.1s;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table tbody div table tbody tr:nth-child(odd) td {
+    background-color: #e7e6e6;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table tbody div table tbody tr:nth-child(even) td {
+    background-color: #d0d0d0;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table tbody div table tbody tr {
+    cursor: pointer;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table tbody div table tbody tr:hover td {
+    background-color: #bdbdbd;
+}
+
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table tbody td div table tbody td:nth-child(9) svg {
     color: #262626;
     transition: color 0.2s;
 }
 
-#mobile-dashboard .content:nth-child(1) table tbody td div table tbody td:nth-child(9) svg:hover {
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table tbody td div table tbody td:nth-child(9) svg:hover {
     color: #0070c0;
 }
 

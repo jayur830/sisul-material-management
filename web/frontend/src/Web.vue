@@ -1,5 +1,5 @@
 <template>
-    <div id="web">
+    <div id="web" class="text-no-drag">
         <app-header v-show="windowWidth >= 1000" />
         <mobile-header v-show="windowWidth < 1000" />
         <div>

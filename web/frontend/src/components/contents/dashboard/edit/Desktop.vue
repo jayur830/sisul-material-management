@@ -129,8 +129,8 @@
             this.logTime = this.$route.params.logTime;
             this.workClass = this.$route.params.workClass;
             this.workerName = this.$route.params.workerName;
-            this.category = this.$route.params.stock.category;
-            this.item = this.$route.params.stock.item;
+            this.category = this.$route.params.category;
+            this.item = this.$route.params.item;
             this.inOut = this.$route.params.inOut;
             this.count = this.$route.params.count;
             if (this.properties.units.indexOf(this.$route.params.unit) === -1)

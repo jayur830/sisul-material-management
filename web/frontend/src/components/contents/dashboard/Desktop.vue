@@ -91,8 +91,8 @@
                                                 backgroundColor: obj.inOut === 0 ? '#009a46' : '#c55a11',
                                                 color: obj.inOut === 0 ? '#bdffdb' : '#f8cbad'
                                             }">{{ obj.inOut === 0 ? '입고' : '출고' }}</td>
-                                            <td>{{ obj.stock.category }}</td>
-                                            <td>{{ obj.stock.item }}</td>
+                                            <td>{{ obj.category }}</td>
+                                            <td>{{ obj.item }}</td>
                                             <td :style="{
                                                 fontWeight: 'bold',
                                                 color: obj.inOut === 0 ? '#009a46' : '#c55a11'
@@ -128,8 +128,8 @@
                                                 backgroundColor: obj.inOut === 0 ? '#009a46' : '#c55a11',
                                                 color: obj.inOut === 0 ? '#bdffdb' : '#f8cbad'
                                             }">{{ obj.inOut === 0 ? '입고' : '출고' }}</td>
-                                            <td>{{ obj.stock.category }}</td>
-                                            <td>{{ obj.stock.item }}</td>
+                                            <td>{{ obj.category }}</td>
+                                            <td>{{ obj.item }}</td>
                                             <td :style="{
                                                 fontWeight: 'bold',
                                                 color: obj.inOut === 0 ? '#009a46' : '#c55a11'
@@ -157,13 +157,6 @@
                     </div>
                 </div>
                 <table>
-<!--                    <colgroup v-if="isAdmin">-->
-<!--                        <col style="width: 30%;" />-->
-<!--                        <col style="width: 46%;" />-->
-<!--                        <col style="width: 14%;" />-->
-<!--                        <col style="width: 10%;" />-->
-<!--                    </colgroup>-->
-<!--                    <colgroup v-else>-->
                     <colgroup>
                         <col style="width: 33%;" />
                         <col style="width: 50%;" />
@@ -183,35 +176,10 @@
                                 수량
                                 <font-awesome-icon size="1x" :icon="['fa', 'sort']" @click="orderStock({ property: 'count', order: !stockOrder.count })" />
                             </th>
-<!--                            <th v-if="isAdmin"></th>-->
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-<!--                            <td colspan="4" v-if="isAdmin">-->
-<!--                                <div class="scroll" v-if="stock && stock.length != 0">-->
-<!--                                    <table>-->
-<!--                                        <colgroup>-->
-<!--                                            <col style="width: 30%;" />-->
-<!--                                            <col style="width: 46%;" />-->
-<!--                                            <col style="width: 14%;" />-->
-<!--                                            <col style="width: 10%;" />-->
-<!--                                        </colgroup>-->
-<!--                                        <tbody>-->
-<!--                                            <tr :key="i" v-for="(obj, i) in stock" @click="setStockView(obj.stockId)">-->
-<!--                                                <td>{{ obj.category }}</td>-->
-<!--                                                <td>{{ obj.item }}</td>-->
-<!--                                                <td>{{ obj.count }}</td>-->
-<!--                                                <td @click.stop="modifyStockCount(obj.stockId, obj.count)">-->
-<!--                                                    <font-awesome-icon size="1x" :icon="['fa', 'edit']" />-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                        </tbody>-->
-<!--                                    </table>-->
-<!--                                </div>-->
-<!--                                <div class="scroll" v-else><table><tbody><tr><td>No data</td></tr></tbody></table></div>-->
-<!--                            </td>-->
-<!--                            <td colspan="3" v-else>-->
                             <td colspan="3">
                                 <div class="scroll" v-if="stock && stock.length != 0">
                                     <table>
