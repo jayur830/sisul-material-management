@@ -59,7 +59,7 @@
     transition: color 0.2s;
 }
 
-#mobile-change-password table tfoot td a:hover {
+#mobile-change-password table tfoot td a:active {
     color: #0070c0;
 }
 
@@ -72,6 +72,6 @@
     transition: background-color 0.2s;
 }
 
-#mobile-change-password .btn:hover {
+#mobile-change-password .btn:active {
     background-color: #0070c0;
 }

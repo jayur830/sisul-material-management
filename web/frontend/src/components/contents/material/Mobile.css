@@ -44,12 +44,8 @@
     transition: background-color 0.2s;
 }
 
-#mobile-material > div > div:nth-child(1) input[type=button].btn:hover {
-    background-color: #3e9bd0;
-}
-
 #mobile-material > div > div:nth-child(1) input[type=button].btn:active {
-    background-color: #0064aa;
+    background-color: #3e9bd0;
 }
 
 #mobile-material > div > div:nth-child(2) {
@@ -76,16 +72,10 @@
     transition: border-color 0.2s, background-color 0.2s, color 0.2s;
 }
 
-#mobile-material > div > div:nth-child(2) > div > div:hover {
+#mobile-material > div > div:nth-child(2) > div > div:active {
     border-color: #3e9bd0;
     background-color: #ebf3fd;
     color: #3e9bd0;
-}
-
-#mobile-material > div > div:nth-child(2) > div > div:active {
-    border-color: #0064aa;
-    background-color: #cfebff;
-    color: #0064aa;
 }
 
 #mobile-material > div > div:nth-child(2) > div > div > span {
@@ -107,16 +97,12 @@
     transition: background-color 0.2s;
 }
 
-#mobile-material > div > div:nth-child(3) input[type=button].btn:hover {
+#mobile-material > div > div:nth-child(3) input[type=button].btn:active {
     background-color: #615f5f;
 }
 
-#mobile-material > div > div:nth-child(3) input[type=button].btn:active {
-    background-color: #282626;
-}
-
 #mobile-material > div > div:nth-child(3) input[type=button].btn.disabled,
-#mobile-material > div > div:nth-child(3) input[type=button].btn.disabled:hover {
+#mobile-material > div > div:nth-child(3) input[type=button].btn.disabled:active {
     background-color: #747171;
     cursor: default;
 }

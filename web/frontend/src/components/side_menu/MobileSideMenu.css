@@ -47,7 +47,7 @@
     transition: color 0.2s;
 }
 
-#mobile-side-menu ul li a:hover {
+#mobile-side-menu ul li a:active {
     color: #0070c0;
 }
 

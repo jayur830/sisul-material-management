@@ -4,14 +4,15 @@
             <div>
                 <table v-if="properties">
                     <colgroup>
-                        <col style="width: 130px;" />
-                        <col style="width: calc(100% - 130px);" />
+                        <col style="width: 115px;" />
+                        <col style="width: calc(100% - 115px);" />
                     </colgroup>
                     <tbody>
                         <tr>
                             <td class="animate__animated animate__fadeInLeft">시간</td>
                             <td class="animate__animated animate__fadeInRight" style="font: 13pt 'NanumSquare_acB';">
-                                {{ toLogTime(logTime, 'YYYYMMDDhhmmss', 'YYYY.MM.DD hh:mm:ss') }}
+                                <date-picker v-model="date" :value="date" valueType="format" format="YYYY.MM.DD" />
+                                <time-picker v-model="time" format="HH:mm:ss" />
                             </td>
                         </tr>
                         <tr>
@@ -36,30 +37,11 @@
                         </tr>
                         <tr>
                             <td class="animate__animated animate__fadeInLeft">자재 종류</td>
-                            <td class="animate__animated animate__fadeInRight">
-                                <label>
-                                    <select v-model="category">
-                                        <option :key="i" v-for="(category, i) in properties.categories">{{ category }}</option>
-                                        <option value="*">기타(수기입력)</option>
-                                    </select>
-                                </label>
-                                <label v-show="category === '*'"><input type="text" v-model="manualCategory" /></label>
-                            </td>
+                            <td class="animate__animated animate__fadeInRight">{{ category }}</td>
                         </tr>
                         <tr>
                             <td class="animate__animated animate__fadeInLeft">자재 제품명</td>
-                            <td class="animate__animated animate__fadeInRight" v-if="category !== '*'">
-                                <label>
-                                    <select v-model="item">
-                                        <option :key="i" v-for="(item, i) in properties.materials[category]">{{ item }}</option>
-                                        <option value="*">기타(수기입력)</option>
-                                    </select>
-                                </label>
-                                <label v-show="item === '*'"><input type="text" v-model="manualItem" /></label>
-                            </td>
-                            <td v-else>
-                                <input type="text" v-model="manualItem" />
-                            </td>
+                            <td class="animate__animated animate__fadeInRight">{{ item }}</td>
                         </tr>
                         <tr>
                             <td class="animate__animated animate__fadeInLeft">입/출고</td>
@@ -121,6 +103,8 @@
 </template>
 
 <script>
+    import moment from "moment";
+
     import DashboardEditMixin from "./DashboardEditMixin";
 
     export default {
@@ -128,11 +112,12 @@
         mixins: [DashboardEditMixin],
         async mounted() {
             await this.initProperties();
-            this.logTime = this.$route.params.logTime;
+            this.date = moment(this.$route.params.logTime, "YYYYMMDDHHmmss").format("YYYY.MM.DD");
+            this.time = moment(this.$route.params.logTime, "YYYYMMDDHHmmss").format("HH:mm:ss");
             this.workClass = this.$route.params.workClass;
             this.workerName = this.$route.params.workerName;
-            this.category = this.$route.params.ategory;
-            this.item = this.$route.params.tem;
+            this.category = this.$route.params.category;
+            this.item = this.$route.params.item;
             this.inOut = this.$route.params.inOut;
             this.count = this.$route.params.count;
             if (this.properties.units.indexOf(this.$route.params.unit) === -1)

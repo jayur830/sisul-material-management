@@ -84,12 +84,8 @@
     transition: background-color 0.2s;
 }
 
-#mobile-dashboard-edit table tbody td div.file-field > label:hover {
-    background-color: #3b3b3b;
-}
-
 #mobile-dashboard-edit table tbody td div.file-field > label:active {
-    background-color: #1d1d1d;
+    background-color: #3b3b3b;
 }
 
 #mobile-dashboard-edit table tbody td div.file-field input[type=file] {
@@ -97,6 +93,22 @@
     top: 2px;
     left: 40px;
     outline: none;
+}
+
+#mobile-dashboard-edit table tbody tr:first-child td:last-child {
+    position: relative;
+    z-index: 999;
+}
+
+#mobile-dashboard-edit table tbody tr:first-child td:last-child span.vue__time-picker.time-picker .dropdown,
+#mobile-dashboard-edit table tbody tr:first-child td:last-child span.vue__time-picker.time-picker .dropdown .select-list {
+    width: 100%;
+}
+
+#mobile-dashboard-edit table tbody tr:first-child td:last-child span.vue__time-picker.time-picker .dropdown ul.hours,
+#mobile-dashboard-edit table tbody tr:first-child td:last-child span.vue__time-picker.time-picker .dropdown ul.minutes,
+#mobile-dashboard-edit table tbody tr:first-child td:last-child span.vue__time-picker.time-picker .dropdown ul.seconds {
+    margin: 0 auto;
 }
 
 #mobile-dashboard-edit table tfoot td {
@@ -116,10 +128,6 @@
     transition: background-color 0.2s;
 }
 
-#mobile-dashboard-edit table tfoot input[type=button]:hover {
-    background-color: #3e9bd0;
-}
-
 #mobile-dashboard-edit table tfoot input[type=button]:active {
-    background-color: #0064aa;
+    background-color: #3e9bd0;
 }

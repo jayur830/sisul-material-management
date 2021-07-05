@@ -24,6 +24,12 @@ import {
     faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 
+import "vue2-datepicker/index.css";
+import DatePicker from "vue2-datepicker";
+
+import "vue2-timepicker/dist/VueTimepicker.css";
+import VueTimePicker from "vue2-timepicker";
+
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 library.add(
     faRedoAlt,
@@ -37,6 +43,9 @@ library.add(
     faUser,
     faSignInAlt,
     faSignOutAlt);
+
+Vue.component("date-picker", DatePicker);
+Vue.component("time-picker", VueTimePicker);
 
 Vue.config.productionTip = false;
 

@@ -41,7 +41,7 @@
     cursor: pointer;
 }
 
-#mobile-member-confirm table div.scroll td:last-child input[type=button]:hover {
+#mobile-member-confirm table div.scroll td:last-child input[type=button]:active {
     background-color: #3e9bd0;
 }
 

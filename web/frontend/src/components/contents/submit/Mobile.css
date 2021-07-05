@@ -84,12 +84,8 @@
     transition: background-color 0.2s;
 }
 
-#mobile-submit table tbody td div.file-field > label:hover {
-    background-color: #3b3b3b;
-}
-
 #mobile-submit table tbody td div.file-field > label:active {
-    background-color: #1d1d1d;
+    background-color: #3b3b3b;
 }
 
 #mobile-submit table tbody td div.file-field input[type=file] {
@@ -114,10 +110,6 @@
     transition: background-color 0.2s;
 }
 
-#mobile-submit table tfoot input[type=button]:hover {
-    background-color: #3e9bd0;
-}
-
 #mobile-submit table tfoot input[type=button]:active {
-    background-color: #0064aa;
+    background-color: #3e9bd0;
 }

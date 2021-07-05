@@ -61,7 +61,7 @@
     transition: color 0.2s;
 }
 
-#mobile-login table tfoot td > div:first-child a:hover {
+#mobile-login table tfoot td > div:first-child a:active {
     color: #0070c0;
 }
 
@@ -74,6 +74,6 @@
     transition: background-color 0.2s;
 }
 
-#mobile-login .btn:hover {
+#mobile-login .btn:active {
     background-color: #0070c0;
 }

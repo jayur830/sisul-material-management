@@ -46,7 +46,7 @@
     transition: color 0.1s;
 }
 
-#mobile-header > div:last-child > a:hover {
+#mobile-header > div:last-child > a:active {
     color: #0070c0;
 }
 

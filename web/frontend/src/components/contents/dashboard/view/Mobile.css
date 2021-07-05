@@ -16,7 +16,7 @@
     float: right;
 }
 
-#mobile-dashboard-view h3:hover {
+#mobile-dashboard-view h3:active {
     color: #0070c0;
 }
 
@@ -95,12 +95,12 @@
 }
 
 #mobile-dashboard-view > table td .log-img > div svg.disable,
-#mobile-dashboard-view > table td .log-img > div svg.disable:hover {
+#mobile-dashboard-view > table td .log-img > div svg.disable:active {
     color: #9c9c9c;
     cursor: default;
 }
 
-#mobile-dashboard-view > table td .log-img > div svg:hover {
+#mobile-dashboard-view > table td .log-img > div svg:active {
     color: #0070c0;
 }
 

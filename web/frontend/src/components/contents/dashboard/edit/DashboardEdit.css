@@ -1,3 +1,40 @@
 #dashboard-edit {
     height: 100%;
 }
+
+#dashboard-edit div.mx-datepicker {
+    width: 55%;
+}
+
+#dashboard-edit div.mx-datepicker input.mx-input {
+    color: black;
+    width: 100%;
+    height: 30px;
+    border-radius: 2px;
+    margin: 0;
+    box-shadow: none;
+}
+
+#dashboard-edit span.vue__time-picker.time-picker {
+    width: 45%;
+}
+
+#dashboard-edit span.vue__time-picker.time-picker > input {
+    width: 100%;
+    height: 30px;
+    border-radius: 2px;
+    margin: 0;
+}
+
+#dashboard-edit span.vue__time-picker.time-picker,
+#dashboard-edit span.vue__time-picker.time-picker div.dropdown {
+    z-index: 999 !important;
+}
+
+#dashboard-edit span.vue__time-picker.time-picker div.dropdown {
+    margin-right: 20px !important;
+}
+
+#dashboard-edit span.vue__time-picker.time-picker div.dropdown .active {
+    background-color: #0070c0;
+}

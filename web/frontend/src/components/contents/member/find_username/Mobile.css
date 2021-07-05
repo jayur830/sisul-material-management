@@ -62,6 +62,6 @@
     transition: background-color 0.2s;
 }
 
-#mobile-find-username .btn:hover {
+#mobile-find-username .btn:active {
     background-color: #0070c0;
 }

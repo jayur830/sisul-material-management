@@ -56,6 +56,6 @@
     transition: background-color 0.2s;
 }
 
-#mobile-find-password .btn:hover {
+#mobile-find-password .btn:active {
     background-color: #0070c0;
 }

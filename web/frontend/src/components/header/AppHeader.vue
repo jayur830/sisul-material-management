@@ -1,6 +1,6 @@
 <template>
     <div id="app-header">
-        <div @click="$route.path !== '/dashboard' ? $router.push('/dashboard') : null">
+        <div @click="isAuthenticated ? ($route.path !== '/dashboard' ? $router.push('/dashboard') : null) : ($route.path === '/member/login' ? null : '/dashboard')">
             <img src="../../assets/img/logo.png" width="69.6" height="41.6" alt="logo" />
             <div>응급보수자재관리</div>
             <div>Emergency maintenance material management</div>

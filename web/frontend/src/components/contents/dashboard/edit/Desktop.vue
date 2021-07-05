@@ -4,13 +4,16 @@
             <div>
                 <table v-if="properties">
                     <colgroup>
-                        <col style="width: 35%;" />
-                        <col style="width: 65%;" />
+                        <col style="width: 30%;" />
+                        <col style="width: 70%;" />
                     </colgroup>
                     <tbody>
                         <tr>
                             <td>시간</td>
-                            <td style="font: 13pt 'NanumSquare_acB';">{{ toLogTime(logTime, 'YYYYMMDDhhmmss', 'YYYY.MM.DD hh:mm:ss') }}</td>
+                            <td style="font: 13pt 'NanumSquare_acB';">
+                                <date-picker v-model="date" :value="date" valueType="format" format="YYYY.MM.DD" />
+                                <time-picker v-model="time" format="HH:mm:ss" />
+                            </td>
                         </tr>
                         <tr>
                             <td>근무반</td>
@@ -34,30 +37,11 @@
                         </tr>
                         <tr>
                             <td>자재 종류</td>
-                            <td>
-                                <label>
-                                    <select v-model="category">
-                                        <option :key="i" v-for="(category, i) in properties.categories">{{ category }}</option>
-                                        <option value="*">기타(수기입력)</option>
-                                    </select>
-                                </label>
-                                <label v-show="category === '*'"><input type="text" v-model="manualCategory" /></label>
-                            </td>
+                            <td>{{ category }}</td>
                         </tr>
                         <tr>
                             <td>자재 제품명</td>
-                            <td v-if="category !== '*'">
-                                <label>
-                                    <select v-model="item">
-                                        <option :key="i" v-for="(item, i) in properties.materials[category]">{{ item }}</option>
-                                        <option value="*">기타(수기입력)</option>
-                                    </select>
-                                </label>
-                                <label v-show="item === '*'"><input type="text" v-model="manualItem" /></label>
-                            </td>
-                            <td v-else>
-                                <input type="text" v-model="manualItem" />
-                            </td>
+                            <td>{{ item }}</td>
                         </tr>
                         <tr>
                             <td>입/출고</td>
@@ -119,6 +103,8 @@
 </template>
 
 <script>
+    import moment from "moment";
+
     import DashboardEditMixin from "./DashboardEditMixin";
 
     export default {
@@ -126,7 +112,8 @@
         mixins: [DashboardEditMixin],
         async mounted() {
             await this.initProperties();
-            this.logTime = this.$route.params.logTime;
+            this.date = moment(this.$route.params.logTime, "YYYYMMDDHHmmss").format("YYYY.MM.DD");
+            this.time = moment(this.$route.params.logTime, "YYYYMMDDHHmmss").format("HH:mm:ss");
             this.workClass = this.$route.params.workClass;
             this.workerName = this.$route.params.workerName;
             this.category = this.$route.params.category;
@@ -136,6 +123,8 @@
             if (this.properties.units.indexOf(this.$route.params.unit) === -1)
                 [this.unit, this.manualUnit] = ["*", this.$route.params.unit];
             else this.unit = this.$route.params.unit;
+
+            console.log(moment("2021.04.dd").isValid());
         }
     }
 </script>

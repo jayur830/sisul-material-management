@@ -30,12 +30,8 @@
     transition: color 0.2s;
 }
 
-#mobile-dashboard .content > div:first-child svg:hover {
-    color: #0070c0;
-}
-
 #mobile-dashboard .content > div:first-child svg:active {
-    color: #003050;
+    color: #0070c0;
 }
 
 #mobile-dashboard .content > table {
@@ -105,7 +101,7 @@
     cursor: pointer;
 }
 
-#mobile-dashboard .content > table tbody div table tbody tr:hover td {
+#mobile-dashboard .content > table tbody div table tbody tr:active td {
     background-color: #bdbdbd;
 }
 
@@ -184,7 +180,7 @@
     transition: color 0.2s;
 }
 
-#mobile-dashboard .content:nth-child(1)  > div:last-child > table tbody td div table tbody td:nth-child(9) svg:hover {
+#mobile-dashboard .content:nth-child(1)  > div:last-child > table tbody td div table tbody td:nth-child(9) svg:active {
     color: #0070c0;
 }
 
