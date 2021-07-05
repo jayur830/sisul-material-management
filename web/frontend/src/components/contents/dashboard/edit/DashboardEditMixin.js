@@ -78,11 +78,11 @@ export default {
 
         createFormData() {
             const formData = new FormData();
-            formData.append("logTime", this.logTime);
+            formData.append("logTime", moment(`${this.date} ${this.time}`, "YYYY.MM.DD HH:mm:ss").format("YYYYMMDDHHmmss"));
             formData.append("workClass", this.workClass === "*" ? this.manualWorkClass : this.workClass);
             formData.append("workerName", this.workerName);
-            formData.append("category", this.category === "*" ? this.manualCategory : this.category);
-            formData.append("item", this.item === "*" ? this.manualItem : this.item);
+            formData.append("category", this.category);
+            formData.append("item", this.item);
             formData.append("inOut", this.inOut);
             formData.append("count", this.count);
             formData.append("unit", this.unit === "*" ? this.manualUnit : this.unit);
