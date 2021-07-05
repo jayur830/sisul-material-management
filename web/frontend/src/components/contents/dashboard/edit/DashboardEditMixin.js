@@ -6,6 +6,17 @@ import axios from "axios";
 export default {
     name: "DashboardEditMixin",
     data: () => ({
+        src: {
+            logTime: "",
+            workClass: "",
+            workerName: "",
+            category: "",
+            item: "",
+            inOut: null,
+            count: null,
+            unit: "",
+            files: [null, null, null]
+        },
         date: "",
         time: "",
         workClass: "",
@@ -21,7 +32,6 @@ export default {
     }),
     computed: {
         ...mapState({
-            srcData: state => state.dashboard.edit.srcData,
             properties: state => state.dashboard.edit.properties,
             isExist: state => state.dashboard.edit.isExist
         })
@@ -78,14 +88,26 @@ export default {
 
         createFormData() {
             const formData = new FormData();
-            formData.append("logTime", moment(`${this.date} ${this.time}`, "YYYY.MM.DD HH:mm:ss").format("YYYYMMDDHHmmss"));
-            formData.append("workClass", this.workClass === "*" ? this.manualWorkClass : this.workClass);
-            formData.append("workerName", this.workerName);
-            formData.append("category", this.category);
-            formData.append("item", this.item);
-            formData.append("inOut", this.inOut);
-            formData.append("count", this.count);
-            formData.append("unit", this.unit === "*" ? this.manualUnit : this.unit);
+            formData.append("src", {
+                logTime: this.src.logTime,
+                workClass: this.src.workClass,
+                workerName: this.src.workerName,
+                category: this.src.category,
+                item: this.src.item,
+                inOut: this.src.inOut,
+                count: this.src.count,
+                unit: this.src.unit
+            });
+            formData.append("dst", {
+                logTime: moment(`${this.date} ${this.time}`, "YYYY.MM.DD HH:mm:ss").format("YYYYMMDDHHmmss"),
+                workClass: this.workClass === "*" ? this.manualWorkClass : this.workClass,
+                workerName: this.workerName,
+                category: this.category,
+                item: this.item,
+                inOut: this.inOut,
+                count: this.count,
+                unit: this.unit === "*" ? this.manualUnit : this.unit
+            });
 
             return formData;
         }

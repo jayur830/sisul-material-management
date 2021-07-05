@@ -112,17 +112,19 @@
         mixins: [DashboardEditMixin],
         async mounted() {
             await this.initProperties();
+            this.src.logTime = this.$route.params.logTime;
             this.date = moment(this.$route.params.logTime, "YYYYMMDDHHmmss").format("YYYY.MM.DD");
             this.time = moment(this.$route.params.logTime, "YYYYMMDDHHmmss").format("HH:mm:ss");
-            this.workClass = this.$route.params.workClass;
-            this.workerName = this.$route.params.workerName;
-            this.category = this.$route.params.category;
-            this.item = this.$route.params.item;
-            this.inOut = this.$route.params.inOut;
-            this.count = this.$route.params.count;
+            [this.workClass, this.src.workClass] = [this.$route.params.workClass, this.$route.params.workClass];
+            [this.workerName, this.src.workerName] = [this.$route.params.workerName, this.$route.params.workerName];
+            [this.category, this.src.category] = [this.$route.params.category, this.$route.params.category];
+            [this.item, this.src.item] = [this.$route.params.item, this.$route.params.item];
+            [this.inOut, this.src.inOut] = [this.$route.params.inOut, this.$route.params.inOut];
+            [this.count, this.src.count] = [this.$route.params.count, this.$route.params.count];
             if (this.properties.units.indexOf(this.$route.params.unit) === -1)
                 [this.unit, this.manualUnit] = ["*", this.$route.params.unit];
             else this.unit = this.$route.params.unit;
+            this.src.unit = this.$route.params.unit;
 
             console.log(moment("2021.04.dd").isValid());
         }

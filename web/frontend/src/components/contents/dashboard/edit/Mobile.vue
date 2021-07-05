@@ -112,6 +112,7 @@
         mixins: [DashboardEditMixin],
         async mounted() {
             await this.initProperties();
+            this.srcLogTime = this.$route.params.logTime;
             this.date = moment(this.$route.params.logTime, "YYYYMMDDHHmmss").format("YYYY.MM.DD");
             this.time = moment(this.$route.params.logTime, "YYYYMMDDHHmmss").format("HH:mm:ss");
             this.workClass = this.$route.params.workClass;
