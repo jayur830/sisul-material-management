@@ -10,10 +10,7 @@ import org.sisul.material_management.repository.ItemRepository;
 import org.sisul.material_management.repository.LogRepository;
 import org.sisul.material_management.repository.MemberRepository;
 import org.sisul.material_management.repository.StockRepository;
-import org.sisul.material_management.vo.RequestInsertLogVO;
-import org.sisul.material_management.vo.RequestMaterialVO;
-import org.sisul.material_management.vo.ResponseSubmitItemsVO;
-import org.sisul.material_management.vo.ResponseSubmitUserInfoVO;
+import org.sisul.material_management.vo.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +52,7 @@ public class SubmitService {
     }
 
     @Transactional
-    public void submit(final RequestInsertLogVO request, MultipartFile...imgs) {
+    public void submit(final RequestLogPostDataVO request, MultipartFile...imgs) {
         String[] fileNames = uploadImage(imgs);
 
         log.info("{}", request);
@@ -75,7 +72,7 @@ public class SubmitService {
         this.stockRepository.deleteByCategoryAndItem(request.getCategory(), "");
         this.logRepository.save(Log.builder()
                 .logTime(request.getLogTime())
-                .stock(stock)
+                .stockId(stock.getStockId())
                 .inOut(request.getInOut())
                 .count(request.getCount())
                 .lastCount(stock.getCount())

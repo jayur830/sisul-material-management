@@ -22,5 +22,5 @@ public class Stock {
     private Integer count = 0;
 
     @Builder.Default
-    private boolean available = true;
+    private Boolean available = true;
 }

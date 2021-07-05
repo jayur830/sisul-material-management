@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sisul.material_management.entity.Log;
 import org.sisul.material_management.entity.Stock;
+import org.sisul.material_management.projection.LogProjection;
 import org.sisul.material_management.repository.LogRepository;
 import org.sisul.material_management.repository.StockRepository;
-import org.sisul.material_management.vo.RequestInsertLogVO;
+import org.sisul.material_management.vo.RequestLogPutDataVO;
 import org.sisul.material_management.vo.RequestModifyStockVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,57 +25,57 @@ public class DashboardService {
     private final LogRepository logRepository;
     private final StockRepository stockRepository;
 
-    public List<Log> dashboardLog() {
+    public List<LogProjection> dashboardLog() {
         return this.logRepository.findAllByOrderByLogTimeDesc();
     }
 
-    public Log dashboardLogView(final String logTime, final String workClass, final String workerName) {
+    public LogProjection dashboardLogView(final String logTime, final String workClass, final String workerName) {
         return this.logRepository.findByLogTimeAndWorkClassAndWorkerName(logTime, workClass, workerName);
     }
 
     @Transactional
-    public void modifyDashboardLog(final RequestInsertLogVO request, MultipartFile...imgs) {
+    public void modifyDashboardLog(final RequestLogPutDataVO request, MultipartFile...imgs) {
         String[] fileNames = uploadImage(imgs);
 
-        Log log = this.logRepository.findByLogTime(request.getLogTime());
-
-        if (log.getImg1() != null) new File("/sisul/img/" + log.getImg1()).delete();
-        if (log.getImg2() != null) new File("/sisul/img/" + log.getImg2()).delete();
-        if (log.getImg3() != null) new File("/sisul/img/" + log.getImg3()).delete();
-
-        final int subCount = log.getCount() * (log.getInOut() == 0 ? -1 : 1);
-
-        log.setLastCount(log.getLastCount() + subCount);
-        log.setWorkClass(request.getWorkClass());
-        log.setWorkerName(request.getWorkerName());
-        log.setInOut(request.getInOut());
-        Stock stock = log.getStock();
-        stock.setCategory(request.getCategory());
-        stock.setItem(request.getItem());
-        log.setUnit(request.getUnit());
-        log.setImg1(fileNames[0]);
-        log.setImg2(fileNames[1]);
-        log.setImg3(fileNames[2]);
-        log.setCount(request.getCount());
-        log.setLastCount(log.getLastCount() + request.getCount() * (request.getInOut() == 0 ? 1 : -1));
-
-        this.logRepository.save(log);
-        this.logRepository.updateCountAllByLogTimeGreaterThan(
-                subCount,
-                request.getCount() * (request.getInOut() == 0 ? 1 : -1),
-                request.getLogTime(),
-                stock);
-        this.stockRepository.updateCountByCategoryAndItem(
-                stock.getCategory(),
-                stock.getItem(),
-                this.logRepository.findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(
-                        stock.getCategory(),
-                        stock.getItem()).getLastCount());
+//        Log log = this.logRepository.findByLogTime(request.getLogTime());
+//
+//        if (log.getImg1() != null) new File("/sisul/img/" + log.getImg1()).delete();
+//        if (log.getImg2() != null) new File("/sisul/img/" + log.getImg2()).delete();
+//        if (log.getImg3() != null) new File("/sisul/img/" + log.getImg3()).delete();
+//
+//        final int subCount = log.getCount() * (log.getInOut() == 0 ? -1 : 1);
+//
+//        log.setLastCount(log.getLastCount() + subCount);
+//        log.setWorkClass(request.getWorkClass());
+//        log.setWorkerName(request.getWorkerName());
+//        log.setInOut(request.getInOut());
+//        Stock stock = log.getStock();
+//        stock.setCategory(request.getCategory());
+//        stock.setItem(request.getItem());
+//        log.setUnit(request.getUnit());
+//        log.setImg1(fileNames[0]);
+//        log.setImg2(fileNames[1]);
+//        log.setImg3(fileNames[2]);
+//        log.setCount(request.getCount());
+//        log.setLastCount(log.getLastCount() + request.getCount() * (request.getInOut() == 0 ? 1 : -1));
+//
+//        this.logRepository.save(log);
+//        this.logRepository.updateCountAllByLogTimeGreaterThan(
+//                subCount,
+//                request.getCount() * (request.getInOut() == 0 ? 1 : -1),
+//                request.getLogTime(),
+//                stock);
+//        this.stockRepository.updateCountByCategoryAndItem(
+//                stock.getCategory(),
+//                stock.getItem(),
+//                this.logRepository.findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(
+//                        stock.getCategory(),
+//                        stock.getItem()).getLastCount());
     }
 
     @Transactional
     public void removeDashboardLog(final String logTime) {
-        Log _log = this.logRepository.findByLogTime(logTime);
+        LogProjection _log = this.logRepository.findByLogTime(logTime);
         String img1 = _log.getImg1();
         String img2 = _log.getImg2();
         String img3 = _log.getImg3();
@@ -82,11 +83,11 @@ public class DashboardService {
         if (img2 != null) new File("/sisul/img/" + img2).delete();
         if (img3 != null) new File("/sisul/img/" + img3).delete();
         final int count = _log.getCount() * (_log.getInOut() == 0 ? -1 : 1);
-        Stock stock = _log.getStock();
-        this.logRepository.updateCountAllByLogTimeGreaterThan(count, logTime, stock);
-        this.logRepository.delete(_log);
+        Stock stock = this.stockRepository.findById(_log.getStockId()).get();
+        this.logRepository.updateCountAllByLogTimeGreaterThan(count, logTime, stock.getStockId());
+        this.logRepository.deleteByLogTime(_log.getLogTime());
 
-        Log lastLog = this.logRepository.findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(stock.getCategory(), stock.getItem());
+        LogProjection lastLog = this.logRepository.findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(stock.getCategory(), stock.getItem());
         if (lastLog != null)
             this.stockRepository.updateCountByCategoryAndItem(
                     stock.getCategory(),
@@ -103,8 +104,8 @@ public class DashboardService {
         return this.stockRepository.findAllByAvailable(true);
     }
 
-    public List<Log> dashboardStockView(final int stockId) {
-        return this.logRepository.findAllByStockStockIdOrderByLogTimeDesc(stockId);
+    public List<LogProjection> dashboardStockView(final int stockId) {
+        return this.logRepository.findAllByStockIdOrderByLogTimeDesc(stockId);
     }
 
     @Deprecated
@@ -113,7 +114,7 @@ public class DashboardService {
         Stock stock = this.stockRepository.findByStockId(request.getStockId());
         final int count = request.getCount() - stock.getCount();
         this.stockRepository.updateCountByStockId(request.getCount(), request.getStockId());
-        this.logRepository.updateCountAll(count, stock);
+        this.logRepository.updateCountAll(count, stock.getStockId());
     }
 
     public void getImage(final String fileName, ServletOutputStream outputStream) throws IOException {
@@ -174,5 +175,22 @@ public class DashboardService {
             }
         }
         return fileNames;
+    }
+
+    private List<Log> updateLastCounts(List<Log> logs, final int startIndex, final int replaceInOut, final int replaceCount) {
+        Log firstLog = logs.get(startIndex);
+
+        int lastCount = firstLog.getLastCount() + (replaceCount * (replaceInOut == 1 ? 1 : -1)) - (firstLog.getCount() * (firstLog.getInOut() == 1 ? 1 : -1));
+        firstLog.setInOut(replaceInOut);
+        firstLog.setCount(replaceCount);
+        firstLog.setLastCount(lastCount);
+
+        for (int i = 1; i < logs.size(); ++i) {
+            Log _log = logs.get(i);
+            lastCount += _log.getCount() * (_log.getInOut() == 1 ? 1 : -1);
+            _log.setLastCount(lastCount);
+        }
+
+        return logs;
     }
 }

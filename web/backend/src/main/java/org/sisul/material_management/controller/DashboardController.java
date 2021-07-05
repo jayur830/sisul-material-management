@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sisul.material_management.entity.Log;
 import org.sisul.material_management.entity.Stock;
+import org.sisul.material_management.projection.LogProjection;
 import org.sisul.material_management.service.DashboardService;
-import org.sisul.material_management.vo.RequestInsertLogVO;
+import org.sisul.material_management.vo.RequestLogPutDataVO;
 import org.sisul.material_management.vo.RequestModifyStockVO;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +24,12 @@ public class DashboardController {
     private final DashboardService dashboardService;
 
     @GetMapping("/log/list")
-    public List<Log> dashboardLogList() {
+    public List<LogProjection> dashboardLogList() {
         return this.dashboardService.dashboardLog();
     }
 
     @GetMapping("/log/view")
-    public Log dashboardLogView(
+    public LogProjection dashboardLogView(
             @RequestParam("logTime") final String logTime,
             @RequestParam("workClass") final String workClass,
             @RequestParam("workerName") final String workerName) {
@@ -37,7 +38,7 @@ public class DashboardController {
 
     @PutMapping("/log/modify")
     public void modifyDashboardLog(
-            final RequestInsertLogVO request,
+            final RequestLogPutDataVO request,
             @Nullable @RequestParam MultipartFile img1,
             @Nullable @RequestParam MultipartFile img2,
             @Nullable @RequestParam MultipartFile img3) {
@@ -55,7 +56,7 @@ public class DashboardController {
     }
 
     @GetMapping("/stock/view")
-    public List<Log> dashboardStockView(@RequestParam("stockId") final int stockId) {
+    public List<LogProjection> dashboardStockView(@RequestParam("stockId") final int stockId) {
         return this.dashboardService.dashboardStockView(stockId);
     }
 

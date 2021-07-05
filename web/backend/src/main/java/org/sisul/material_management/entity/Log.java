@@ -15,9 +15,7 @@ public class Log {
     @Id
     private String logTime;
 
-    @OneToOne
-    @JoinColumn(name = "stock_id")
-    private Stock stock;
+    private Integer stockId;
 
     @Builder.Default
     private Integer inOut = 0;

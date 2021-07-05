@@ -3,10 +3,7 @@ package org.sisul.material_management.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sisul.material_management.service.SubmitService;
-import org.sisul.material_management.vo.RequestInsertLogVO;
-import org.sisul.material_management.vo.RequestMaterialVO;
-import org.sisul.material_management.vo.ResponseSubmitItemsVO;
-import org.sisul.material_management.vo.ResponseSubmitUserInfoVO;
+import org.sisul.material_management.vo.*;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +34,7 @@ public class SubmitController {
 
     @PostMapping("/submit")
     public void submit(
-            final RequestInsertLogVO request,
+            final RequestLogPostDataVO request,
             @Nullable @RequestParam MultipartFile img1,
             @Nullable @RequestParam MultipartFile img2,
             @Nullable @RequestParam MultipartFile img3) {
