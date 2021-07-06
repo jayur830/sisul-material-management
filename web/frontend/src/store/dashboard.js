@@ -50,9 +50,9 @@ export default {
             state.dashboard.log = Object.freeze(log);
             state.dashboard.logOrder = Object.freeze({ ...state.dashboard.logOrder, [property]: order });
         },
-        REMOVE_DASHBOARD_LOG: (state, logTime) => {
+        REMOVE_DASHBOARD_LOG: (state, { logTime, category, item }) => {
             const logList = state.dashboard.log.concat();
-            logList.splice(logList.findIndex(obj => obj.logTime === logTime), 1);
+            logList.splice(logList.findIndex(obj => obj.logTime === logTime && obj.category === category && obj.item === item), 1);
             state.dashboard.log = Object.freeze(logList);
         },
         SET_DASHBOARD_LOG_VIEW: (state, data) => {
@@ -101,8 +101,8 @@ export default {
     actions: {
         INIT_DASHBOARD_LOG_LIST: async context => context.commit("INIT_DASHBOARD_LOG_LIST", await axios.get("/api/dashboard/log/list").then(response => response.data)),
         ORDER_DASHBOARD_LOG_LIST: (context, { property, order }) => context.commit("ORDER_DASHBOARD_LOG_LIST", { property, order }),
-        REMOVE_DASHBOARD_LOG: async (context, logTime) => {
-            await axios.delete("/api/dashboard/log/remove", { params: { logTime } });
+        REMOVE_DASHBOARD_LOG: async (context, { logTime, category, item }) => {
+            await axios.delete("/api/dashboard/log/remove", { params: { logTime, category, item } });
             await context.commit("REMOVE_DASHBOARD_LOG", logTime);
         },
         SET_DASHBOARD_LOG_VIEW: async (context, { logTime, workClass, workerName }) => context.commit("SET_DASHBOARD_LOG_VIEW", await axios.get("/api/dashboard/log/view", { params: { logTime, workClass, workerName } }).then(response => response.data)),

@@ -101,7 +101,7 @@
                                         <td>{{ obj.lastCount }}</td>
                                         <td>{{ obj.workClass }}</td>
                                         <td>{{ obj.workerName }}</td>
-                                        <td @click.stop="removeLog(obj.logTime)"><font-awesome-icon size="2x" :icon="['fa', 'times']" /></td>
+                                        <td @click.stop="removeLog(obj.logTime, obj.category, obj.item)"><font-awesome-icon size="2x" :icon="['fa', 'times']" /></td>
                                     </tr>
                                     </tbody>
                                 </table>

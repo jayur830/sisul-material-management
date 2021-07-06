@@ -90,9 +90,9 @@ export default {
                     `서울시설공단_응급보수자재관리_자재별입출고내역_${moment().format("YYYYMMDDhhmmss")}.xlsx`);
         },
 
-        async removeLog(logTime) {
+        async removeLog(logTime, category, item) {
             await new Promise(resolve => confirm("해당 로그를 삭제하시겠습니까?", resolve));
-            await this._removeLog(logTime);
+            await this._removeLog({ logTime, category, item });
             await this.initLog();
             await this.initStock();
             if (this.selectedStockId) await this.setStockView(this.selectedStockId);
