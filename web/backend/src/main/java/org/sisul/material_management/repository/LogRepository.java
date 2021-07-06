@@ -104,7 +104,7 @@ public interface LogRepository extends JpaRepository<Log, Date> {
             "where l.logTime = :logTime " +
             "and l.workClass = :workClass " +
             "and l.workerName = :workerName")
-    LogProjection findByLogTimeAndWorkClassAndWorkerName(final String logTime, final String workClass, final String workerName);
+    LogProjection findByLogTimeAndWorkClassAndWorkerName(@Param("logTime") final String logTime, @Param("workClass") final String workClass, @Param("workerName") final String workerName);
 
     @Query(
             "select " +
@@ -126,6 +126,21 @@ public interface LogRepository extends JpaRepository<Log, Date> {
             "on l.stockId = s.stockId " +
             "where l.logTime = :logTime")
     LogProjection findByLogTime(final String logTime);
+
+    @Query(
+            "select l " +
+            "from Log l " +
+            "join Stock s " +
+            "on l.stockId = s.stockId " +
+            "where l.logTime = :logTime " +
+            "and s.category = :category " +
+            "and s.item = :item")
+    List<Log> findAllByLogTimeAndCategoryAndItem(
+            @Param("logTime") final String logTime,
+            @Param("category") final String category,
+            @Param("item") final String item);
+
+    void deleteAllByLogTimeAndStockId(final String logTime, final int stockId);
 
     @Query(
             "select " +

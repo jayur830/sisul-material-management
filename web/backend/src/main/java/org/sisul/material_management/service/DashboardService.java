@@ -84,30 +84,36 @@ public class DashboardService {
     }
 
     @Transactional
-    public void removeDashboardLog(final String logTime) {
-        LogProjection _log = this.logRepository.findByLogTime(logTime);
-        String img1 = _log.getImg1();
-        String img2 = _log.getImg2();
-        String img3 = _log.getImg3();
-        if (img1 != null) new File("/sisul/img/" + img1).delete();
-        if (img2 != null) new File("/sisul/img/" + img2).delete();
-        if (img3 != null) new File("/sisul/img/" + img3).delete();
-        final int count = _log.getCount() * (_log.getInOut() == 0 ? -1 : 1);
-        Stock stock = this.stockRepository.findById(_log.getStockId()).get();
-        this.logRepository.updateCountAllByLogTimeGreaterThan(count, logTime, stock.getStockId());
-        this.logRepository.deleteByLogTime(_log.getLogTime());
+    public void removeDashboardLog(final String logTime, final String category, final String item) {
+        List<Log> logs = this.logRepository.findAllByLogTimeAndCategoryAndItem(logTime, category, item);
+        if (logs.size() == 1) {
+            this.stockRepository.updateCountByCategoryAndItem(category, item, logs.get(0).getLastCount() - logs.get(0).getCount() * (logs.get(0).getInOut() == 0 ? 1 : -1));
+            this.logRepository.deleteAllByLogTimeAndStockId(logs.get(0).getLogTime(), logs.get(0).getStockId());
+        } else {
+            LogProjection _log = this.logRepository.findByLogTime(logTime);
+            String img1 = _log.getImg1();
+            String img2 = _log.getImg2();
+            String img3 = _log.getImg3();
+            if (img1 != null) new File("/sisul/img/" + img1).delete();
+            if (img2 != null) new File("/sisul/img/" + img2).delete();
+            if (img3 != null) new File("/sisul/img/" + img3).delete();
+            final int count = _log.getCount() * (_log.getInOut() == 0 ? -1 : 1);
+            Stock stock = this.stockRepository.findById(_log.getStockId()).get();
+            this.logRepository.updateCountAllByLogTimeGreaterThan(count, logTime, stock.getStockId());
+            this.logRepository.deleteByLogTime(_log.getLogTime());
 
-        LogProjection lastLog = this.logRepository.findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(stock.getCategory(), stock.getItem()).get(0);
-        if (lastLog != null)
-            this.stockRepository.updateCountByCategoryAndItem(
-                    stock.getCategory(),
-                    stock.getItem(),
-                    lastLog.getLastCount());
-        else
-            this.stockRepository.addCountByCategoryAndItem(
-                    stock.getCategory(),
-                    stock.getItem(),
-                    count);
+            LogProjection lastLog = this.logRepository.findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(stock.getCategory(), stock.getItem()).get(0);
+            if (lastLog != null)
+                this.stockRepository.updateCountByCategoryAndItem(
+                        stock.getCategory(),
+                        stock.getItem(),
+                        lastLog.getLastCount());
+            else
+                this.stockRepository.addCountByCategoryAndItem(
+                        stock.getCategory(),
+                        stock.getItem(),
+                        count);
+        }
     }
 
     public List<Stock> dashboardStockList() {

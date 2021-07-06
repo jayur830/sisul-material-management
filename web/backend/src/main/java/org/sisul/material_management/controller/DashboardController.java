@@ -46,8 +46,11 @@ public class DashboardController {
     }
 
     @DeleteMapping("/log/remove")
-    public void removeDashboardLog(@RequestParam("logTime") final String logTime) {
-        this.dashboardService.removeDashboardLog(logTime);
+    public void removeDashboardLog(
+            @RequestParam("logTime") final String logTime,
+            @RequestParam("category") final String category,
+            @RequestParam("item") final String item) {
+        this.dashboardService.removeDashboardLog(logTime, category, item);
     }
 
     @GetMapping("/stock/list")
