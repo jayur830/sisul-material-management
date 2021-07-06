@@ -13,6 +13,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Log {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer logId;
+
     private String logTime;
 
     private Integer stockId;
@@ -38,4 +41,22 @@ public class Log {
 
     @Builder.Default
     private String img3 = "";
+
+    @Override
+    public Log clone() {
+        return Log.builder()
+                .logId(this.logId)
+                .logTime(this.logTime)
+                .stockId(this.stockId)
+                .inOut(this.inOut)
+                .count(this.count)
+                .lastCount(this.lastCount)
+                .unit(this.unit)
+                .workClass(this.workClass)
+                .workerName(this.workerName)
+                .img1(this.img1)
+                .img2(this.img2)
+                .img3(this.img3)
+                .build();
+    }
 }

@@ -15,8 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -37,40 +40,47 @@ public class DashboardService {
     public void modifyDashboardLog(final RequestLogPutDataVO request, MultipartFile...imgs) {
         String[] fileNames = uploadImage(imgs);
 
-//        Log log = this.logRepository.findByLogTime(request.getLogTime());
-//
-//        if (log.getImg1() != null) new File("/sisul/img/" + log.getImg1()).delete();
-//        if (log.getImg2() != null) new File("/sisul/img/" + log.getImg2()).delete();
-//        if (log.getImg3() != null) new File("/sisul/img/" + log.getImg3()).delete();
-//
-//        final int subCount = log.getCount() * (log.getInOut() == 0 ? -1 : 1);
-//
-//        log.setLastCount(log.getLastCount() + subCount);
-//        log.setWorkClass(request.getWorkClass());
-//        log.setWorkerName(request.getWorkerName());
-//        log.setInOut(request.getInOut());
-//        Stock stock = log.getStock();
-//        stock.setCategory(request.getCategory());
-//        stock.setItem(request.getItem());
-//        log.setUnit(request.getUnit());
-//        log.setImg1(fileNames[0]);
-//        log.setImg2(fileNames[1]);
-//        log.setImg3(fileNames[2]);
-//        log.setCount(request.getCount());
-//        log.setLastCount(log.getLastCount() + request.getCount() * (request.getInOut() == 0 ? 1 : -1));
-//
-//        this.logRepository.save(log);
-//        this.logRepository.updateCountAllByLogTimeGreaterThan(
-//                subCount,
-//                request.getCount() * (request.getInOut() == 0 ? 1 : -1),
-//                request.getLogTime(),
-//                stock);
-//        this.stockRepository.updateCountByCategoryAndItem(
-//                stock.getCategory(),
-//                stock.getItem(),
-//                this.logRepository.findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(
-//                        stock.getCategory(),
-//                        stock.getItem()).getLastCount());
+        List<Log> srcLogs = this.logRepository.findAllByCategoryAndItemOrderByLogTimeAsc(request.getCategory(), request.getItem()),
+                dstLogs = srcLogs.stream()
+                        .map(Log::clone)
+                        .collect(Collectors.toList());
+        final int firstLastCount = srcLogs.get(0).getLastCount() + srcLogs.get(0).getCount() * (srcLogs.get(0).getInOut() == 0 ? -1 : 1);
+        for (Log log : dstLogs)
+            if (log.getLogTime().equals(request.getSrcLogTime())) {
+                if (log.getImg1() != null) new File("/sisul/img/" + log.getImg1()).delete();
+                if (log.getImg2() != null) new File("/sisul/img/" + log.getImg2()).delete();
+                if (log.getImg3() != null) new File("/sisul/img/" + log.getImg3()).delete();
+
+                log.setLogTime(request.getLogTime());
+                log.setInOut(request.getInOut());
+                log.setCount(request.getCount());
+                log.setUnit(request.getUnit());
+                log.setWorkClass(request.getWorkClass());
+                log.setWorkerName(request.getWorkerName());
+                log.setImg1(fileNames[0]);
+                log.setImg2(fileNames[1]);
+                log.setImg3(fileNames[2]);
+            }
+        dstLogs.sort(Comparator.comparing(Log::getLogTime));
+
+        for (int i = 0; i < dstLogs.size(); ++i) {
+            int preLastCount = -99999999;
+            if (i == 0 && dstLogs.get(0).getLastCount() != firstLastCount + dstLogs.get(0).getCount() * (dstLogs.get(0).getInOut() == 0 ? 1 : -1))
+                preLastCount = firstLastCount;
+            else if (i != 0 && dstLogs.get(i).getLastCount() != dstLogs.get(i - 1).getLastCount() + dstLogs.get(i - 1).getCount() * (dstLogs.get(i - 1).getInOut() == 0 ? 1 : -1))
+                preLastCount = dstLogs.get(i - 1).getLastCount();
+            if (preLastCount != -99999999) {
+                for (int j = i; j < dstLogs.size(); ++j) {
+                    final int lastCount = preLastCount + dstLogs.get(j).getCount() * (dstLogs.get(j).getInOut() == 0 ? 1 : -1);
+                    dstLogs.get(j).setLastCount(lastCount);
+                    preLastCount = lastCount;
+                }
+                break;
+            }
+        }
+        this.logRepository.saveAll(dstLogs);
+        if (this.stockRepository.findByCategoryAndItem(request.getCategory(), request.getItem()) != null)
+            this.stockRepository.updateCountByCategoryAndItem(request.getCategory(), request.getItem(), dstLogs.get(dstLogs.size() - 1).getLastCount());
     }
 
     @Transactional
@@ -87,7 +97,7 @@ public class DashboardService {
         this.logRepository.updateCountAllByLogTimeGreaterThan(count, logTime, stock.getStockId());
         this.logRepository.deleteByLogTime(_log.getLogTime());
 
-        LogProjection lastLog = this.logRepository.findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(stock.getCategory(), stock.getItem());
+        LogProjection lastLog = this.logRepository.findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(stock.getCategory(), stock.getItem()).get(0);
         if (lastLog != null)
             this.stockRepository.updateCountByCategoryAndItem(
                     stock.getCategory(),
@@ -175,22 +185,5 @@ public class DashboardService {
             }
         }
         return fileNames;
-    }
-
-    private List<Log> updateLastCounts(List<Log> logs, final int startIndex, final int replaceInOut, final int replaceCount) {
-        Log firstLog = logs.get(startIndex);
-
-        int lastCount = firstLog.getLastCount() + (replaceCount * (replaceInOut == 1 ? 1 : -1)) - (firstLog.getCount() * (firstLog.getInOut() == 1 ? 1 : -1));
-        firstLog.setInOut(replaceInOut);
-        firstLog.setCount(replaceCount);
-        firstLog.setLastCount(lastCount);
-
-        for (int i = 1; i < logs.size(); ++i) {
-            Log _log = logs.get(i);
-            lastCount += _log.getCount() * (_log.getInOut() == 1 ? 1 : -1);
-            _log.setLastCount(lastCount);
-        }
-
-        return logs;
     }
 }

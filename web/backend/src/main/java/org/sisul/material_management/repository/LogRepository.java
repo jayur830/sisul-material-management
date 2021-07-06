@@ -36,6 +36,33 @@ public interface LogRepository extends JpaRepository<Log, Date> {
     List<LogProjection> findAllByOrderByLogTime();
 
     @Query(
+            "select l " +
+            "from Log l " +
+            "join Stock s " +
+            "on l.stockId = s.stockId " +
+            "and s.category = :category " +
+            "and s.item = :item " +
+            "order by l.logTime")
+    List<Log> findAllByCategoryAndItemOrderByLogTimeAsc(@Param("category") final String category, @Param("item") final String item);
+
+    @Query(
+            "select l " +
+            "from Log l " +
+            "join Stock s " +
+            "on l.stockId = s.stockId " +
+            "where l.logTime = :logTime " +
+            "and l.workClass = :workClass " +
+            "and l.workerName = :workerName " +
+            "and s.category = :category " +
+            "and s.item = :item")
+    Log findByLogTimeAndAndWorkClassAndWorkerNameAndCategoryAndItem(
+            @Param("logTime") final String logTime,
+            @Param("workClass") final String workClass,
+            @Param("workerName") final String workerName,
+            @Param("category") final String category,
+            @Param("item") final String item);
+
+    @Query(
             "select " +
             "   l.logTime as logTime, " +
             "   s.stockId as stockId, " +
@@ -178,27 +205,14 @@ public interface LogRepository extends JpaRepository<Log, Date> {
             "where s.category = :category " +
             "and s.item = :item " +
             "order by l.logTime desc")
-    LogProjection findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(@Param("category") final String category, @Param("item") final String item);
+    List<LogProjection> findFirst1ByStockCategoryAndStockItemOrderByLogTimeDesc(@Param("category") final String category, @Param("item") final String item);
 
     @Query(
-            "select " +
-            "   l.logTime as logTime, " +
-            "   s.stockId as stockId, " +
-            "   s.category as category, " +
-            "   s.item as item, " +
-            "   l.inOut as inOut, " +
-            "   l.count as count, " +
-            "   l.lastCount as lastCount, " +
-            "   l.unit as unit, " +
-            "   l.workClass as workClass, " +
-            "   l.workerName as workerName, " +
-            "   l.img1 as img1, " +
-            "   l.img2 as img2, " +
-            "   l.img3 as img3 " +
+            "select l " +
             "from Log l " +
             "join Stock s " +
             "on l.stockId = s.stockId  " +
             "where l.logTime >= :logTime " +
             "order by l.logTime")
-    List<LogProjection> findAllByLogTimeGreaterThanEqualOrderByLogTime(final String logTime);
+    List<Log> findAllByLogTimeGreaterThanEqualOrderByLogTime(final String logTime);
 }
