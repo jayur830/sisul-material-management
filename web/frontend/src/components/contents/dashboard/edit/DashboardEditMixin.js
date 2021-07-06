@@ -73,7 +73,7 @@ export default {
             else if (!this.files[0] && !this.files[1] && !this.files[2])
                 await alert("한 장 이상의 현장 사진을 첨부하세요.");
             else {
-                await new Promise((resolve, reject) => confirm("저장하시겠습니까?", resolve, reject));
+                await new Promise(resolve => confirm("저장하시겠습니까?", resolve));
                 const formData = this.createFormData();
 
                 this.files.forEach((file, i) => {
@@ -88,26 +88,19 @@ export default {
 
         createFormData() {
             const formData = new FormData();
-            formData.append("src", {
-                logTime: this.src.logTime,
-                workClass: this.src.workClass,
-                workerName: this.src.workerName,
-                category: this.src.category,
-                item: this.src.item,
-                inOut: this.src.inOut,
-                count: this.src.count,
-                unit: this.src.unit
-            });
-            formData.append("dst", {
-                logTime: moment(`${this.date} ${this.time}`, "YYYY.MM.DD HH:mm:ss").format("YYYYMMDDHHmmss"),
-                workClass: this.workClass === "*" ? this.manualWorkClass : this.workClass,
-                workerName: this.workerName,
-                category: this.category,
-                item: this.item,
-                inOut: this.inOut,
-                count: this.count,
-                unit: this.unit === "*" ? this.manualUnit : this.unit
-            });
+            formData.append("srcLogTime", this.src.logTime);
+            formData.append("srcWorkClass", this.src.workClass);
+            formData.append("srcWorkerName", this.src.workerName);
+            formData.append("srcCategory", this.src.category);
+            formData.append("srcItem", this.src.item);
+            formData.append("logTime", moment(`${this.date} ${this.time}`, "YYYY.MM.DD HH:mm:ss").format("YYYYMMDDHHmmss"));
+            formData.append("workClass", this.workClass === "*" ? this.manualWorkClass : this.workClass);
+            formData.append("workerName", this.workerName);
+            formData.append("category", this.category);
+            formData.append("item", this.item);
+            formData.append("inOut", this.inOut);
+            formData.append("count", this.count);
+            formData.append("unit", this.unit === "*" ? this.manualUnit : this.unit);
 
             return formData;
         }

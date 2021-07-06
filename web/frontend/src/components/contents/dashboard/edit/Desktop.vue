@@ -125,8 +125,6 @@
                 [this.unit, this.manualUnit] = ["*", this.$route.params.unit];
             else this.unit = this.$route.params.unit;
             this.src.unit = this.$route.params.unit;
-
-            console.log(moment("2021.04.dd").isValid());
         }
     }
 </script>

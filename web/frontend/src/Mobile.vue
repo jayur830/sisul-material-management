@@ -194,35 +194,25 @@
             },
 
             async submit() {
-                if (this.workClass == "*" && this.manualWorkClass == "") {
-                    console.log("workClass");
+                if (this.workClass == "*" && this.manualWorkClass == "")
                     await alert("근무반(수기입력)을 입력하세요.");
-                } else if (this.workerName == "") {
-                    console.log("workerName");
+                else if (this.workerName == "")
                     await alert("작업자 성명을 입력하세요.");
-                } else if (this.category == "*" && this.manualCategory == "") {
-                    console.log("category");
+                else if (this.category == "*" && this.manualCategory == "")
                     await alert("자재 종류(수기입력)를 입력하세요.");
-                } else if (this.item == "*" && this.manualItem == "") {
-                    console.log("item");
+                else if (this.item == "*" && this.manualItem == "")
                     await alert("자재 제품명(수기입력)을 입력하세요.");
-                } else if (this.inOut == null) {
-                    console.log("inOut");
+                else if (this.inOut == null)
                     await alert("입/출고를 선택하세요.");
-                } else if (this.count == null) {
-                    console.log("count");
+                else if (this.count == null)
                     await alert("자재 수량을 입력하세요.");
-                } else if (this.count == 0) {
-                    console.log("count == 0");
+                else if (this.count == 0)
                     await alert("1개 이상의 자재 수량을 입력하세요.");
-                } else if (this.unit == "*" && this.manualUnit == "") {
-                    console.log("unit");
+                else if (this.unit == "*" && this.manualUnit == "")
                     await alert("단위(수기입력)를 입력하세요.");
-                } else if (!this.files[0] && !this.files[1] && !this.files[2]) {
-                    console.log("files");
+                else if (!this.files[0] && !this.files[1] && !this.files[2])
                     await alert("한 장 이상의 현장 사진을 첨부하세요.");
-                } else {
-                    console.log("result");
+                else {
                     await new Promise(resolve => confirm("담당자에게 전송하시겠습니까?", resolve));
                     const formData = this.createFormData();
 
