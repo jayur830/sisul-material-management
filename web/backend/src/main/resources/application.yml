@@ -6,7 +6,7 @@ spring:
     name: SISUL
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sisul?serverTimezone=UTC
+    url: jdbc:mysql://192.168.219.165:3306/sisul?serverTimezone=UTC
     username: sisul
     password: sisul20@!
   jpa:
