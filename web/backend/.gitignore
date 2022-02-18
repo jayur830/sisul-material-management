@@ -41,3 +41,5 @@ out/
 *.png
 *.jpeg
 *.gif
+
+**/src/main/resources/secret.yml

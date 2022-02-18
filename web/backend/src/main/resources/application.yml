@@ -4,11 +4,8 @@ spring:
 #    active: prd
   application:
     name: SISUL
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.219.165:3306/sisul?serverTimezone=UTC
-    username: sisul
-    password: sisul20@!
+  config:
+    import: classpath:/secret.yml
   jpa:
     hibernate:
       ddl-auto: none
@@ -26,10 +23,6 @@ spring:
     resources:
       static-locations: classpath:/static/
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: jayur830
-    password: bzqqawbtastpmogi
     properties:
       mail:
         smtp:
