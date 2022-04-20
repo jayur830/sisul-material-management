@@ -1,5 +1,5 @@
 server:
-  port: 9200
+  port: 9100
 spring:
   application:
     name: SISUL
@@ -11,8 +11,8 @@ spring:
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
     properties:
-      show_sql: true
-      format_sql: true
+      show_sql: false
+      format_sql: false
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         jdbc:
