@@ -1,7 +1,6 @@
+server:
+  port: 9200
 spring:
-  profiles:
-#    active: local
-    active: prd
   application:
     name: SISUL
   config:
@@ -12,6 +11,8 @@ spring:
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
     properties:
+      show_sql: true
+      format_sql: true
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         jdbc:
@@ -35,25 +36,3 @@ spring:
 logging:
   level:
     org.sisul.material_management: info
----
-server:
-  port: 9200
-spring:
-  config:
-    activate:
-      on-profile: local
-  jpa:
-    properties:
-      show_sql: true
-      format_sql: true
----
-server:
-  port: 9100
-spring:
-  config:
-    activate:
-      on-profile: prd
-  jpa:
-    properties:
-      show_sql: false
-      format_sql: false

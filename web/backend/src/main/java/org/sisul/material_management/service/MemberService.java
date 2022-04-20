@@ -62,7 +62,6 @@ public class MemberService {
                 response.put("isExistUser", true);
                 final String newPassword = RandomStringUtils.randomAlphanumeric(10);
                 this.memberRepository.updateByUsernameAndEmail(this.passwordEncoder.encode(newPassword), request.getUsername(), request.getEmail());
-//                MailUtils.sendEmail("jayur830@gmail.com", request.getEmail(), "[서울시설공단] 응급보수자재관리 :: 임시 비밀번호 안내", newPassword, true);
                 MailUtils.sendEmail("sisul@material.manage.co.kr", request.getEmail(), "[서울시설공단] 응급보수자재관리 :: 임시 비밀번호 안내", newPassword, true);
             }
         } catch (NullPointerException e) {
